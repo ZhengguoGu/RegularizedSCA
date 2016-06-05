@@ -1,9 +1,9 @@
 Package: SCAdata
 Type: Package
-Title: What the Package Does (Title Case)
+Title: An R package for Simultaneous component based data integration
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Author: Zhengguo Gu, Katrijn Van Deun
+Maintainer: Zhengguo Gu <z.gu@tilburguniversity.edu>
+Description: This package performs simultaneous component based data integration for multiblock multiset data
 License: What license is it under?
 LazyData: TRUE
