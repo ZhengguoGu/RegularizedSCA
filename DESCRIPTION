@@ -4,6 +4,8 @@ Title: An R package for Simultaneous component based data integration
 Version: 0.1.0
 Author: Zhengguo Gu, Katrijn Van Deun
 Maintainer: Zhengguo Gu <z.gu@tilburguniversity.edu>
-Description: This package performs simultaneous component based data integration for multiblock multiset data
+Description: This package performs simultaneous component based data integration
+    for multiblock multiset data
 License: What license is it under? to be announced
 LazyData: TRUE
+RoxygenNote: 5.0.1
