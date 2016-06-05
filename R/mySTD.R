@@ -1,4 +1,9 @@
-# mySTD function standardizes the Data per column, over the rows
+#' standardize the given data matrix per column, over the rows
+#'
+#' @param DATA A data matrix
+#' @return a standardized matrix
+#' @examples
+#' mySTD(matrix(1:12), nrow=3, byrow=T)
 
 mySTD <- function(DATA) {
   nrow_data <- dim(DATA)[1]
@@ -10,3 +15,4 @@ mySTD <- function(DATA) {
 
   return(STDDATA)
 }
+
