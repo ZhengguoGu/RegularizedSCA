@@ -9,3 +9,6 @@ Description: This package performs simultaneous component based data integration
 License: What license is it under? to be announced
 LazyData: TRUE
 RoxygenNote: 5.0.1
+Suggests: testthat
+Imports: gtools,
+         psych
