@@ -1,8 +1,14 @@
-#Tucker congruence
-#Calculate Tucker's coefficient of congruence between columns
-#but after accounting for permutational freedom and reflections
+#' Tucker congruence
+#'
+#' Calculate Tucker's coefficient of congruence between columns but after accounting for permutational freedom and reflections
+#'
+#' @param MatrixA A matrix
+#' @param MatrixB A matrix, which is to be compared to MatrixA
+#' @return Return the permutation order, the Tucker coefficient, and the Tucker vector
+#' @examples
+#' TuckerCoef(X, Y)
 
-Tucker <- function(MatrixA, MatrixB){
+TuckerCoef <- function(MatrixA, MatrixB){
   nrow_data <- dim(MatrixA)[1]
   ncol_data <- dim(MatrixA)[2]
   INDIC_Mat <- gtools::permutations(ncol_data, ncol_data)
