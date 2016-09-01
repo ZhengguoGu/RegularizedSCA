@@ -1,7 +1,7 @@
 #Variable selection algorithm when the common/distinctive structure is known a priori. The common component can also be sparse, which is to be estimated by Lasso. The distinctive components are not sparse in the sense that the entire variables in a component (belonging to a certain block) are either all zeros or non-zeros.
 
 
-VarSelectComDistPre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, maxiter){
+VarSelectComDistPre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
 
   DistPosition <- setdiff(1:R, CommPosition)
   I_Data <- dim(DATA)[1]
@@ -24,19 +24,19 @@ VarSelectComDistPre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO
   pen1 <- LASSO*sum(abs(P[, CommPosition]))
   sqP <- P^2
   L <- 1
-  sumpk <- array()
-  sqrtpk <- array()
-  for (i in 1:length(Jk)){
+  #sumpk <- array()
+  #sqrtpk <- matrix(NA, nrow = 1, ncol = length(Jk))
+  #for (i in 1:length(Jk)){
 
-    U <- L + Jk[i] - 1
-    sqP4Dist <- sqP
-    sqP4Dist[ , CommPosition] <- 0
-    sqrtsumP <- sqrt(colSums(sqP4Dist[L:U, ]))/sqrt(Jk[i])
-    sqrtsumPDist <- sqrt(colSums(sqP4Dist[L:U, DistPosition]))/sqrt(Jk[i])
-    sqrtpk[i] <- matrix(1, Jk[i], 1) %*% sqrtsumP
-    L <- U + 1
+    #U <- L + Jk[i] - 1
+    #sqP4Dist <- sqP
+    #sqP4Dist[ , CommPosition] <- 0
+    #sqrtsumP <- sqrt(colSums(sqP4Dist[L:U, ]))/sqrt(Jk[i])
+    #sqrtsumPDist <- sqrt(colSums(sqP4Dist[L:U, DistPosition]))/sqrt(Jk[i])
+    #sqrtpk[, i] <- matrix(1, Jk[i], 1) %*% sqrtsumP
+    #L <- U + 1
 
-  }
+  #}
 
   residual <- sum(DATA^2)
   Lossc <- residual + pen1
@@ -101,18 +101,18 @@ VarSelectComDistPre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO
     sqP <- P^2
 
     L <- 1
-    sumpk <- array()
-    sqrtpk <- array()
-    for (i in 1:length(Jk)){
+    #sumpk <- array()
+   # sqrtpk <- matrix()
+    #for (i in 1:length(Jk)){
 
-      U <- L + Jk[i] - 1
-      sqP4Dist <- sqP
-      sqP4Dist[ , CommPosition] <- 0
-      sqrtsumP <- sqrt(colSums(sqP4Dist[L:U, ]))/sqrt(Jk[i])
-      sqrtsumPDist <- sqrt(colSums(sqP4Dist[L:U, DistPosition]))/sqrt(Jk[i])
-      sqrtpk[i] <- matrix(1, Jk[i], 1) %*% sqrtsumP
-      L <- U + 1
-    }
+     # U <- L + Jk[i] - 1
+     # sqP4Dist <- sqP
+     # sqP4Dist[ , CommPosition] <- 0
+     # sqrtsumP <- sqrt(colSums(sqP4Dist[L:U, ]))/sqrt(Jk[i])
+     # sqrtsumPDist <- sqrt(colSums(sqP4Dist[L:U, DistPosition]))/sqrt(Jk[i])
+     # sqrtpk[, i] <- matrix(1, Jk[i], 1) %*% sqrtsumP
+     # L <- U + 1
+    #}
     residual <- sum((DATA - Tmat %*% Pt)^2)
     Lossu2 <- residual + pen1
 
@@ -124,7 +124,7 @@ VarSelectComDistPre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO
       P[abs(P) <= 2 * eps] <- 0
       conv <- 1
     }
-    else if (iter == maxiter | LASSO == 0){
+    else if (iter > MaxIter | LASSO == 0){
       Loss <- Lossu
       residual <- residual
       lassopen <- pen1
@@ -144,6 +144,7 @@ VarSelectComDistPre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO
   return_varselect$Lossvec <- Lossvec
   return_varselect$residual <- residual
   return_varselect$lassopen <- lassopen
+  return_varselect$iter <- iter - 1
   return(return_varselect)
 
 }
