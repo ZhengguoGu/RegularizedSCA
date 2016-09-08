@@ -20,7 +20,7 @@ VarSelectComDistPre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO
   PIndexforGLasso[CommPosition, ] <- 0
   PIndexforGLasso[DistPosition, ] <- 1
 
-  absP <- abs(P)
+  #absP <- abs(P)
   pen1 <- LASSO*sum(abs(P[, CommPosition]))
   sqP <- P^2
   L <- 1
@@ -96,7 +96,7 @@ VarSelectComDistPre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO
     P[GroupStructure == 0] <- 0
     Pt <- t(P)
 
-    absP <- abs(P)
+    #absP <- abs(P)
     pen1 <- LASSO*sum(abs(P[, CommPosition]))
     sqP <- P^2
 

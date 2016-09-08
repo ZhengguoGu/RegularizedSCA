@@ -23,7 +23,7 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   }
 
   residual <- sum(DATA ^ 2)
-  Lossc <- residual + pen_1 + pen_g
+  Lossc <- residual + pen_l + pen_g
 
   conv <- 0
   iter <- 1
@@ -57,30 +57,37 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
       for (i in 1:length(Jk)){
 
         U <- L + Jk[i] - 1
-        r <- as.vector(DATA - Tmat %*% Pt[ ,-c(L,U)])
+        Pt_1 <- Pt
+        Pt_1[ ,c(L:U)] <- 0
+        r <- as.vector(DATA - Tmat %*% Pt_1)
 
-        theta <- Pt[ ,c(L,U)]
-        Jt <- sum((theta/sum(abs(theta)))^2)
+        theta <- Pt[ ,c(L:U)]
+        sum_abs_theta <- sum(abs(theta))
+        if (sum_abs_theta == 0){
+          sum_abs_theta <- eps <- 10^(-12)
+        }
+        Jt <- sum((theta/sum_abs_theta)^2)
 
-        IxT <- kronecker(diag(Jk[i], Tmat))
+        IxT <- kronecker(diag(Jk[i]), Tmat)
 
         if (Jt <= 1){
-          Pt[ ,c(L,U)] <- 0
-          P <- t(Pt)
-        }
-        else {
 
-          Zij_theta <- kronecker(diag(Jk[i]), T)
+          Pt[ ,c(L:U)] <- 0
+          P <- t(Pt)
+
+        } else {
+
+          Zij_theta <- kronecker(diag(Jk[i]), Tmat)
           for (j in 1:(Jk[i]*R)){
 
-            Pt_temporaryVec <- as.vector(Pt[ ,c(L,U)])
+            Pt_temporaryVec <- as.vector(Pt[ ,c(L:U)])
             Pt_temporaryVec[j] <- 0 # remove the variable that is to be estimated
             Pt_temporary <- matrix(Pt_temporaryVec, R, Jk[i])
             wj <- r - as.vector(Tmat %*% Pt_temporary)
 
 
-            if (t(IxT[,j]) %*% wj < LASSO){
-              Pt[ ,c(L,U)]  <- Pt_temporary # i.e. the estimated p[,j]=0
+            if ((t(IxT[,j]) %*% wj) < LASSO){
+              Pt[ ,c(L:U)]  <- Pt_temporary # i.e. the estimated p[,j]=0
               P <- t(Pt)
             }
             else{
@@ -89,7 +96,7 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
                 }
               xmin <- optimize(f, c(-1,1), tol = 0.0001)
               Pt_temporaryVec[j] <- xmin$minimum
-              Pt[ ,c(L,U)] <- matrix(Pt_temporaryVec, R, Jk[i])
+              Pt[ ,c(L:U)] <- matrix(Pt_temporaryVec, R, Jk[i])
               P <- t(Pt)
             }
           }

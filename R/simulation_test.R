@@ -2,10 +2,13 @@
 # The same simulation can be found in Gu & Van Deun 2016.
 
 set.seed(112)
+testalgorithm <- 2 # 1: for testing VarSelectComDistPre.R
+                    # 2: for testing VarSelectFriedman.R
 I <- 28
 J1 <- 144
 J2 <-44
 Jk <- c(J1, J2)
+sumJk <- sum(J1 + J2)
 R <- 5
 Comm <- 1
 
@@ -16,8 +19,8 @@ NRSTARTS <- 5
 Ndataset <- 20
 MAXITER <- 400
 
-LASSO <- 2
-GROUPLASSO <- 2
+LASSO <- 0.01
+GROUPLASSO <- 0.1
 
 Tucker <- array()
 ProportionComm <- array()
@@ -66,42 +69,77 @@ for (Nd in 1:Ndataset){
   NoiseVSgenerate <- SSNoiseNew/SSXgenerate
 
 
-  ############## For testing VarSelectComDistPre##############
-
-  GroupStructure <- PTrueCnew
-  GroupStructure[ , Comm] <- 1
 
 
-  Pout3d <- list()
-  Tout3d <- list()
-  LOSS <- array()
-  LOSSVEC <- list()
-  IterVec <- list()
+  if (testalgorithm == 1){
+    ############## For testing VarSelectComDistPre##############
+    GroupStructure <- PTrueCnew
+    GroupStructure[ , Comm] <- 1
 
-  for (i in 1:NRSTARTS){
-    VarSelectResult <- VarSelectComDistPre(Xgenerate, Jk, R, Comm, GroupStructure, LASSO, MAXITER)
-    Pout3d[[i]] <- VarSelectResult$Pmatrix
-    Tout3d[[i]] <- VarSelectResult$Tmatrix
-    LOSS[i] <- VarSelectResult$Loss
-    LOSSVEC[[i]] <- VarSelectResult$Lossvec
-    IterVec[[i]] <- VarSelectResult$iter
-  }
+
+    Pout3d <- list()
+    Tout3d <- list()
+    LOSS <- array()
+    LOSSVEC <- list()
+    IterVec <- list()
+
+    for (i in 1:NRSTARTS){
+      VarSelectResult <- VarSelectComDistPre(Xgenerate, Jk, R, Comm, GroupStructure, LASSO, MAXITER)
+      Pout3d[[i]] <- VarSelectResult$Pmatrix
+      Tout3d[[i]] <- VarSelectResult$Tmatrix
+      LOSS[i] <- VarSelectResult$Loss
+      LOSSVEC[[i]] <- VarSelectResult$Lossvec
+      IterVec[[i]] <- VarSelectResult$iter
+    }
     k <- which(LOSS == max(LOSS))
     if (length(k)>1){
       pos <- sample(1:length(k), 1)
       k <- k[pos]
     }
-  PoutBest[[Nd]] <- Pout3d[[k]]
-  ToutBest[[Nd]] <- Tout3d[[k]]
+    PoutBest[[Nd]] <- Pout3d[[k]]
+    ToutBest[[Nd]] <- Tout3d[[k]]
 
-  TuckerResults <- TuckerCoef(Ttrue, Tout3d[[k]])
-  TuckerValues[Nd] <- TuckerResults$tucker_value
+    TuckerResults <- TuckerCoef(Ttrue, Tout3d[[k]])
+    TuckerValues[Nd] <- TuckerResults$tucker_value
 
-  indSelectedC <- which(PoutBest[[Nd]][, Comm] != 0)
-  indDropedC <- which(PoutBest[[Nd]][, Comm] == 0)
-  PTrueCnewComm <- PTrueCnew[, Comm]
-  ProportionComm[Nd] <- (sum(PTrueCnewComm[indSelectedC] != 0) + sum(PTrueCnewComm[indDropedC] == 0)) / 188
+    indSelectedC <- which(PoutBest[[Nd]][, Comm] != 0)
+    indDropedC <- which(PoutBest[[Nd]][, Comm] == 0)
+    PTrueCnewComm <- PTrueCnew[, Comm]
+    ProportionComm[Nd] <- (sum(PTrueCnewComm[indSelectedC] != 0) + sum(PTrueCnewComm[indDropedC] == 0)) / sumJk
 
-  ############## END : For testing VarSelectComDistPre##############
+    ############## END : For testing VarSelectComDistPre##############
+  }
+  else if (testalgorithm == 2){
+    Pout3d <- list()
+    Tout3d <- list()
+    LOSS <- array()
+    LOSSVEC <- list()
+    IterVec <- list()
+
+    for (i in 1:NRSTARTS){
+      VarSelectResult <- VarSelectFriedman(Xgenerate, Jk, R, LASSO, GROUPLASSO, MAXITER)
+      Pout3d[[i]] <- VarSelectResult$Pmatrix
+      Tout3d[[i]] <- VarSelectResult$Tmatrix
+      LOSS[i] <- VarSelectResult$Loss
+      LOSSVEC[[i]] <- VarSelectResult$Lossvec
+      IterVec[[i]] <- VarSelectResult$iter
+    }
+    k <- which(LOSS == max(LOSS))
+    if (length(k)>1){
+      pos <- sample(1:length(k), 1)
+      k <- k[pos]
+    }
+    PoutBest[[Nd]] <- Pout3d[[k]]
+    ToutBest[[Nd]] <- Tout3d[[k]]
+
+    TuckerResults <- TuckerCoef(Ttrue, Tout3d[[k]])
+    TuckerValues[Nd] <- TuckerResults$tucker_value
+
+    indSelectedC <- which(PoutBest[[Nd]][, Comm] != 0)
+    indDropedC <- which(PoutBest[[Nd]][, Comm] == 0)
+    PTrueCnewComm <- PTrueCnew[, Comm]
+    ProportionComm[Nd] <- (sum(PTrueCnewComm[indSelectedC] != 0) + sum(PTrueCnewComm[indDropedC] == 0)) / sumJk
+  }
+
 
 }
