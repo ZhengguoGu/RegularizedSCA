@@ -1,6 +1,6 @@
 #variable selection with lasso and group lasso. The algorithm is developed based on Friedman, Hastie, and Tibshirani (2010)
 
-VarSelectComDistPre <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
+VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
 
   I_Data <- dim(DATA)[1]
   sumJk <- dim(DATA)[2]
