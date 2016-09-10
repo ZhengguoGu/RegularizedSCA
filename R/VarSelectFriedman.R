@@ -30,6 +30,7 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   Lossvec <- array()
 
   while (conv == 0){
+
     #update Tmat, note that Tmax refers to T matrix
     if (LASSO == 0 & GROUPLASSO == 0){
       SVD_DATA <- svd(DATA, R, R)  #note this is different from the matlab svds function. need to test it!!
@@ -54,50 +55,52 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
     else{
 
       L <- 1
-      for (i in 1:length(Jk)){
+      for (i in 1:length(Jk)){ #iterate over groups
 
         U <- L + Jk[i] - 1
         Pt_1 <- Pt
         Pt_1[ ,c(L:U)] <- 0
-        r <- as.vector(DATA - Tmat %*% Pt_1)
+        r <- as.vector(DATA - Tmat %*% Pt_1) # this is to define the r vector in step 2 of the algorithm (Friedman et al.)
 
         theta <- Pt[ ,c(L:U)]
         sum_abs_theta <- sum(abs(theta))
         if (sum_abs_theta == 0){
-          sum_abs_theta <- eps <- 10^(-12)
+           break  #this is because the P's are already zeros
         }
-        Jt <- sum((theta/sum_abs_theta)^2)
+        else{
 
-        IxT <- kronecker(diag(Jk[i]), Tmat)
+          Jt <- sum((theta/sum_abs_theta)^2)
 
-        if (Jt <= 1){
+          if (Jt <= 1){
 
-          Pt[ ,c(L:U)] <- 0
-          P <- t(Pt)
+            Pt[ ,c(L:U)] <- 0
+            P <- t(Pt)
 
-        } else {
+          } else {
 
-          Zij_theta <- kronecker(diag(Jk[i]), Tmat)
-          for (j in 1:(Jk[i]*R)){
+            Zij_theta <- kronecker(diag(Jk[i]), Tmat)
 
-            Pt_temporaryVec <- as.vector(Pt[ ,c(L:U)])
-            Pt_temporaryVec[j] <- 0 # remove the variable that is to be estimated
-            Pt_temporary <- matrix(Pt_temporaryVec, R, Jk[i])
-            wj <- r - as.vector(Tmat %*% Pt_temporary)
+            for (j in 1:(Jk[i]*R)){
+
+              Pt_temporaryVec <- as.vector(Pt[ ,c(L:U)])
+              Pt_temporaryVec[j] <- 0 # remove the variable that is to be estimated
+              Pt_temporary <- matrix(Pt_temporaryVec, R, Jk[i])
+              wj <- r - as.vector(Zij_theta %*% Pt_temporaryVec)
 
 
-            if ((t(IxT[,j]) %*% wj) < LASSO){
-              Pt[ ,c(L:U)]  <- Pt_temporary # i.e. the estimated p[,j]=0
-              P <- t(Pt)
-            }
-            else{
-              f <- function(x) {
-                0.5*sum((wj - Zij_theta[,j]*x)^2) + GROUPLASSO*sqrt(Jk[i])*(sum((Pt_temporary^2)+x^2))^0.5 + LASSO*(sum(abs(Pt_temporary))+abs(x))
-                }
-              xmin <- optimize(f, c(-1,1), tol = 0.0001)
-              Pt_temporaryVec[j] <- xmin$minimum
-              Pt[ ,c(L:U)] <- matrix(Pt_temporaryVec, R, Jk[i])
-              P <- t(Pt)
+              if ((t(Zij_theta[,j]) %*% wj) < LASSO){
+                Pt[ ,c(L:U)]  <- Pt_temporary # i.e. the estimated p[,j]=0
+                P <- t(Pt)
+              }
+              else{
+                f <- function(x) {
+                  0.5*sum((wj - Zij_theta[,j]*x)^2) + GROUPLASSO*sqrt(Jk[i])*(sum((Pt_temporary^2))+x^2)^0.5 + LASSO*(sum(abs(Pt_temporary))+abs(x))
+                  }
+                xmin <- optimize(f, c(-1,1), tol = 0.0001)
+                Pt_temporaryVec[j] <- xmin$minimum
+                Pt[ ,c(L:U)] <- matrix(Pt_temporaryVec, R, Jk[i])
+                P <- t(Pt)
+              }
             }
           }
         }
