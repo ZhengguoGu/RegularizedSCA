@@ -69,9 +69,31 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
         }
         else{
 
-          Jt <- sum((theta/sum_abs_theta)^2)
+          #Jt <- sum((theta/sum_abs_theta)^2) (to be deleted)
+          sj_vector <- as.vector(theta/sum_abs_theta)
+          tj <- vector()
+          aj <- vector()
+          t_hat <- vector()
+          for (j in 1: length(sj_vector)){
+            if (sj_vector[j] != 0){
+              tj[j] <- sign(sj_vector[j])
+            }
+            else{
+              tj[j] <- runif(1, min = -1, max = 1)
+            }
 
-          if (Jt <= 1){
+            aj[j] <- GROUPLASSO * sj_vector[j] + LASSO * tj[j]
+
+            if (abs(aj[j]/LASSO) <= 1){
+              t_hat[j] <- aj[j]/LASSO
+            }
+            else
+              t_hat[j] <- sign(aj[j])
+          }
+
+          Jt_hat <- (1/(GROUPLASSO^2)) * sum((aj - LASSO*tj)^2)
+
+          if (Jt_hat <= 1){
 
             Pt[ ,c(L:U)] <- 0
             P <- t(Pt)
