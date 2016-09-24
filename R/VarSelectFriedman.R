@@ -58,65 +58,49 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
       for (i in 1:length(Jk)){ #iterate over groups
 
         U <- L + Jk[i] - 1
-        Pt_1 <- Pt
-        Pt_1[ ,c(L:U)] <- 0
-        r <- as.vector(DATA - Tmat %*% Pt_1) # this is to define the r vector in step 2 of the algorithm (Friedman et al.)
+        Pt_1 <- Pt[ ,c(L:U)]
+        r <- as.vector(DATA[ ,c(L:U)]) # Note here, r is a vector and is different from Friedman et al.
 
-        theta <- Pt[ ,c(L:U)]
-        sum_abs_theta <- sum(abs(theta))
+        sum_abs_theta <- sum(abs(Pt_1))
         if (sum_abs_theta == 0){
            break  #this is because the P's are already zeros
         }
         else{
 
-          #Jt <- sum((theta/sum_abs_theta)^2) (to be deleted)
-          sj_vector <- as.vector(theta/sum_abs_theta)
-          tj <- vector()
-          aj <- vector()
-          t_hat <- vector()
-          for (j in 1: length(sj_vector)){
-            if (sj_vector[j] != 0){
-              tj[j] <- sign(sj_vector[j])
-            }
-            else{
-              tj[j] <- runif(1, min = -1, max = 1)
-            }
+          Zij <- kronecker(diag(Jk[i]), Tmat)
+          X_k_r <- t(Zij) %*% r
+          soft_Xkrk_lumba <- array()
+          for (k in 1: length(X_k_r)){
 
-            aj[j] <- GROUPLASSO * sj_vector[j] + LASSO * tj[j]
+            soft_Xkrk_lumba[k] <- sign(X_k_r[k])*max((abs(X_k_r[k]) - LASSO), 0)
 
-            if (abs(aj[j]/LASSO) <= 1){
-              t_hat[j] <- aj[j]/LASSO
-            }
-            else
-              t_hat[j] <- sign(aj[j])
           }
 
-          Jt_hat <- (1/(GROUPLASSO^2)) * sum((aj - LASSO*tj)^2)
-
-          if (Jt_hat <= 1){
+          if (sqrt(sum(soft_Xkrk_lumba^2)) / GROUPLASSO^2 <= 1) {
 
             Pt[ ,c(L:U)] <- 0
             P <- t(Pt)
 
-          } else {
+          }
 
-            Zij_theta <- kronecker(diag(Jk[i]), Tmat)
+          else {
 
-            for (j in 1:(Jk[i]*R)){
+            Pt_temporaryVec <- as.vector(Pt_1)
 
-              Pt_temporaryVec <- as.vector(Pt[ ,c(L:U)])
+            for (j in 1:length(Pt_temporaryVec)){
+
               Pt_temporaryVec[j] <- 0 # remove the variable that is to be estimated
               Pt_temporary <- matrix(Pt_temporaryVec, R, Jk[i])
-              wj <- r - as.vector(Zij_theta %*% Pt_temporaryVec)
+              wj <- r - as.vector(Zij %*% Pt_temporaryVec)
 
+              if((t(Zij[, j]) %*% wj) < LASSO){
 
-              if ((t(Zij_theta[,j]) %*% wj) < LASSO){
-                Pt[ ,c(L:U)]  <- Pt_temporary # i.e. the estimated p[,j]=0
+                Pt[ ,c(L:U)] <- Pt_temporary
                 P <- t(Pt)
               }
               else{
                 f <- function(x) {
-                  0.5*sum((wj - Zij_theta[,j]*x)^2) + GROUPLASSO*sqrt(Jk[i])*(sum((Pt_temporary^2))+x^2)^0.5 + LASSO*(sum(abs(Pt_temporary))+abs(x))
+                  0.5*sum((wj - Zij[,j]*x)^2) + GROUPLASSO*sqrt(Jk[i])*(sum((Pt_temporary^2))+x^2)^0.5 + LASSO*(sum(abs(Pt_temporary))+abs(x))
                   }
                 xmin <- optimize(f, c(-1,1), tol = 0.0001)
                 Pt_temporaryVec[j] <- xmin$minimum
