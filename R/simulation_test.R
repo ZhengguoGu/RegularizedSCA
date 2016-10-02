@@ -20,7 +20,7 @@ NRSTARTS <- 5
 Ndataset <- 20
 MAXITER <- 400
 
-LASSO <- 1
+LASSO <- .1
 GROUPLASSO <- 0.1
 
 Tucker <- array()
