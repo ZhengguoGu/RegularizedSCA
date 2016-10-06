@@ -1,4 +1,10 @@
-#variable selection with lasso and group lasso. The algorithm is developed based on Friedman, Hastie, and Tibshirani (2010)
+
+#------------------------------------------------------------------------------------------------------
+#
+# Variable selection with lasso and group lasso. The algorithm is developed based on
+# Friedman, Hastie, and Tibshirani (2010) and on Yuan and Yin (2006)
+#
+#------------------------------------------------------------------------------------------------------
 
 VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
 
@@ -95,19 +101,21 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
 
               if((t(Zij[, j]) %*% wj) < LASSO){
 
-                Pt[ ,c(L:U)] <- Pt_temporary
-                P <- t(Pt)
+               Pt_temporaryVec[j] <- 0
+
               }
               else{
-                f <- function(x) {
-                  0.5*sum((wj - Zij[,j]*x)^2) + GROUPLASSO*sqrt(Jk[i])*(sum((Pt_temporary^2))+x^2)^0.5 + LASSO*(sum(abs(Pt_temporary))+abs(x))
-                  }
-                xmin <- optimize(f, c(-1,1), tol = 0.0001)
-                Pt_temporaryVec[j] <- xmin$minimum
-                Pt[ ,c(L:U)] <- matrix(Pt_temporaryVec, R, Jk[i])
-                P <- t(Pt)
+
+                  soft_Zjwj_lumba <- sign(t(Zij[, j]) %*% wj) * max(abs(t(Zij[, j]) %*% wj) - LASSO, 0)
+                  p2_soft_Zjwj_lumda <- sqrt(sum(soft_Zjwj_lumba^2))
+                  Pt_temporaryVec[j] <- max(0, p2_soft_Zjwj_lumda - GROUPLASSO) * soft_Zjwj_lumba / p2_soft_Zjwj_lumda
+
               }
             }
+
+            Pt_temporary <- matrix(Pt_temporaryVec, R, Jk[i])
+            Pt[ ,c(L:U)] <- Pt_temporary
+            P <- t(Pt)
           }
         }
         L <- U + 1
