@@ -22,6 +22,7 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   L <- 1
   pen_g <- 0
   for (i in 1:length(Jk)){
+
     U <- L + Jk[i] - 1
     sqrtsumP <- sqrt(colSums(sqP[L:U, ]))/sqrt(Jk[i])
     pen_g <- pen_g + GROUPLASSO * sum(sqrtsumP) * Jk[i]
@@ -65,61 +66,40 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
 
         U <- L + Jk[i] - 1
         Pt_1 <- Pt[ ,c(L:U)]
-        r <- as.vector(DATA[ ,c(L:U)]) # Note here, r is a vector and is different from Friedman et al.
+        data <- DATA[ ,c(L:U)]
 
         sum_abs_theta <- sum(abs(Pt_1))
         if (sum_abs_theta == 0){
            break  #this is because the P's are already zeros
         }
         else{
+          # to test whether the entire Pk should be zeros, i.e., ||Sj||2 <=1
 
-          Zij <- kronecker(diag(Jk[i]), Tmat)
-          X_k_r <- t(Zij) %*% r
-          soft_Xkrk_lumba <- array()
-          for (k in 1: length(X_k_r)){
+          Xk_r <- matrix(NA, R, Jk[i])
+          soft_Xkr <- matrix(NA, R, Jk[i])
 
-            soft_Xkrk_lumba[k] <- sign(X_k_r[k])*max((abs(X_k_r[k]) - LASSO), 0)
-
-          }
-
-          if (sqrt(sum(soft_Xkrk_lumba^2)) / GROUPLASSO^2 <= 1) {
-
-            Pt[ ,c(L:U)] <- 0
-            P <- t(Pt)
-
-          }
-
-          else {
-
-            Pt_temporaryVec <- as.vector(Pt_1)
-
-            for (j in 1:length(Pt_temporaryVec)){
-
-              Pt_temporaryVec[j] <- 0 # remove the variable that is to be estimated
-              Pt_temporary <- matrix(Pt_temporaryVec, R, Jk[i])
-              wj <- r - as.vector(Zij %*% Pt_temporaryVec)
-
-              if((t(Zij[, j]) %*% wj) < LASSO){
-
-               Pt_temporaryVec[j] <- 0
-
-              }
-              else{
-
-                  soft_Zjwj_lumba <- sign(t(Zij[, j]) %*% wj) * max(abs(t(Zij[, j]) %*% wj) - LASSO, 0)
-                  p2_soft_Zjwj_lumda <- sqrt(sum(soft_Zjwj_lumba^2))
-                  Pt_temporaryVec[j] <- max(0, p2_soft_Zjwj_lumda - GROUPLASSO) * soft_Zjwj_lumba / p2_soft_Zjwj_lumda
-
-              }
+          for (j in 1:Jk[i]){
+            for (r in 1:R){
+              xkr <- t(Tmat[, r]) %*% data[, j]
+              Xk_r[r, j] <- xkr
+              soft_Xkr[r, j] <- sign(xkr)*max((abs(xkr) - LASSO), 0)
             }
-
-            Pt_temporary <- matrix(Pt_temporaryVec, R, Jk[i])
-            Pt[ ,c(L:U)] <- Pt_temporary
-            P <- t(Pt)
           }
+
+         Vec_Xkr <- as.vector(Xk_r)
+         Vec_soft_Xkr <- as.vector(soft_Xkr)
+
+         l2_soft_Xkr <- sqrt(sum(Vec_soft_Xkr^2))
+
+         if (l2_soft_Xkr/(Jk[i]*GROUPLASSO^2) <= 1){
+           Pt[ ,c(L:U)] <- 0
+         } else {
+          Pt[ ,c(L:U)] <- max((l2_soft_Xkr - GROUPLASSO*sqrt(Jk[i])), 0) * soft_Xkr / l2_soft_Xkr
+         }
         }
         L <- U + 1
       }
+      P <- t(Pt)
     }
 
 
