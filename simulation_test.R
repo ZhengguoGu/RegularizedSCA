@@ -16,8 +16,8 @@ PropNoise <- 0.05
 Perc0 <- 0.3     # this is for generating sparseness for testing VarSelectFriedman.R
 Perc0Com <- 0.9  # this is for generating sparseness for testing VarSelectComDistPre.R
 
-NRSTARTS <- 10
-Ndataset <- 10
+NRSTARTS <- 20
+Ndataset <- 50
 MAXITER <- 400
 
 LASSO <- 0.3
