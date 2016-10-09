@@ -16,12 +16,12 @@ PropNoise <- 0.05
 Perc0 <- 0.3     # this is for generating sparseness for testing VarSelectFriedman.R
 Perc0Com <- 0.9  # this is for generating sparseness for testing VarSelectComDistPre.R
 
-NRSTARTS <- 5
-Ndataset <- 1
+NRSTARTS <- 10
+Ndataset <- 10
 MAXITER <- 400
 
-LASSO <- 0.005
-GROUPLASSO <- .01
+LASSO <- 0.3
+GROUPLASSO <- 0.1
 
 Tucker <- array()
 ProportionComm <- array()
@@ -178,6 +178,7 @@ else if (testalgorithm == 2){
 
     TuckerResults <- TuckerCoef(Ttrue, Tout3d[[k]])
     TuckerValues[Nd] <- TuckerResults$tucker_value
+    PoutBest[[Nd]] <- PoutBest[[Nd]][, TuckerResults$perm]
 
     indSelectedC <- which(PoutBest[[Nd]] != 0)
     indDropedC <- which(PoutBest[[Nd]] == 0)
