@@ -36,17 +36,8 @@ pstr <- function(P, Target, W, maxiter,convergence){
 
     stop <- 1
 
-    if (i == 1){
-
-      Bcurrent <- Binit
-      Lossc <- pstrLoss(Binit, P, Target, W)
-
-    } else{
-
-      Bcurrent <- Binit
-      Lossc <- pstrLoss(Binit, P, Target, W)  # ask katrijn
-
-    }
+    Bcurrent <- Binit
+    Lossc <- pstrLoss(Binit, P, Target, W)
 
     while(stop == 0){
 
