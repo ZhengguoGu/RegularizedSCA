@@ -6,13 +6,39 @@
 
 DISCOsca <- function(DATA, R, Jk){
 
+
+
   num_block <- length(Jk)
 
   pre_results <- svd(DATA, R, R)
   Tmat <- pre_results$u
   Pmat <- pre_results$v %*% diag(pre_results$d[1:R])
 
+  L <- 1
+  VAF_results_component <- matrix(NA, num_block, R)
+  VAF_results_block <- array(NA, length(Jk))
+
+  for (k in 1:length(Jk)){
+
+    U <- L + Jk[k] - 1
+    Pmat_k <- Pmat[L:U, ]
+    DATA_k <- DATA[, L:U]
+    X_hat <- Tmat%*%t(Pmat[L:U, ])
+    VAF_results_block[k] <- 1 - sum((X_hat - DATA_k)^2)/sum(DATA_k^2)
+
+    for (r in 1: R){
+      x_pwise_hat <- Tmat[, r] %*% t(Pmat_k[, r])
+      VAF_results_component[k, r] <- sum(x_pwise_hat^2)/sum(DATA_k^2)
+    }
+    L <- U + 1
+
+  }
+
+
 #find all the combinations
+
+  propExp_Rcomponent <- list() # to record component-wise VAF per block after rotation
+  propExp_Rblock <- list() # to record VAF per block after rotation
 
   TARGET_list <- list()
   TROT_list <- list()
@@ -33,8 +59,8 @@ DISCOsca <- function(DATA, R, Jk){
 
         Posit_indicatorList <- c(Posit_indicatorList, list(posit_indicator))
         W <- matrix(0, sum(Jk), R)
-        L <- 1
 
+        L <- 1
         for (k in 1:length(Jk)){
 
           U <- L + Jk[k] - 1
@@ -111,16 +137,42 @@ DISCOsca <- function(DATA, R, Jk){
         Trot <- Trot %*% B
         Prot <- Prot %*% B
 
-
         TROT_list <- c(TROT_list, list(Trot))
         PROT_list <- c(PROT_list, list(Prot))
 
+
+        L <- 1
+        VAF_rot_component <- matrix(NA, num_block, R)
+        VAF_rot_block <- array(NA, length(Jk))
+        for (k in 1:length(Jk)){
+
+          U <- L + Jk[k] - 1
+          Prot_k <- Prot[L:U, ]
+
+          X_rhat <- Trot%*%t(Prot_k)
+          DATA_k <- DATA[, L:U]
+
+          VAF_rot_block[k] <- 1 - sum((X_rhat - DATA_k)^2)/sum(DATA_k^2)
+
+          for (r in 1: R){
+            xrot_pwise_hat  <- Trot[, r] %*% t(Prot_k[, r])
+            VAF_rot_component[k, r] <- sum(xrot_pwise_hat^2)/sum(DATA_k^2)
+          }
+          L <- U + 1
+        }
+
+        propExp_Rblock <- c(propExp_Rblock, list(VAF_rot_block))
+        propExp_Rcomponent <- c(propExp_Rcomponent, list(VAF_rot_component))
       }
 
     }
 
   }
   results <- list()
+  results$propExp_pre_component <- VAF_results_component
+  results$propExp_pre_block <- VAF_results_block
+  results$propExp_Rotblock <- propExp_Rblock
+  results$propExp_Rotcomponent <- propExp_Rcomponent
   results$Target_matrix <- TARGET_list
   results$Postion_indicator <- Posit_indicatorList
   results$Tmatrix <- Tmat
