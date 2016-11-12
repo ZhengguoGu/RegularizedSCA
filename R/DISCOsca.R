@@ -14,9 +14,11 @@ DISCOsca <- function(DATA, R, Jk){
   Tmat <- pre_results$u
   Pmat <- pre_results$v %*% diag(pre_results$d[1:R])
 
+
   L <- 1
   VAF_results_component <- matrix(NA, num_block, R)
   VAF_results_block <- array(NA, length(Jk))
+  ssq_block <- array(NA, length(Jk))
 
   for (k in 1:length(Jk)){
 
@@ -25,7 +27,7 @@ DISCOsca <- function(DATA, R, Jk){
     DATA_k <- DATA[, L:U]
     X_hat <- Tmat%*%t(Pmat[L:U, ])
     VAF_results_block[k] <- 1 - sum((X_hat - DATA_k)^2)/sum(DATA_k^2)
-
+    ssq_block[k] <- sum(colSums(Pmat_k^2))
     for (r in 1: R){
       x_pwise_hat <- Tmat[, r] %*% t(Pmat_k[, r])
       VAF_results_component[k, r] <- sum(x_pwise_hat^2)/sum(DATA_k^2)
@@ -44,6 +46,7 @@ DISCOsca <- function(DATA, R, Jk){
   TROT_list <- list()
   PROT_list <- list()
   Posit_indicatorList <- list()
+  ssq_r_block <- list()
 
   for(i in max(num_block, R): (R*num_block)){
 
@@ -140,6 +143,19 @@ DISCOsca <- function(DATA, R, Jk){
         TROT_list <- c(TROT_list, list(Trot))
         PROT_list <- c(PROT_list, list(Prot))
 
+        L <- 1
+        ssq_rblock <- array(NA, length(Jk))
+        for (k in 1:length(Jk)){
+
+          U <- L + Jk[k] - 1
+          Prot_block <- Prot[L:U, (which(posit_indicator[k, ]==1))]
+          ssq_rblock[k] <- sum(Prot_block^2)
+
+          L <- U + 1
+
+        }
+
+        ssq_r_block <- c(ssq_r_block, list(ssq_rblock))
 
         L <- 1
         VAF_rot_component <- matrix(NA, num_block, R)
@@ -169,14 +185,19 @@ DISCOsca <- function(DATA, R, Jk){
 
   }
 
-  distance <- array()
-  for (i in 1:length(propExp_Rcomponent)){
-    distance[i] <- sum((propExp_Rcomponent[[i]]-VAF_results_component)^2)
+  distance <- array(NA, length(ssq_r_block))
+
+  for (j in 1:length(ssq_r_block)){
+
+    distance[j] <- sum((ssq_r_block[[j]]-ssq_block)^2)
+
   }
 
   k <- which(distance == min(distance))
   Trot_best <- list(TROT_list[[k]])
   Prot_best <- list(PROT_list[[k]])
+
+
   results <- list()
 
   results$Trot_best <- Trot_best
