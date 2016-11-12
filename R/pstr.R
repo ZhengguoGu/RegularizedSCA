@@ -34,7 +34,7 @@ pstr <- function(P, Target, W, maxiter,convergence){
     alpha <- max(eigen(B1)$values)
     iter <- 1
 
-    stop <- 1
+    stop <- 0
 
     Bcurrent <- Binit
     Lossc <- pstrLoss(Binit, P, Target, W)
