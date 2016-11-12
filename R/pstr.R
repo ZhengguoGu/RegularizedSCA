@@ -44,7 +44,7 @@ pstr <- function(P, Target, W, maxiter,convergence){
       Pw <- W * Target + P %*% Bcurrent - W * (P %*% Bcurrent)
       A <- -2 * t(Pw) %*% P
       Fmat <- A + 2 * t(Bcurrent) %*% t(B1) - 2 * alpha * t(Bcurrent)
-      F_svd <- svd(-F)
+      F_svd <- svd(-Fmat)
       B <- F_svd$v %*% t(F_svd$u)
 
       if (iter == maxiter){
