@@ -75,6 +75,7 @@ pstr <- function(P, Target, W, maxiter,convergence){
   results <- list()
   results$Bmatrix <- B
   results$Loss <- Loss
+  return(results)
 }
 
 
