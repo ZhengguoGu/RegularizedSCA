@@ -168,7 +168,20 @@ DISCOsca <- function(DATA, R, Jk){
     }
 
   }
+
+  distance <- array()
+  for (i in 1:length(propExp_Rcomponent)){
+    distance[i] <- sum((propExp_Rcomponent[[i]]-VAF_results_component)^2)
+  }
+
+  k <- which(distance == min(distance))
+  Trot_best <- list(TROT_list[[k]])
+  Prot_best <- list(PROT_list[[k]])
   results <- list()
+
+  results$Trot_best <- Trot_best
+  results$Prot_best <- Prot_best
+  results$k <- c(list(k), min(distance))
   results$propExp_pre_component <- VAF_results_component
   results$propExp_pre_block <- VAF_results_block
   results$propExp_Rotblock <- propExp_Rblock
