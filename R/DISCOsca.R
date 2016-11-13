@@ -202,7 +202,7 @@ DISCOsca <- function(DATA, R, Jk){
 
   results$Trot_best <- Trot_best
   results$Prot_best <- Prot_best
-  results$k <- c(list(k), min(distance))
+  results$k <- c(list(k), min(distance), list(distance), list(ssq_r_block))
   results$propExp_pre_component <- VAF_results_component
   results$propExp_pre_block <- VAF_results_block
   results$propExp_Rotblock <- propExp_Rblock
