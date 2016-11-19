@@ -19,6 +19,7 @@ DISCOsca <- function(DATA, R, Jk){
   VAF_results_component <- matrix(NA, num_block, R)
   VAF_results_block <- array(NA, length(Jk))
   ssq_block <- array(NA, length(Jk))
+  distance <- array(NA)
 
   for (k in 1:length(Jk)){
 
@@ -40,13 +41,13 @@ DISCOsca <- function(DATA, R, Jk){
 #find all the combinations
 
   propExp_Rcomponent <- list() # to record component-wise VAF per block after rotation
-  propExp_Rblock <- list() # to record VAF per block after rotation
+  #propExp_Rblock <- list() # to record VAF per block after rotation
 
   TARGET_list <- list()
   TROT_list <- list()
   PROT_list <- list()
   Posit_indicatorList <- list()
-  ssq_r_block <- list()
+  #ssq_r_block <- list()
 
   for(i in max(num_block, R): (R*num_block)){
 
@@ -143,55 +144,55 @@ DISCOsca <- function(DATA, R, Jk){
         TROT_list <- c(TROT_list, list(Trot))
         PROT_list <- c(PROT_list, list(Prot))
 
+
         L <- 1
-        ssq_rblock <- array(NA, length(Jk))
+        ssq_r_component <- matrix(NA, num_block, R)
+
         for (k in 1:length(Jk)){
 
           U <- L + Jk[k] - 1
-          Prot_block <- Prot[L:U, (which(posit_indicator[k, ]==1))]
-          ssq_rblock[k] <- sum(Prot_block^2)
-
-          L <- U + 1
-
-        }
-
-        ssq_r_block <- c(ssq_r_block, list(ssq_rblock))
-
-        L <- 1
-        VAF_rot_component <- matrix(NA, num_block, R)
-        VAF_rot_block <- array(NA, length(Jk))
-        for (k in 1:length(Jk)){
-
-          U <- L + Jk[k] - 1
-          Prot_k <- Prot[L:U, ]
-
-          X_rhat <- Trot%*%t(Prot_k)
-          DATA_k <- DATA[, L:U]
-
-          VAF_rot_block[k] <- 1 - sum((X_rhat - DATA_k)^2)/sum(DATA_k^2)
-
           for (r in 1: R){
-            xrot_pwise_hat  <- Trot[, r] %*% t(Prot_k[, r])
-            VAF_rot_component[k, r] <- sum(xrot_pwise_hat^2)/sum(DATA_k^2)
+
+            ssq_r_component[k, r] <- sum(Prot[L:U, r]^2)
           }
           L <- U + 1
+
+        }
+        propExp_Rcomponent <- c(propExp_Rcomponent, list(ssq_r_component))
+
+        distance_component <- array(NA, R)
+        for (r in 1:R){
+
+          if(sum(posit_indicator[, r])==length(Jk)){
+            # this is a common component
+            combi <- combn(1:length(Jk), 2) #when there are more than 2 blocks, combi is useful
+
+            distance_combi <- array(NA, dim(combi)[2])
+            for (c in 1:dim(combi)[2]){
+              distance_combi[c] <- abs(ssq_r_component[combi[, c][1], r]-ssq_r_component[combi[, c][2], r])
+            }
+
+            distance_component[r] <- max(distance_combi) # ask Katrijn
+
+          } else{
+
+            zeros <- which(posit_indicator[, r] ==0)
+            distance_zero <- array(NA, length(zeros)) # there may be cases where more than 2 blocks have zeros
+            for(z in 1: length(zeros)){
+              distance_zero[z] <- ssq_r_component[zeros[z], r]
+            }
+            distance_component[r] <- max(distance_zero)
+          }
         }
 
-        propExp_Rblock <- c(propExp_Rblock, list(VAF_rot_block))
-        propExp_Rcomponent <- c(propExp_Rcomponent, list(VAF_rot_component))
+        distance <- c(distance, max(distance_component))
       }
 
     }
 
   }
 
-  distance <- array(NA, length(ssq_r_block))
-
-  for (j in 1:length(ssq_r_block)){
-
-    distance[j] <- sum((ssq_r_block[[j]]-ssq_block)^2)
-
-  }
+  distance <- distance[-1] # the first one is always NA
 
   k <- which(distance == min(distance))
   Trot_best <- list(TROT_list[[k]])
@@ -202,10 +203,10 @@ DISCOsca <- function(DATA, R, Jk){
 
   results$Trot_best <- Trot_best
   results$Prot_best <- Prot_best
-  results$k <- c(list(k), min(distance), list(distance), list(ssq_r_block))
+  results$k <- c(list(k), min(distance), list(distance))
   results$propExp_pre_component <- VAF_results_component
   results$propExp_pre_block <- VAF_results_block
-  results$propExp_Rotblock <- propExp_Rblock
+  #results$propExp_Rotblock <- propExp_Rblock
   results$propExp_Rotcomponent <- propExp_Rcomponent
   results$Target_matrix <- TARGET_list
   results$Postion_indicator <- Posit_indicatorList
