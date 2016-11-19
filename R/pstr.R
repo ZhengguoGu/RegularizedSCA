@@ -62,7 +62,7 @@ pstr <- function(P, Target, W, maxiter,convergence){
       }
 
       iter <- iter + 1
-      Lossc <- Lossc
+      Lossc <- Loss
       Bcurrent <- B
     }
 
