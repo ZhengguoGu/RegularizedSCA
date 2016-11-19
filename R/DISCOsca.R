@@ -17,11 +17,11 @@ DISCOsca <- function(DATA, R, Jk){
 
   L <- 1
   VAF_results_component <- matrix(NA, num_block, R)
-  VAF_results_block <- array(NA, length(Jk))
-  ssq_block <- array(NA, length(Jk))
+  VAF_results_block <- array(NA, num_block)
+  ssq_block <- array(NA, num_block)
   distance <- array(NA)
 
-  for (k in 1:length(Jk)){
+  for (k in 1:num_block){
 
     U <- L + Jk[k] - 1
     Pmat_k <- Pmat[L:U, ]
@@ -30,8 +30,10 @@ DISCOsca <- function(DATA, R, Jk){
     VAF_results_block[k] <- 1 - sum((X_hat - DATA_k)^2)/sum(DATA_k^2)
     ssq_block[k] <- sum(colSums(Pmat_k^2))
     for (r in 1: R){
+
       x_pwise_hat <- Tmat[, r] %*% t(Pmat_k[, r])
       VAF_results_component[k, r] <- sum(x_pwise_hat^2)/sum(DATA_k^2)
+
     }
     L <- U + 1
 
@@ -49,7 +51,7 @@ DISCOsca <- function(DATA, R, Jk){
   Posit_indicatorList <- list()
   #ssq_r_block <- list()
 
-  for(i in max(num_block, R): (R*num_block)){
+  for(i in max(num_block, R): ((R*num_block)-1)){
 
     combinations <- combn(matrix(1:(R*num_block), num_block, R), i)
 
@@ -65,7 +67,7 @@ DISCOsca <- function(DATA, R, Jk){
         W <- matrix(0, sum(Jk), R)
 
         L <- 1
-        for (k in 1:length(Jk)){
+        for (k in 1:num_block){
 
           U <- L + Jk[k] - 1
           W_part <- W[L:U, ]
@@ -78,8 +80,8 @@ DISCOsca <- function(DATA, R, Jk){
         Target <- 1 - W
         TARGET_list <- c(TARGET_list,list(Target))
 
-        maxiter <- 600;
-        convergence <- 0.0000001;
+        maxiter <- 5000;
+        convergence <- 0.000000001;
         nrstarts <- 5  #pre=5
 
         LOSS <- array()
@@ -93,14 +95,13 @@ DISCOsca <- function(DATA, R, Jk){
 
         }
         k <- which(LOSS == min(LOSS))
-        if (length(k)>1){  #ask Katrijn
-          k <- 1
-        }
-        B <- BMAT[[k]]
+        B <- BMAT[[k[1]]]
         Trot <- Tmat %*% B
         Prot <- Pmat %*% B
         B <- diag(R)
 
+
+        ####################### rotate entire component across blocks ##############################
         if(sum(duplicated(posit_indicator,MARGIN=2)) > 0){
             #if > 0, some of the components are the same (in terms of the comm/dist components in the blocks)
 
@@ -137,7 +138,7 @@ DISCOsca <- function(DATA, R, Jk){
             }
 
           }
-
+        ##################################################################################################
         Trot <- Trot %*% B
         Prot <- Prot %*% B
 
@@ -148,7 +149,7 @@ DISCOsca <- function(DATA, R, Jk){
         L <- 1
         ssq_r_component <- matrix(NA, num_block, R)
 
-        for (k in 1:length(Jk)){
+        for (k in 1:num_block){
 
           U <- L + Jk[k] - 1
           for (r in 1: R){
@@ -163,17 +164,38 @@ DISCOsca <- function(DATA, R, Jk){
         distance_component <- array(NA, R)
         for (r in 1:R){
 
-          if(sum(posit_indicator[, r])==length(Jk)){
+          if(sum(posit_indicator[, r])==num_block){
             # this is a common component
-            combi <- combn(1:length(Jk), 2) #when there are more than 2 blocks, combi is useful
 
-            distance_combi <- array(NA, dim(combi)[2])
-            for (c in 1:dim(combi)[2]){
-              distance_combi[c] <- abs(ssq_r_component[combi[, c][1], r]-ssq_r_component[combi[, c][2], r])
+            ##### version 1 : ssq of common components (not working) ##############
+            #combi <- combn(1:num_block, 2) #when there are more than 2 blocks, combi is useful
+
+            #distance_combi <- array(NA, dim(combi)[2])
+            #for (c in 1:dim(combi)[2]){
+            #  distance_combi[c] <- abs(ssq_r_component[combi[, c][1], r]/Jk[combi[, c][1]]-ssq_r_component[combi[, c][2], r]/Jk[combi[, c][2]])
+            #}
+
+            #distance_component[r] <- max(distance_combi) # ask Katrijn
+            ################################
+
+            ##### version 2: ssq of X_hat (not working either) ################################
+            L <- 1
+            X_hat_r <- array(NA, num_block)
+            for (k in 1:num_block){
+              U <- L + Jk[k] - 1
+              PProt_k <- Prot[L:U, ]
+              X_hat_r[k] <- Trot[, r]%*%t(Pmat[L:U, r])
+              L <- U + 1
             }
 
-            distance_component[r] <- max(distance_combi) # ask Katrijn
+            combi <- combn(1:num_block, 2) #when there are more than 2 blocks, combi is useful
+            distance_combi <- array(NA, dim(combi)[2])
+            for (c in 1:dim(combi)[2]){
+            distance_combi[c] <- abs(X_hat_r[combi[, c][1]]-X_hat_r[combi[, c][2]])
+            }
 
+            distance_component[r] <- max(distance_combi)
+            ##############################################################
           } else{
 
             zeros <- which(posit_indicator[, r] ==0)
@@ -203,7 +225,7 @@ DISCOsca <- function(DATA, R, Jk){
 
   results$Trot_best <- Trot_best
   results$Prot_best <- Prot_best
-  results$k <- c(list(k), min(distance), list(distance))
+  results$k <- c(list(k), min(distance), list(Posit_indicatorList[k]))
   results$propExp_pre_component <- VAF_results_component
   results$propExp_pre_block <- VAF_results_block
   #results$propExp_Rotblock <- propExp_Rblock
