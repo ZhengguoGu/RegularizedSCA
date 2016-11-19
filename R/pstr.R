@@ -14,7 +14,10 @@
 #       convergence: minimal loss between current and previous iteration
 # Output B: an orthogonal rotation matrix
 #
-# Author: Katrijn Van Deun
+# Author: Katrijn Van Deun; Zhengguo Gu implemented in R
+##########################################################################
+
+### Ask Katrijn: The B matrices are the name???
 
 pstr <- function(P, Target, W, maxiter,convergence){
   n <- dim(P)[1]
