@@ -165,43 +165,22 @@ DISCOsca <- function(DATA, R, Jk){
         for (r in 1:R){
 
           if(sum(posit_indicator[, r])==num_block){
-            # this is a common component
-
-            ##### version 1 : ssq of common components (not working) ##############
-            #combi <- combn(1:num_block, 2) #when there are more than 2 blocks, combi is useful
-
-            #distance_combi <- array(NA, dim(combi)[2])
-            #for (c in 1:dim(combi)[2]){
-            #  distance_combi[c] <- abs(ssq_r_component[combi[, c][1], r]/Jk[combi[, c][1]]-ssq_r_component[combi[, c][2], r]/Jk[combi[, c][2]])
-            #}
-
-            #distance_component[r] <- max(distance_combi) # ask Katrijn
-            ################################
-
-            ##### version 2: ssq of X_hat (not working either) ################################
-            L <- 1
-            X_hat_r <- array(NA, num_block)
-            for (k in 1:num_block){
-              U <- L + Jk[k] - 1
-              PProt_k <- Prot[L:U, ]
-              X_hat_r[k] <- Trot[, r]%*%t(Pmat[L:U, r])
-              L <- U + 1
-            }
-
+            #if(true), we have a common component
             combi <- combn(1:num_block, 2) #when there are more than 2 blocks, combi is useful
+
             distance_combi <- array(NA, dim(combi)[2])
             for (c in 1:dim(combi)[2]){
-            distance_combi[c] <- abs(X_hat_r[combi[, c][1]]-X_hat_r[combi[, c][2]])
+              distance_combi[c] <- abs(ssq_r_component[combi[, c][1], r]/ssq_block[combi[, c][1]]-ssq_r_component[combi[, c][2], r]/ssq_block[combi[, c][2]])
             }
 
-            distance_component[r] <- max(distance_combi)
-            ##############################################################
+            distance_component[r] <- max(distance_combi) # ask Katrijn
+
           } else{
 
             zeros <- which(posit_indicator[, r] ==0)
             distance_zero <- array(NA, length(zeros)) # there may be cases where more than 2 blocks have zeros
             for(z in 1: length(zeros)){
-              distance_zero[z] <- ssq_r_component[zeros[z], r]
+              distance_zero[z] <- ssq_r_component[zeros[z], r]/ssq_block[zeros[z]]
             }
             distance_component[r] <- max(distance_zero)
           }
