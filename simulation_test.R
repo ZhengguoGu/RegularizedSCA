@@ -91,7 +91,7 @@ for (Nd in 1:Ndataset){
       LOSSVEC[[i]] <- VarSelectResult$Lossvec
       IterVec[[i]] <- VarSelectResult$iter
     }
-    k <- which(LOSS == max(LOSS))
+    k <- which(LOSS == min(LOSS))
     if (length(k)>1){
       pos <- sample(1:length(k), 1)
       k <- k[pos]
@@ -168,7 +168,7 @@ else if (testalgorithm == 2){
       LOSSVEC[[i]] <- VarSelectResult$Lossvec
       IterVec[[i]] <- VarSelectResult$iter
     }
-    k <- which(LOSS == max(LOSS))
+    k <- which(LOSS == min(LOSS))
     if (length(k)>1){
       pos <- sample(1:length(k), 1)
       k <- k[pos]
