@@ -69,10 +69,7 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
         data <- DATA[ ,c(L:U)]
 
         sum_abs_theta <- sum(abs(Pt_1))
-        if (sum_abs_theta == 0){
-           break  #this is because the P's are already zeros !!! This break funtion might lead to a bug!!! Need to check!
-        }
-        else{
+        if (sum_abs_theta != 0){
           # to test whether the entire Pk should be zeros, i.e., ||Sj||2 <=1
 
           Xk_r <- matrix(NA, R, Jk[i])
