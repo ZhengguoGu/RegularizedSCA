@@ -6,7 +6,7 @@ testalgorithm <- 2 # 1: for testing VarSelectComDistPre.R
                     # 2: for testing VarSelectFriedman.R
 I <- 28
 J1 <- 144
-J2 <-44
+J2 <-144
 Jk <- c(J1, J2)
 sumJk <- sum(J1 + J2)
 R <- 5
