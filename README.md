@@ -1,4 +1,5 @@
 
+
 # SCAdata
 
 Current stage of this package
@@ -24,6 +25,8 @@ Current stage of this package
   2.2 a function for cross validation
   
 3. other things planed
+
+  3.0 improve the code: use Vectorize() (see http://stackoverflow.com/questions/13544594/create-a-vector-function-from-a-scalar-function for a nice example).
 
   3.1 test functions systematically. Although all the functions have been tested once they are finished. But they have not been tested systematically and rigoriously with multiple blocks and varying numbers of components
   
