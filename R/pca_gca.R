@@ -62,13 +62,16 @@ pca_gca <- function(DATA, Jk, cor_min){
   complement_template <- matrix(0, num_block, num_block)
   diag(complement_template) <- 1
   complement_indicator <- list()
-
+  remaining_numcomponentBlock <- num_componentBlock
 
   for (coln in 1: max(num_componentBlock)){
 
-    for (i in 1: ncol(combinations)){
+    removeBlock <- array(0) #this is an index for identifitying the blocks that to be removed because its conlumn = 0, and therefore cant enter rgcca.
 
-      if (cor(YcompScores_block[[combinations[,i][1]]][, 1], YcompScores_block[[combinations[,i][2]]][, 1]) >= cor_min){
+    for (i in 1: ncol(combinations)){
+      if (i %in% removeBlock){
+        next
+      } else (cor(YcompScores_block[[combinations[,i][1]]][, 1], YcompScores_block[[combinations[,i][2]]][, 1]) >= cor_min){
         comdist_indicator[combinations[,i][1], coln] <- 1
         comdist_indicator[combinations[,i][2], coln] <- 1
       }
@@ -78,7 +81,13 @@ pca_gca <- function(DATA, Jk, cor_min){
 
     if (sum(comdist_indicator[, coln])==0){
       # this means that the entire column is distincive, then the entire procedure can stop.
+
+      for (j in (coln+1):max(num_componentBlock)){
+        complement_indicator[[j]] <- complement_template[, which(comdist_indicator[, j]==0)] #this is to add an extra column for the distinctive component
+      }
+
       break
+
     } else{
       # this means that for column coln, at least two blocks are common. Thus, the procedure continues, and the first column will be removed.
         compScores_columnlist_new <- list()
@@ -87,12 +96,14 @@ pca_gca <- function(DATA, Jk, cor_min){
           compScores_blockCopy[[k]] <-matrix(compScores_blockCopy[[k]][, -1],nrow = nrow(compScores_blockCopy[[k]]))  #when only a vector left, it must be matrix of Nx1
 
           if(sum(compScores_blockCopy[[k]])==0) {
-            compScores_blockCopy[[k]] <- matrix(0, nrow = nrow(compScores_blockCopy[[k]]), 1)
+            removeBlock <- c(removeBlock, k)
+          } else{
+            compScores_columnlist_new <- c(compScores_columnlist_new, split(compScores_blockCopy[[k]], rep(1:ncol(compScores_blockCopy[[1]]))))
           }
-
-          compScores_columnlist_new <- c(compScores_columnlist_new, split(compScores_blockCopy[[k]], rep(1:ncol(compScores_blockCopy[[1]]))))
         }
+        remaining_numcomponentBlock <- remaining_numcomponentBlock - 1 #in line with the above for loop, the first column is removed.
 
+        #--- rgcca for the remaining columns
         cc <- matrix(1, length(compScores_columnlist_new), length(compScores_columnlist_new))
         diag(cc) <- 0
         result.rgcca <- RGCCA::rgcca(compScores_columnlist_new, cc, tau=rep(0, length(compScores_columnlist_new)), verbose = FALSE)
@@ -100,19 +111,17 @@ pca_gca <- function(DATA, Jk, cor_min){
         YcompScores_block <- list()
         L <- 1
         for (k in 1:num_block){
-          U <- L + num_componentBlock[k] - 1
-          YcompScores_block[[k]] <- matrix(unlist(result.rgcca$Y[L:U]), ncol=num_componentBlock[k])
-          L <- U + 1
+          if (remaining_numcomponentBlock[k]>=1){
+            U <- L + remaining_numcomponentBlock[k] - 1
+            YcompScores_block[[k]] <- matrix(unlist(result.rgcca$Y[L:U]), ncol=num_componentBlock[k])
+            L <- U + 1
+          } else
+            YcompScores_block[[k]] <- 0  #this is to preserve the block structure.
         }
     }
 
   }
 
-  for (j in (coln+1):max(num_componentBlock)){
-
-    complement_indicator[[j]] <- complement_template[, which(comdist_indicator[, j]==0)] #this is to add an extra column for the distinctive component
-
-  }
 
   if(length(complement_indicator)!=0){
 
@@ -125,6 +134,9 @@ pca_gca <- function(DATA, Jk, cor_min){
   }
 
   comdinst_final <- comdinst_final[, -which(colSums(comdinst_final)==0)]
+  for(i in nrow(comdinst_final)){
+     comdinst_final <- comdinst_final[, -which(cumsum(comdinst_final[i, ]) > num_componentBlock[i, ])]
+  }
 
   return(comdinst_final)
 }
