@@ -1,3 +1,18 @@
+#' PCA-GCA method
+#'
+#' Use PCA-GCA method to identify common and distictive components. For technical detals, see Tenenhaus and Tenenhaus (2011),
+#' Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284
+#'
+#' @param DATA A concatinated data matrix with the same number of rows.
+#' @param Jk A vector containing number of variables (i.e. columns) in the concatinated data matrix. Please see the example below.
+#' @param cor_min The minimum corelation bewtween two components. The default value is .9; thus, it means that if the correlation
+#' between the two component is at least .9, then these two components are regarded as forming a single common component.
+#' @return Return a matrix indicating the common and distincive components.
+#' @examples
+#' DATA <- c(DATA1, DATA2)
+#' Jk <- c(ncol(DATA1), ncol(DATA1))
+#' pca_gca(DATA, Jk, cor_min = .8)
+
 pca_gca <- function(DATA, Jk, cor_min){
   #see Mage, Naes, Hankemeier, & Bro, 2016
 
@@ -71,7 +86,7 @@ pca_gca <- function(DATA, Jk, cor_min){
     for (i in 1: ncol(combinations)){
       if (i %in% removeBlock){
         next
-      } else (cor(YcompScores_block[[combinations[,i][1]]][, 1], YcompScores_block[[combinations[,i][2]]][, 1]) >= cor_min){
+      } else if(cor(YcompScores_block[[combinations[,i][1]]][, 1], YcompScores_block[[combinations[,i][2]]][, 1]) >= cor_min){
         comdist_indicator[combinations[,i][1], coln] <- 1
         comdist_indicator[combinations[,i][2], coln] <- 1
       }
