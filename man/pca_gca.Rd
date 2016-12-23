@@ -15,7 +15,7 @@ pca_gca(DATA, Jk, cor_min)
 between the two component is at least .9, then these two components are regarded as forming a single common component.}
 }
 \value{
-Return a matrix indicating the common and distincive components.
+Return a matrix indicating the common and distincive components. Please see the vignette for how to interpret this matrix.
 }
 \description{
 Use PCA-GCA method to identify common and distictive components.
@@ -24,5 +24,9 @@ Use PCA-GCA method to identify common and distictive components.
 DATA <- c(DATA1, DATA2)
 Jk <- c(ncol(DATA1), ncol(DATA1))
 pca_gca(DATA, Jk, cor_min = .8)
+
+}
+\references{
+Tenenhaus, A., & Tenenhaus, M. (2011). Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284
 }
 

@@ -6,11 +6,14 @@
 #' @param Jk A vector containing number of variables  in the concatinated data matrix. Please see the example below.
 #' @param cor_min The minimum corelation bewtween two components. The default value is .9; thus, it means that if the correlation
 #' between the two component is at least .9, then these two components are regarded as forming a single common component.
-#' @return Return a matrix indicating the common and distincive components.
+#' @return Return a matrix indicating the common and distincive components. Please see the vignette for how to interpret this matrix.
+
 #' @examples
 #' DATA <- c(DATA1, DATA2)
 #' Jk <- c(ncol(DATA1), ncol(DATA1))
 #' pca_gca(DATA, Jk, cor_min = .8)
+#'
+#' @references Tenenhaus, A., & Tenenhaus, M. (2011). Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284
 
 pca_gca <- function(DATA, Jk, cor_min){
   #see Mage, Naes, Hankemeier, & Bro, 2016
