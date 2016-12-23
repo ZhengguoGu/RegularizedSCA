@@ -3,6 +3,7 @@
 #' @param DATA A data matrix
 #' @return a standardized matrix
 #' @examples
+#'
 #' mySTD(matrix(1:12), nrow=3, byrow=T))
 
 mySTD <- function(DATA) {
@@ -15,4 +16,3 @@ mySTD <- function(DATA) {
 
   return(STDDATA)
 }
-

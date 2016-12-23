@@ -16,6 +16,7 @@ a standardized matrix
 standardize the given data matrix per column, over the rows
 }
 \examples{
+
 mySTD(matrix(1:12), nrow=3, byrow=T))
 }
 

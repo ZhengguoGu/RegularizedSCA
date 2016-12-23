@@ -9,7 +9,7 @@ pca_gca(DATA, Jk, cor_min)
 \arguments{
 \item{DATA}{A concatinated data matrix with the same number of rows.}
 
-\item{Jk}{A vector containing number of variables (i.e. columns) in the concatinated data matrix. Please see the example below.}
+\item{Jk}{A vector containing number of variables  in the concatinated data matrix. Please see the example below.}
 
 \item{cor_min}{The minimum corelation bewtween two components. The default value is .9; thus, it means that if the correlation
 between the two component is at least .9, then these two components are regarded as forming a single common component.}
@@ -18,8 +18,7 @@ between the two component is at least .9, then these two components are regarded
 Return a matrix indicating the common and distincive components.
 }
 \description{
-Use PCA-GCA method to identify common and distictive components. For technical detals, see Tenenhaus and Tenenhaus (2011),
-Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284
+Use PCA-GCA method to identify common and distictive components.
 }
 \examples{
 DATA <- c(DATA1, DATA2)
