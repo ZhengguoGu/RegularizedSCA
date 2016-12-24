@@ -1,13 +1,14 @@
-crossvali <- function(DATA, Jk, R, CommPosition, GroupStructure, MaxIter, NRSTARTS){
+crossvali <- function(DATA, Jk, R, CommPosition, GroupStructure, MaxIter, NRSTARTS, LassoSequence){
 
   #this cross-validation function makes use of the VarSelectComDistPre.R.
-  results <- VarSelectComDistPre(DATA, Jk, R, CommPosition, GroupStructure, 0, MaxIter)
+  if(missing(LassoSequence)){
 
-  Lassomax <- max(results$Pmatrix[, CommPosition])
+    results <- VarSelectComDistPre(DATA, Jk, R, CommPosition, GroupStructure, 0, MaxIter)
+    Lassomax <- max(abs(results$Pmatrix[, CommPosition]))
+    LassoSequence <- seq(from = 0, to = Lassomax, length.out = 10)
 
+  }
 
-
-  LassoSequence <- seq(from = 0, to = Lassomax, length.out = 10)
   PRESS <- array()
   for (l in 1:length(LassoSequence)){
     error_x <- 0
@@ -43,5 +44,9 @@ crossvali <- function(DATA, Jk, R, CommPosition, GroupStructure, MaxIter, NRSTAR
     PRESS[l] <- error_x/(nrow(DATA)*sum(Jk))
   }
 
-  plot(PRESS, xlab = 'Lasso tuning parameter', ylab = 'Predicted Residual Sum of Squares')
+  plot(LassoSequence[-1], PRESS[-1], xlab = 'Lasso tuning parameter', ylab = 'Predicted Residual Sum of Squares')
+  return_crossvali <- list()
+  return_crossvali$PRESS <- PRESS
+  return_crossvali$LassoSeqence <- LassoSequence
+  return(list(PRESS, LassoSequence))
 }
