@@ -48,5 +48,5 @@ crossvali <- function(DATA, Jk, R, CommPosition, GroupStructure, MaxIter, NRSTAR
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$LassoSeqence <- LassoSequence
-  return(list(PRESS, LassoSequence))
+  return(return_crossvali)
 }
