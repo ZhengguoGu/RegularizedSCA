@@ -1,4 +1,4 @@
-#' standardize the given data matrix per column, over the rows
+#' Standardize the given data matrix per column, over the rows
 #'
 #' @param DATA A data matrix
 #' @return a standardized matrix
