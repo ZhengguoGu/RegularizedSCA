@@ -1,4 +1,6 @@
-group_strucure <- function(Jk, R, target){
+#'
+
+component_strucure <- function(Jk, R, target){
 
   rowTarget <- nrow(target)
   colTarget <- ncol(target)
