@@ -1,16 +1,35 @@
-
-#------------------------------------------------------------------------------------------------------
-#
-# Variable selection with lasso and group lasso. The algorithm is developed based on
-# Friedman, Hastie, and Tibshirani (2010) and on Yuan and Yin (2006)
-#
-#------------------------------------------------------------------------------------------------------
-
-VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
+#'Variable selection with Lasso and Group Lasso
+#'
+#'Variable selection with Lasso and Group Lasso penalties to identify component and distinctive components.
+#'
+#'@param DATA A matrix, which contains the concatenated data with the same subjects from multiple blocks.
+#'@param Jk A vector containing number of variables in the concatinated data matrix.
+#'@param R Number of components.
+#'@param LASSO A Lasso tuning parameter.
+#'@param GROUPLASSO A group Lasso tuning parameter.
+#'@param MaxIter The maximum rounds of iterations. It should be a positive integer. The default value is 400.
+#'
+#'@return
+#'\item{Pmatrix}{Estimated component loading matrix (i.e., P).}
+#'\item{Tmatrix}{Estimated component score matrix (i.e., T).}
+#'\item{Lossvec}{A vector containing the loss in each iteration.}
+#'
+#'@examples
+#'CDfriedman(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter)
+#'
+#'@references
+#'Friedman, J., Hastie, T., & Tibshirani, R. (2010). A note on the group lasso and a sparse group lasso. arXiv preprint arXiv:1001.0736.
+#'@references
+#'Yuan, M., & Lin, Y. (2006). Model selection and estimation in regression with grouped variables. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 68(1), 49-67.
+CDfriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
 
   I_Data <- dim(DATA)[1]
   sumJk <- dim(DATA)[2]
   eps <- 10^(-12)
+
+  if(missing(MaxIter)){
+    MaxIter <- 400
+  }
 
   #initialize P
   P <- matrix(rnorm(sumJk * R), nrow = sumJk, ncol = R)
@@ -140,12 +159,12 @@ VarSelectFriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   return_varselect <- list()
   return_varselect$Pmatrix <- P
   return_varselect$Tmatrix <- Tmat
-  return_varselect$Loss <- Loss
+  #return_varselect$Loss <- Loss
   return_varselect$Lossvec <- Lossvec
-  return_varselect$residual <- residual
-  return_varselect$lassopen <- lassopen
-  return_varselect$glassopen <- Glassopen
-  return_varselect$iter <- iter - 1
+  #return_varselect$residual <- residual
+  #return_varselect$lassopen <- lassopen
+  #return_varselect$glassopen <- Glassopen
+  #return_varselect$iter <- iter - 1
   return(return_varselect)
 
 

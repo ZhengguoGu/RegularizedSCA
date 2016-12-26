@@ -1,8 +1,27 @@
-#################################################################################################
-# DISCOSCA
-# The original function is REVScript_DISCOSCA_TIVvsLAIV.m (obtained from Katrijn Van Deun)
-# adjusted by Zhengguo Gu
-#################################################################################################
+#' DISCO-SCA procedure
+#'
+#' A DISCO-SCA procedure for identifying common and distinctive components.
+#'
+#' @param DATA A matrix, which contains the concatenated data with the same subjects from multiple blocks.
+#' Note that each row represents a subject.
+#' @param Jk A vector containing number of variables in the concatinated data matrix.
+#' @param R Number of components
+#'
+#' @return
+#' \item{Trot_best}{Estimated component score matrix (i.e., T)}
+#' \item{Prot_best}{Estimated component loading matrix (i.e., P)}
+#' \item{comdist}{A matrix represending common distinctive components. 0 in the matrix indicating that the corresponding
+#' component of that block is estimated to be zeros, and 1 indicates that (at least one component loading in) the corresponding component of that block is not zero.
+#' Thus, if a column in the \code{comdist} matrix contains only 1's, then this column is a common component, otherwise distinctive component.}
+#' \item{propExp_component}{Proportion of variance per component.}
+#' @examples
+#' R <- 5
+#' Jk <- c(144, 44)
+#' DISCOsca(DATA, R, Jk)
+#'
+#' @references
+#' Schouteden, M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Performing DISCO-SCA to search for distinctive and common information in linked data. Behavior research methods, 46(2), 576-587.
+
 
 DISCOsca <- function(DATA, R, Jk){
 
@@ -204,17 +223,18 @@ DISCOsca <- function(DATA, R, Jk){
 
   results$Trot_best <- Trot_best
   results$Prot_best <- Prot_best
-  results$k <- c(list(k), min(distance), list(Posit_indicatorList[k]))
-  results$propExp_pre_component <- VAF_results_component
-  results$propExp_pre_block <- VAF_results_block
+  results$comdist <- Posit_indicatorList[k]
+  #results$k <- c(list(k), min(distance), list(Posit_indicatorList[k]))
+  #results$propExp_pre_component <- VAF_results_component
+  #results$propExp_pre_block <- VAF_results_block
   #results$propExp_Rotblock <- propExp_Rblock
-  results$propExp_Rotcomponent <- propExp_Rcomponent
-  results$Target_matrix <- TARGET_list
-  results$Postion_indicator <- Posit_indicatorList
-  results$Tmatrix <- Tmat
-  results$Pmatrix <- Pmat
-  results$Trot <- TROT_list
-  results$Prot <- PROT_list
+  results$propExp_component <- propExp_Rcomponent
+  #results$Target_matrix <- TARGET_list
+  #results$Postion_indicator <- Posit_indicatorList
+  #results$Tmatrix <- Tmat
+  #results$Pmatrix <- Pmat
+  #results$Trot <- TROT_list
+  #results$Prot <- PROT_list
   return(results)
 
 }

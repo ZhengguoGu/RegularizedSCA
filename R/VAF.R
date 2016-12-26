@@ -1,4 +1,23 @@
-# proportion of variance accounted for
+#' Proportion of variance accounted for
+#'
+#' Proportion of variance accounted for (VAF) is calculated for each block and each column.
+#'
+#' @param DATA A matrix, which contains the concatenated data with the same subjects from multiple blocks.
+#' Note that each row represents a subject.
+#' @param Jk A vector containing number of variables in the concatinated data matrix.
+#' @param R Number of components.
+#' @return
+#' \item{block}{Proportion of VAF for each block.}
+#' \item{component}{Proportion of VAF for each component of each block.}
+#'
+#' @examples
+#' Jk <- c(144, 44)
+#' R <- 5
+#' VAF(DATA, Jk, R)
+#' @references
+#' Schouteden, M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Performing DISCO-SCA to search for distinctive and common information in linked data. Behavior research methods, 46(2), 576-587.
+#' @references
+#' Schouteden, M., Van Deun, K., Pattyn, S., & Van Mechelen, I. (2013). SCA with rotation to distinguish common and distinctive information in linked data. Behavior research methods, 45(3), 822-833.
 
 VAF <- function(DATA, Jk, R){
 
