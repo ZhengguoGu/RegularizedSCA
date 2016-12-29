@@ -1,58 +1,40 @@
 ---
-title: "SCAdata - an R package for ..."
+title: "SCAdata - an R package for multi-block data integration with sparsity"
 author: "Zhengguo Gu and Katrijn Van Deun"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+mathjax: "http://example.com/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{SCAdata - an R package for multi-block data integration with sparsity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+## Introduction
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+This R package is a collection of functions for performing multi-block data integration. Specifically, the functions in this package deal with concatenated data blocks that share the same rows. For example, genomic data, denoted $\mathbf{X}_{I \times J}$, and behavioral data, $\mathbf{X}_{I \times K}$, with respect to the same persons can be concatenated $\mathbf{X}_C=[\mathbf{X}_{I \times J}\; \mathbf{X}_{I \times K}]$, and thus be jointly analyzed. 
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+Notice that the common and distinctive processes (also refered to as common and distinctive components) are with respect to the estimated component loading matrix $\mathbf{P}$. As for the technical details, we refer to:
 
-## Vignette Info
+Van Deun, K., Wilderjans, T.F., Van Den Berg, R.A., Antoniadis, A., & Van Mechelen, I. (2011). A flexible framework for sparse simultaneous component based data integration. BMC Bioinformatics. 12(1), 448.
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+## Data pre-processing
+Raw data must be standardized (i.e., pre-processed) before analysis, and thus we provide a function `mySTD()`. The following paper provides a nice overview of how and why raw data should be pre-processed:
 
-## Styles
+Van Deun, K., Smilde, A.K., van der Werf, M.J., Kiers, H.A.L, & Mechelen, I.V. (2009). A structured overview of simultaneous component based data integration. BMC Bioinformatics, 10:246.
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+## Identify common and distinctive components
+### Situation 1: No prior information on common and distinctive components
+When no prior information is available, users may first try the function `VAF()` with various numbers of components. This function provides an overview of proportions of variance accounted for (VAF) for each component in each block. 
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+`DISCOsca()` is a better option when the number of data blocks and that of components are small, as this function tries all possible combinations of common and distinctive patterns in $\mathbf{P}$ matrix. Note that this algorithm utilizes a specific rule in determining common and distinctive processes: To put it simply, for each component across the entire data blocks, the algorithm calculates the distance among the sum of squares of the loadings per block (weighted by total variace of the block) to determine whether it is a common/distictive component. Thus, this rule may not work well when common components have certain level of sparsity. 
 
-## Figures
+`pca_gca()` identify common and distinctive components in a two stage procedure: First perform principle component analysis on each data block, and then perform a canonical correlation analysis on the component loadings across all the data blocks. 
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+`CDfriedman()` is an algorithm based on regularization method. It can itentify common and distinctive components as long as the proper tuning parameters for Lasso and Group Lasso are chosen. Note that this algorithm uses a MM procedure, meaning that the estimation takes some time to converge. 
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
-```
+### Situation 2: Prior information on common and distinctive components is avaiable
+This situation can happen, for example, when previous research has already provided some information on the common/distictive processes. In this case, researchers may want to specify a particular structure in the estimated $\mathbf{P}$ matrix; in other words, some elements in $\mathbf{P}$ are fixed to 0's. 
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+To this end, users may want to use the funciton `component_structure()` together with `CDpre()`. We would like to remind the users that the `GroupStructure` parameter in `CDpre()` can be specified in flexible ways: That is, instead of using `component_structure()` for `GroupStructure`, users can specify a matrix for `GroupStructure` themselves and this matrix simply indicates where the 0's are expected to be in the estimated $\mathbf{P}$. 
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+`crossvali()` is a function for identifying possible range of Lasso tuning parameters for the sparse common component(s), given the distictive components are known. At this moment, little research is done on cross-validation procedures for sparse common and distinctive componets. 
