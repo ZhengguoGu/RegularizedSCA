@@ -14,7 +14,7 @@ Current stage of this package
   
   1.4 mySTD.R: A function for standardize the given data matrix per column over the rows (double checked on 2016-12-30)
   
-  1.5 VAF.R: A function for calculating proportion of variance accounted for. Used for deciding the # of components in P
+  1.5 VAF.R: A function for calculating proportion of variance accounted for. Used for deciding the # of components in P (double checked on 2016-12-30)
   
   1.6 DISCOsca.R (pstr.R, pstrLoss.R, reflexmat.R) : A function for finding out the number of common/distinctive components in P. pstr.R, pstrLoss.R, reflexmat.R have been double checked on 2016-12-30
   
