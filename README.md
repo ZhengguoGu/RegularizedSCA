@@ -6,7 +6,7 @@ Current stage of this package
 
 1. functions that have been finished
 
-  1.1 TuckerCoef.R: A function for calcuating Tucker congruence coefficients (and rotations etc.)
+  1.1 TuckerCoef.R: A function for calcuating Tucker congruence coefficients (and rotations etc.) (double checked on 2016-12-30)
   
   1.2 CDfriedman.R: A function for estimating P and T by means of a MM algorithm. The sparseness in P can be predifined. 
   
