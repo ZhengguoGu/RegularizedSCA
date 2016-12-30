@@ -22,7 +22,7 @@ Current stage of this package
   
   1.8 crossvali.R: A cross-validation procedure for the CDpre.R algorithm
   
-  1.9 component_structure.R: A function for generating a structured matrix for the CDpre.R function.  
+  1.9 component_structure.R: A function for generating a structured matrix for the CDpre.R function. (double checked on 2016-12-30)
   
   
 2. funtions that to be finished
