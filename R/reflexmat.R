@@ -1,6 +1,7 @@
 ###################################################
 #  a function to construct matrix of reflections
 #  author: Katrijn Van Duen
+#  implemented by Zhengguo Gu
 ###################################################
 
 reflexmat <- function(m){
