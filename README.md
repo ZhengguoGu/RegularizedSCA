@@ -8,21 +8,28 @@ Current stage of this package
 
   1.1 TuckerCoef.R: A function for calcuating Tucker congruence coefficients (and rotations etc.)
   
-  1.2 VarSelectComDistPre.R: A function for estimating P and T by means of a MM algorithm. The sparseness in P can be predifined. 
+  1.2 CDfriedman.R: A function for estimating P and T by means of a MM algorithm. The sparseness in P can be predifined. 
   
-  1.3 VarSelectFriedman.R: A function for estimating P and T by means of the algorithm by Friedman et al. (2010) and Yuan & Lin (2006)
+  1.3 CDpre.R: A function for estimating P and T by means of the algorithm by Friedman et al. (2010) and Yuan & Lin (2006)
   
-  1.4 mySTD.R: A function for standardize the given data matrix per column over the rows
+  1.4 mySTD.R: A function for standardize the given data matrix per column over the rows (double checked on 2016-12-30)
   
   1.5 VAF.R: A function for calculating proportion of variance accounted for. Used for deciding the # of components in P
   
   1.6 DISCOsca.R (pstr.R, pstrLoss.R, reflexmat.R) : A function for finding out the number of common/distinctive components in P
   
+  1.7 pca_gca.R: A function for identifying common/distinctive processes by means of PCA-GCA method. 
+  
+  1.8 crossvali.R: A cross-validation procedure for the CDpre.R algorithm
+  
+  1.9 component_structure.R: A function for generating a structured matrix for the CDpre.R function.  
+  
+  
 2. funtions that to be finished
 
-  2.1 a function for deciding the region for lasso tuning parameter
+  2.1 (DONE!) a function for deciding the region for lasso tuning parameter. See crossvali.R
   
-  2.2 a function for cross validation
+  2.2 (DONE!) a function for cross validation. See crossvali.R
   
 3. other things planed
 
