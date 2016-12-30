@@ -3,6 +3,7 @@
 # associated to the pstr.R file
 #
 # author: Katrijn Van Deun
+# implemented by Zhengguo Gu
 #####################################################
 
 pstrLoss <- function(B, Tmat, Target, W){

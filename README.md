@@ -16,7 +16,7 @@ Current stage of this package
   
   1.5 VAF.R: A function for calculating proportion of variance accounted for. Used for deciding the # of components in P
   
-  1.6 DISCOsca.R (pstr.R, pstrLoss.R, reflexmat.R) : A function for finding out the number of common/distinctive components in P
+  1.6 DISCOsca.R (pstr.R, pstrLoss.R, reflexmat.R) : A function for finding out the number of common/distinctive components in P. pstr.R, pstrLoss.R, reflexmat.R have been double checked on 2016-12-30
   
   1.7 pca_gca.R: A function for identifying common/distinctive processes by means of PCA-GCA method. 
   
