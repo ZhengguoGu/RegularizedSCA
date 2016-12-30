@@ -20,6 +20,10 @@ Return a matrix indicating the common and distincive components. Please see the 
 \description{
 Use PCA-GCA method to identify common and distictive components.
 }
+\note{
+Please be ware of the interactive input: The function first performs PCA on each data block and then displays the eigenvalues (and a scree plot).
+Afterwards the function awaits the input from the user - it needs to know how many components need to be retained for that block.
+}
 \examples{
 DATA <- c(DATA1, DATA2)
 Jk <- c(ncol(DATA1), ncol(DATA1))
