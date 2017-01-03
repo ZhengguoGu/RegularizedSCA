@@ -27,10 +27,10 @@
 #'@references Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.
 crossvali <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, NRSTARTS, LassoSequence){
 
-  #this cross-validation function makes use of the VarSelectComDistPre.R.
+  #this cross-validation function makes use of the CDpre.R.
   if(missing(LassoSequence)){
 
-    results <- VarSelectComDistPre(DATA, Jk, R, CommPosition, component_structure, 0, MaxIter)
+    results <- CDpre(DATA, Jk, R, CommPosition, component_structure, 0, MaxIter)
     Lassomax <- max(abs(results$Pmatrix[, CommPosition]))
     LassoSequence <- seq(from = 0, to = Lassomax, length.out = 10)
 
@@ -58,7 +58,7 @@ crossvali <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, N
         DATA_x[i, j] <- 0 #remove the data point
 
         for (n in 1:NRSTARTS){
-          VarSelectResult <- VarSelectComDistPre(DATA_x, Jk, R, CommPosition, component_structure, LassoSequence[l], MaxIter)
+          VarSelectResult <- CDpre(DATA_x, Jk, R, CommPosition, component_structure, LassoSequence[l], MaxIter)
           Pout3d[[n]] <- VarSelectResult$Pmatrix
           Tout3d[[n]] <- VarSelectResult$Tmatrix
           LOSS[n] <- VarSelectResult$Loss
