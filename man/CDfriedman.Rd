@@ -23,6 +23,7 @@ CDfriedman(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter)
 \item{Pmatrix}{Estimated component loading matrix (i.e., P).}
 \item{Tmatrix}{Estimated component score matrix (i.e., T).}
 \item{Lossvec}{A vector containing the loss in each iteration.}
+\item{Loss}{The loss in the final iteration.}
 }
 \description{
 Variable selection with Lasso and Group Lasso penalties to identify component and distinctive components.

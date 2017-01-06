@@ -28,6 +28,7 @@ then please use the \code{crossvali} function, which incorporates \code{CDpre} a
 \item{Pmatrix}{Estimated component loading matrix (i.e., P).}
 \item{Tmatrix}{Estimated component score matrix (i.e., T).}
 \item{Lossvec}{A vector containing the loss in each iteration.}
+\item{Loss}{The loss in the final iteration.}
 }
 \description{
 Variable selection algorithm when the common/distinctive structure is known a priori.
