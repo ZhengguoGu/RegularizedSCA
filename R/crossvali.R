@@ -55,8 +55,8 @@ crossvali <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, N
         LOSS <- array()
         DATA_x <- DATA
         x <- DATA[i,j]
-        DATA_x[i, j] <- 0 #remove the data point
-
+        DATA_x[i, j] <- NA #remove the data point
+        DATA_x[i, j] <- mean(DATA_x[!is.na(DATA_x[, j]),j]) # it is replaced by the mean of the column (see Daniela Witten's R package PMA)
         for (n in 1:NRSTARTS){
           VarSelectResult <- CDpre(DATA_x, Jk, R, CommPosition, component_structure, LassoSequence[l], MaxIter)
           Pout3d[[n]] <- VarSelectResult$Pmatrix
