@@ -13,6 +13,7 @@
 #'\item{Pmatrix}{Estimated component loading matrix (i.e., P).}
 #'\item{Tmatrix}{Estimated component score matrix (i.e., T).}
 #'\item{Lossvec}{A vector containing the loss in each iteration.}
+#'\item{Loss}{The loss in the final iteration.}
 #'
 #'@examples
 #'CDfriedman(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter)
@@ -159,7 +160,7 @@ CDfriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   return_varselect <- list()
   return_varselect$Pmatrix <- P
   return_varselect$Tmatrix <- Tmat
-  #return_varselect$Loss <- Loss
+  return_varselect$Loss <- Loss
   return_varselect$Lossvec <- Lossvec
   #return_varselect$residual <- residual
   #return_varselect$lassopen <- lassopen
