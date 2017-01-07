@@ -20,10 +20,11 @@ Current stage of this package
   
   1.7 pca_gca.R: A function for identifying common/distinctive processes by means of PCA-GCA method. 
   
-  1.8 crossvali.R: A cross-validation procedure for the CDpre.R algorithm
+  1.8 cv_CDpre.R: A cross-validation procedure for the CDpre.R algorithm
   
   1.9 component_structure.R: A function for generating a structured matrix for the CDpre.R function. (double checked on 2016-12-30)
   
+  1.10 cv_CDpreKf.R: A k-fold cross-validation procedure for the CDpre.R algorithm
   
 2. funtions that to be finished
 
