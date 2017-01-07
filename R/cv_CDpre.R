@@ -1,6 +1,6 @@
 #'A cross-validation procedure when common/distictive processes are known.
 #'
-#'\code{cv.CDpre} helps to find a range of lasso tuning parameters for the common component so as to generate sparse common component.
+#'\code{cv_CDpre} helps to find a range of lasso tuning parameters for the common component so as to generate sparse common component.
 #'
 #'This function search through a range of lasso tuning parameters for the common component, while keeping
 #'distinctive components fixed (- that is, the zeros in the distinctive components are fixed). This function
@@ -25,7 +25,7 @@
 #'cv.CDpre(DATA, Jk, R, CommPosition, component_structure, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
 #'@references Bro, R., Kjeldahl, K., Smilde, A. K., & Kiers, H. A. L. (2008). Cross-validation of component models: a critical look at current methods. Analytical and bioanalytical chemistry, 390(5), 1241-1251.
 #'@references Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.
-cv.CDpre <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, NRSTARTS, LassoSequence){
+cv_CDpre <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, NRSTARTS, LassoSequence){
 
   #this cross-validation function makes use of the CDpre.R.
   if(missing(LassoSequence)){
