@@ -65,7 +65,7 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
 
       for(c in 1:ncol(DATA)){
         indexc <- !is.na(DATArm[, c])
-        DATArm[, c][!indexc] <- cmean(DATArm[, c][indexc]) #missing values are replaced by column means
+        DATArm[, c][!indexc] <- mean(DATArm[, c][indexc]) #missing values are replaced by column means
       }
 
       Pout3d <- list()
@@ -86,7 +86,7 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
       ToutBest <- Tout3d[[k]]
 
       DATA_hat <- ToutBest%*%t(PoutBest)
-      error_x <- error_x + (DATArm[ToRemove] - DATA_hat[ToRemove])^2
+      error_x <- error_x + sum((DATA[ToRemove] - DATA_hat[ToRemove])^2)
 
     }
 
@@ -94,7 +94,7 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
     PRESS[l] <- error_x/nfolds
   }
 
-  pic <- plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Predicted Residual Sum of Squares')
+  pic <- plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Squre Error')
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$LassoSeqence <- LassoSequence
