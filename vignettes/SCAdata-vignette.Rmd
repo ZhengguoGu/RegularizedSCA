@@ -37,4 +37,4 @@ This situation can happen, for example, when previous research has already provi
 
 To this end, users may want to use the funciton `component_structure()` together with `CDpre()`. We would like to remind the users that the `GroupStructure` parameter in `CDpre()` can be specified in flexible ways: That is, instead of using `component_structure()` for `GroupStructure`, users can specify a matrix for `GroupStructure` themselves and this matrix simply indicates where the 0's are expected to be in the estimated $\mathbf{P}$. 
 
-`crossvali()` is a function for identifying possible range of Lasso tuning parameters for the sparse common component(s), given the distictive components are known. At this moment, little research is done on cross-validation procedures for sparse common and distinctive componets. 
+`cv_CDpre()` and `cv_CDpreKf()` are functions for identifying possible range of Lasso tuning parameters for the sparse common component(s), given the distictive components are known. At this moment, little research is done on cross-validation procedures for sparse common and distinctive componets. 
