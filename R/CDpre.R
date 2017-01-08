@@ -50,23 +50,9 @@ CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
   PIndexforGLasso[CommPosition, ] <- 0
   PIndexforGLasso[DistPosition, ] <- 1
 
-  #absP <- abs(P)
   pen1 <- LASSO*sum(abs(P[, CommPosition]))
   sqP <- P^2
   L <- 1
-  #sumpk <- array()
-  #sqrtpk <- matrix(NA, nrow = 1, ncol = length(Jk))
-  #for (i in 1:length(Jk)){
-
-    #U <- L + Jk[i] - 1
-    #sqP4Dist <- sqP
-    #sqP4Dist[ , CommPosition] <- 0
-    #sqrtsumP <- sqrt(colSums(sqP4Dist[L:U, ]))/sqrt(Jk[i])
-    #sqrtsumPDist <- sqrt(colSums(sqP4Dist[L:U, DistPosition]))/sqrt(Jk[i])
-    #sqrtpk[, i] <- matrix(1, Jk[i], 1) %*% sqrtsumP
-    #L <- U + 1
-
-  #}
 
   residual <- sum(DATA^2)
   Lossc <- residual + pen1
@@ -79,7 +65,7 @@ CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
 
     #update Tmat, note that Tmax refers to T matrix
     if (LASSO == 0){
-      SVD_DATA <- svd(DATA, R, R)  #note this is different from the matlab svds function. need to test it!!
+      SVD_DATA <- svd(DATA, R, R)
       Tmat <- SVD_DATA$u
     }
     else {
@@ -131,18 +117,7 @@ CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
     sqP <- P^2
 
     L <- 1
-    #sumpk <- array()
-   # sqrtpk <- matrix()
-    #for (i in 1:length(Jk)){
 
-     # U <- L + Jk[i] - 1
-     # sqP4Dist <- sqP
-     # sqP4Dist[ , CommPosition] <- 0
-     # sqrtsumP <- sqrt(colSums(sqP4Dist[L:U, ]))/sqrt(Jk[i])
-     # sqrtsumPDist <- sqrt(colSums(sqP4Dist[L:U, DistPosition]))/sqrt(Jk[i])
-     # sqrtpk[, i] <- matrix(1, Jk[i], 1) %*% sqrtsumP
-     # L <- U + 1
-    #}
     residual <- sum((DATA - Tmat %*% Pt)^2)
     Lossu2 <- residual + pen1
 
