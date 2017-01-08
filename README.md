@@ -26,8 +26,10 @@ Current stage of this package
   
   1.10 cv_CDpreKf.R: A k-fold cross-validation procedure for the CDpre.R algorithm (double checked on 2017-1-8)
   
-2. Import data from http://www.ebi.ac.uk/arrayexpress/experiments/E-TABM-15/ It's publicly available data. See paper Chin et al.(2006). Genomic and transcriptional aberrations linked to breast cancer
+2. Check data from http://www.ebi.ac.uk/arrayexpress/experiments/E-TABM-15/ It's publicly available data. See paper Chin et al.(2006). Genomic and transcriptional aberrations linked to breast cancer
 pathophysiologies. Cancer Cell. 10. 529-541.
+ 
+Another option is http://www.ebi.ac.uk/arrayexpress/experiments/E-GEOD-66245/?keywords=&organism=Homo+sapiens&exptype%5B%5D=&exptype%5B%5D=&array=&page=7&pagesize=25
   
 3. other things planed
 
