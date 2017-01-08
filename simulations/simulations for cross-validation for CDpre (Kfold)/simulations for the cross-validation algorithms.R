@@ -204,3 +204,5 @@ PoutBest <- PoutBest[, TuckerResults$perm]
 indSelectedC <- which(PoutBest != 0)
 indDropedC <- which(PoutBest == 0)
 Proportion <- (sum(PTrueCnew[indSelectedC] != 0) + sum(PTrueCnew[indDropedC] == 0)) / (sumJk*R)
+
+
