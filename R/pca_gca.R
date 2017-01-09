@@ -65,8 +65,10 @@ pca_gca <- function(DATA, Jk, cor_min){
   combinations <- combn(num_block,2)  #this is to generate the index for calculating correlations
 
   cc <- matrix(1, length(compScores_columnlistCopy), length(compScores_columnlistCopy))
-  diag(cc) <- 0
-  result.rgcca <- RGCCA::rgcca(compScores_columnlistCopy, cc, tau=rep(0, length(compScores_columnlistCopy)), verbose = FALSE)
+  cc <- cc - diag(length(compScores_columnlistCopy))
+
+  #ask Katrijn, this is definitely wrong. I dont understand rgcca.
+  result.rgcca <- RGCCA::rgcca(A=compScores_columnlistCopy, C=cc, tau=rep(0, length(compScores_columnlistCopy)), ncomp=rep(1, length(compScores_columnlistCopy)), verbose = FALSE)
 
   YcompScores_block <- list()
   L <- 1
