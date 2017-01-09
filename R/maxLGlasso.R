@@ -1,0 +1,85 @@
+# An algorithm for determining the max value for lasso and group lasso tuning parameters.
+maxLGlasso <- function(DATA, Jk, R){
+
+  I_Data <- dim(DATA)[1]
+  sumJk <- dim(DATA)[2]
+  eps <- 10^(-12)
+
+  LASSO = 0
+  GROUPLASSO = 0
+
+  #initialize P
+  P <- matrix(rnorm(sumJk * R), nrow = sumJk, ncol = R)
+  Pt <- t(P)
+
+
+
+  residual <- sum(DATA ^ 2)
+  pen_l = 0
+  pen_g = 0
+  Lossc <- residual + pen_l + pen_g
+
+  conv <- 0
+  iter <- 1
+  Lossvec <- array()
+
+  max_Glasso <- 0
+  max_lasso <- 0
+
+
+  #update Tmat, note that Tmax refers to T matrix
+
+  SVD_DATA <- svd(DATA, R, R)
+  Tmat <- SVD_DATA$u
+
+  #update P
+
+  L <- 1
+  for (i in 1:length(Jk)){ #iterate over groups
+
+    U <- L + Jk[i] - 1
+    Pt_1 <- Pt[ ,c(L:U)]
+    data <- DATA[ ,c(L:U)]
+
+    sum_abs_theta <- sum(abs(Pt_1))
+    if (sum_abs_theta != 0){
+        # to test whether the entire Pk should be zeros, i.e., ||Sj||2 <=1
+
+      Xk_r <- matrix(NA, R, Jk[i])
+      soft_Xkr <- matrix(NA, R, Jk[i])
+
+      for (j in 1:Jk[i]){
+        for (r in 1:R){
+          xkr <- t(Tmat[, r]) %*% data[, j]
+          Xk_r[r, j] <- xkr
+          soft_Xkr[r, j] <- sign(xkr)*max((abs(xkr) - LASSO), 0)
+        }
+      }
+
+      Vec_Xkr <- as.vector(Xk_r)
+      Vec_soft_Xkr <- as.vector(soft_Xkr)
+
+      l2_soft_Xkr <- sqrt(sum(Vec_soft_Xkr^2))
+
+      #if (l2_soft_Xkr/(Jk[i]*GROUPLASSO^2) <= 1){
+      #  Pt[ ,c(L:U)] <- 0}  Note that this tells us the max Glasso
+
+      Pt[ ,c(L:U)] <- max((l2_soft_Xkr - GROUPLASSO*sqrt(Jk[i])), 0) * soft_Xkr / l2_soft_Xkr
+
+    }
+    L <- U + 1
+
+    max_Glasso <- max(max_Glasso, sqrt(l2_soft_Xkr/Jk[i]))
+  }
+  P <- t(Pt)
+
+  max_lasso <- max(Pt)
+
+
+  return_tuning <- list()
+  return_tuning$Glasso <- max_Glasso
+  return_tuning$Lasso <- max_lasso
+  return(return_tuning)
+
+
+}

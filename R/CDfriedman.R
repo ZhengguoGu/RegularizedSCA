@@ -108,10 +108,15 @@ CDfriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
 
          l2_soft_Xkr <- sqrt(sum(Vec_soft_Xkr^2))
 
-         if (l2_soft_Xkr/(Jk[i]*GROUPLASSO^2) <= 1){
+         if (l2_soft_Xkr/(Jk[i]*GROUPLASSO^2) <= 1 & GROUPLASSO !=0 ){
            Pt[ ,c(L:U)] <- 0
          } else {
-          Pt[ ,c(L:U)] <- max((l2_soft_Xkr - GROUPLASSO*sqrt(Jk[i])), 0) * soft_Xkr / l2_soft_Xkr
+           if(l2_soft_Xkr != 0){
+             #When Lasso is large enough so that l2_soft_Xkr = 0
+             Pt[ ,c(L:U)] <- max((l2_soft_Xkr - GROUPLASSO*sqrt(Jk[i])), 0) * soft_Xkr / l2_soft_Xkr
+           }else {
+             Pt[ ,c(L:U)] <- 0
+           }
          }
         }
         L <- U + 1
