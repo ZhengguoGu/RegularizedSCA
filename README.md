@@ -20,11 +20,16 @@ Current stage of this package
   
   1.7 pca_gca.R: A function for identifying common/distinctive processes by means of PCA-GCA method. 
   
-  1.8 cv_CDpre.R: A cross-validation procedure for the CDpre.R algorithm (double checked, it doesnt not work well. Might need to be removed from the package. The cross-validation algorithm seems to be not suitable for the types of data that we are dealing with here.)
+  1.8 [deteted! this algorithm is replaced by cv_CDpreKf.R]cv_CDpre.R: A cross-validation procedure for the CDpre.R algorithm (double checked, it doesnt not work well. Might need to be removed from the package. The cross-validation algorithm seems to be not suitable for the types of data that we are dealing with here.)
   
   1.9 component_structure.R: A function for generating a structured matrix for the CDpre.R function. (double checked on 2016-12-30)
   
   1.10 cv_CDpreKf.R: A k-fold cross-validation procedure for the CDpre.R algorithm (double checked on 2017-1-8)
+  
+  1.11 maxLGlasso.R: A function for identifying the maximun value of the tuning parameters for Lasso and Group Lasso. 
+  
+  1.12 cv_CDfriedman.R: A k-fold cross-validation procedure for the CDfriedman.R algorithm
+  
   
 2. Check data from http://www.ebi.ac.uk/arrayexpress/experiments/E-TABM-15/ It's publicly available data. See paper Chin et al.(2006). Genomic and transcriptional aberrations linked to breast cancer
 pathophysiologies. Cancer Cell. 10. 529-541.
