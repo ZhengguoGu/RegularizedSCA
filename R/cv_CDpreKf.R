@@ -13,7 +13,7 @@
 #'@param component_structure A matrix specifing which elements in the component matrix should be fixed at zeros.
 #'see \code{component_structure}.
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
-#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 20.
+#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 10.
 #'@param LassoSequence The range of lasso tuning parameters. The default value is a sequence of 10 numbers from 0
 #'to the smallest Lasso tuning parameter that can make the entire common component(s) to be zeros.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
@@ -29,6 +29,11 @@
 cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, NRSTARTS, LassoSequence, nfolds){
 
   #this cross-validation function makes use of the CDpre.R.
+
+  if(missing(MaxIter)){
+    MaxIter <- 400
+  }
+
   if(missing(LassoSequence)){
 
     results <- CDpre(DATA, Jk, R, CommPosition, component_structure, 0, MaxIter)
@@ -37,12 +42,8 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
 
   }
 
-  if(missing(MaxIter)){
-    MaxIter <- 400
-  }
-
   if(missing(NRSTARTS)){
-    NRSTARTS <- 20
+    NRSTARTS <- 10
   }
 
   if(missing(nfolds)){
@@ -52,11 +53,12 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
     stop("Must be at least 2 folds")
 
   PRESS <- array()
+  sd_MSE <- array()
   percentRemove <- 1/nfolds
   randmat <- matrix(runif(nrow(DATA) * ncol(DATA)), ncol = ncol(DATA))
 
   for (l in 1:length(LassoSequence)){
-    error_x <- 0
+    error_x <- array()
 
     for (i in 1:nfolds){
       ToRemove <- ((i - 1) * percentRemove < randmat) & (randmat < i * percentRemove) # this idea is from PMA package
@@ -86,18 +88,24 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
       ToutBest <- Tout3d[[k]]
 
       DATA_hat <- ToutBest%*%t(PoutBest)
-      error_x <- error_x + sum((DATA[ToRemove] - DATA_hat[ToRemove])^2)
+      error_x[i] <- sum((DATA[ToRemove] - DATA_hat[ToRemove])^2)
 
     }
 
+    PRESS[l] <- sum(error_x)/nfolds
+    sd_MSE[l] <- sd(error_x)
 
-    PRESS[l] <- error_x/nfolds
   }
 
-  pic <- plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Squre Error')
+  y_min <- min(PRESS-sd_MSE)
+  y_max <- max(PRESS+sd_MSE)
+  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Squre Error +/- 1SD', ylim = c(y_min, y_max))
+  arrows(LassoSequence, PRESS-sd_MSE, LassoSequence, PRESS+sd_MSE, length=0.05, angle=90, code=3)
+  pic <- recordPlot()
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$LassoSeqence <- LassoSequence
   return_crossvali$plot <- pic
   return(return_crossvali)
+
 }
