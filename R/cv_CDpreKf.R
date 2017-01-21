@@ -17,11 +17,12 @@
 #'@param LassoSequence The range of lasso tuning parameters. The default value is a sequence of 10 numbers from 0
 #'to the smallest Lasso tuning parameter that can make the entire common component(s) to be zeros.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
+
 #'@return
 #'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
 #'\item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
-#'\item{plot}{A plot of PRESS against Lasso tuning parameters. }
-#'
+#'\item{plot}{A plot of mean square errors against Lasso tuning parameters.}
+#'\item{plotSD}{A plot of mean square errors +/- 1SD against Lasso tuning parameters.}
 #'@examples
 #'cv.CDpre(DATA, Jk, R, CommPosition, component_structure, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
 #'@references Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.
@@ -97,15 +98,22 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
 
   }
 
+
+
+  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error')
+  pic1 <- recordPlot()
+
   y_min <- min(PRESS-sd_MSE)
   y_max <- max(PRESS+sd_MSE)
-  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Squre Error +/- 1SD', ylim = c(y_min, y_max))
+  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SD', ylim = c(y_min, y_max))
   arrows(LassoSequence, PRESS-sd_MSE, LassoSequence, PRESS+sd_MSE, length=0.05, angle=90, code=3)
-  pic <- recordPlot()
+  pic2 <- recordPlot()
+
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$LassoSeqence <- LassoSequence
-  return_crossvali$plot <- pic
+  return_crossvali$plot <- pic1
+  return_crossvali$plotSD <- pic2
   return(return_crossvali)
 
 }
