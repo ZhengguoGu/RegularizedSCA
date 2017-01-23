@@ -36,7 +36,7 @@ pathophysiologies. Cancer Cell. 10. 529-541.
  
 Another option is http://www.ebi.ac.uk/arrayexpress/experiments/E-GEOD-66245/?keywords=&organism=Homo+sapiens&exptype%5B%5D=&exptype%5B%5D=&array=&page=7&pagesize=25
   
-3. other things ongoing/planned
+3. Other things ongoing/planned
 
   3.0 improve the code: use Vectorize() (see http://stackoverflow.com/questions/13544594/create-a-vector-function-from-a-scalar-function for a nice example).
 
