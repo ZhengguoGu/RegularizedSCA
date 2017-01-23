@@ -61,12 +61,13 @@ pca_gca <- function(DATA, Jk, cor_min){
   #----cononical correlation via rgcca
 
   canonical_cor <- RGCCA::rgcca(compScores_block, C=1-diag(length(compScores_block)), tau = rep(0, length(compScores_block)),
-                                ncomp = min(num_componentBlock), verbose = FALSE)
+                                ncomp = rep(min(num_componentBlock), length(compScores_block)), verbose = FALSE)
 
   com_comp <- sum(sqrt(canonical_cor$AVE$AVE_inner) >= cor_min)
 
   cat("The number of components in each block are:", num_componentBlock)
-  cat(sprintf("There are in total %s common components in the concatenated data.", com_comp))
+
+  cat(sprintf("\nThere are in total %s common components in the concatenated data.", com_comp))
 
   return(compScores_block)
 
