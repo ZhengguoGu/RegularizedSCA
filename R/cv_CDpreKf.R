@@ -1,22 +1,31 @@
-#'A K-fold cross-validation procedure when common/distictive processes are known.
+#'A K-fold cross-validation procedure when common/distictive processes are
+#'known.
 #'
-#'\code{cv_CDpreKf} helps to find a range of lasso tuning parameters for the common component so as to generate sparse common component.
+#'\code{cv_CDpreKf} helps to find a range of lasso tuning parameters for the
+#'common component so as to generate sparse common component.
 #'
-#'This function search through a range of lasso tuning parameters for the common component, while keeping
-#'distinctive components fixed (- that is, the zeros in the distinctive components are fixed). This function
-#'may be of help if user wants to obtain some sparsness in the common component.
+#'This function search through a range of lasso tuning parameters for the common
+#'component, while keeping distinctive components fixed (- that is, the zeros in
+#'the distinctive components are fixed). This function may be of help if user
+#'wants to obtain some sparsness in the common component.
 #'
 #'@param DATA The concatenated data block, with rows represending subjects.
-#'@param Jk A vector. Each element of this vector is the number of columns of a data block.
+#'@param Jk A vector. Each element of this vector is the number of columns of a
+#'  data block.
 #'@param R The number of components.
-#'@param CommPosition A number (vector) indicating which component(s) is the common component(s).
-#'@param component_structure A matrix specifing which elements in the component matrix should be fixed at zeros.
-#'see \code{component_structure}.
-#'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
-#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 10.
-#'@param LassoSequence The range of lasso tuning parameters. The default value is a sequence of 10 numbers from 0
-#'to the smallest Lasso tuning parameter that can make the entire common component(s) to be zeros.
-#'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
+#'@param CommPosition A number (vector) indicating which component(s) is the
+#'  common component(s).
+#'@param component_structure A matrix specifing which elements in the component
+#'  matrix should be fixed at zeros. see \code{component_structure}.
+#'@param MaxIter Maximum number of iterations for this algorithm. The default
+#'  value is 400.
+#'@param NRSTARTS The number of multistarts for this algorithm. The default
+#'  value is 10.
+#'@param LassoSequence The range of lasso tuning parameters. The default value
+#'  is a sequence of 10 numbers from 0 to the smallest Lasso tuning parameter
+#'  that can make the entire common component(s) to be zeros.
+#'@param nfolds Number of folds. If missing, then 10 fold cross-validation will
+#'  be performed.
 
 #'@return
 #'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
@@ -100,12 +109,12 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
 
 
 
-  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error')
+  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error', type = "b")
   pic1 <- recordPlot()
 
   y_min <- min(PRESS-sd_MSE)
   y_max <- max(PRESS+sd_MSE)
-  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SD', ylim = c(y_min, y_max))
+  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SD', ylim = c(y_min, y_max), type = "b")
   arrows(LassoSequence, PRESS-sd_MSE, LassoSequence, PRESS+sd_MSE, length=0.05, angle=90, code=3)
   pic2 <- recordPlot()
 
