@@ -31,7 +31,7 @@
 #'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
 #'\item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
 #'\item{plot}{A plot of mean square errors against Lasso tuning parameters.}
-#'\item{plotSD}{A plot of mean square errors +/- 1SD against Lasso tuning parameters.}
+#'\item{plotSD}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters.}
 #'@examples
 #'cv.CDpre(DATA, Jk, R, CommPosition, component_structure, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
 #'@references Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.
@@ -103,7 +103,7 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
     }
 
     PRESS[l] <- sum(error_x)/nfolds
-    sd_MSE[l] <- sd(error_x)
+    sd_MSE[l] <- sd(error_x)/sqrt(nfolds)
 
   }
 
@@ -114,7 +114,7 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
 
   y_min <- min(PRESS-sd_MSE)
   y_max <- max(PRESS+sd_MSE)
-  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SD', ylim = c(y_min, y_max), type = "b")
+  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SE', ylim = c(y_min, y_max), type = "b")
   arrows(LassoSequence, PRESS-sd_MSE, LassoSequence, PRESS+sd_MSE, length=0.05, angle=90, code=3)
   pic2 <- recordPlot()
 
