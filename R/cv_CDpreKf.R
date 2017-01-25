@@ -63,13 +63,13 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
     stop("Must be at least 2 folds")
 
   PRESS <- array()
-  sd_MSE <- array()
+  sd_MSE <- array()  #note that this is standard error (not standard deviation, although it's called sd)
   percentRemove <- 1/nfolds
   randmat <- matrix(runif(nrow(DATA) * ncol(DATA)), ncol = ncol(DATA))
 
   for (l in 1:length(LassoSequence)){
-    error_x <- array()
 
+    error_x <- array()
     for (i in 1:nfolds){
       ToRemove <- ((i - 1) * percentRemove < randmat) & (randmat < i * percentRemove) # this idea is from PMA package
       DATArm <- DATA
