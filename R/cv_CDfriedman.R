@@ -18,8 +18,8 @@
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
 #'\item{LassoSequence}{The sequence of Lasso tuning parameters used in cross-validation.}
 #'\item{GLassoSequence}{The sequence of Group Lasso tuning parameters used in cross-validation.}
-#'\item{pic1}{A plot of PRESS against Lasso and Group Lasso tuning parameters. }
-#'\item{pic2}{A plot of PRESS +/- 1SE against Lasso and Group Lasso tuning parameters. }
+#'\item{plot}{A plot of PRESS against Lasso and Group Lasso tuning parameters. }
+#'\item{plotSE}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. }
 #'
 #'@examples
 #'cv.CDpre(DATA, Jk, R, CommPosition, component_structure, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
@@ -145,8 +145,8 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   return_crossvali$PRESS <- PRESS
   return_crossvali$LassoSeqence <- LassoSequence
   return_crossvali$GLassoSeqence <- GLassoSequence
-  return_crossvali$pic1
-  return_crossvali$pic2
+  return_crossvali$plot <- pic1
+  return_crossvali$plotSE <- pic2
   return(return_crossvali)
 
 }

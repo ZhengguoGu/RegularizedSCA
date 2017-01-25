@@ -31,7 +31,7 @@
 #'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
 #'\item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
 #'\item{plot}{A plot of mean square errors against Lasso tuning parameters.}
-#'\item{plotSD}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters.}
+#'\item{plotSE}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters.}
 #'@examples
 #'cv.CDpre(DATA, Jk, R, CommPosition, component_structure, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
 #'@references Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.
@@ -122,7 +122,7 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
   return_crossvali$PRESS <- PRESS
   return_crossvali$LassoSeqence <- LassoSequence
   return_crossvali$plot <- pic1
-  return_crossvali$plotSD <- pic2
+  return_crossvali$plotSE <- pic2
   return(return_crossvali)
 
 }
