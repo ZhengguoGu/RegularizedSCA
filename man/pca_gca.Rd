@@ -15,7 +15,7 @@ pca_gca(DATA, Jk, cor_min)
 between the two component is at least .9, then these two components are regarded as forming a single common component.}
 }
 \value{
-Return a matrix indicating the common and distincive components. Please see the vignette for how to interpret this matrix.
+It prints out the number of components of each block and the number of common components. It also returns the component scores for each block for further analysis.
 }
 \description{
 Use PCA-GCA method to identify common and distictive components.
