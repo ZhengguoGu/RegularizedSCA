@@ -16,10 +16,14 @@
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
 #'@return
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
-#'\item{LassoSequence}{The sequence of Lasso tuning parameters used in cross-validation.}
-#'\item{GLassoSequence}{The sequence of Group Lasso tuning parameters used in cross-validation.}
-#'\item{plot}{A plot of PRESS against Lasso and Group Lasso tuning parameters. }
-#'\item{plotSE}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. }
+#'\item{plot}{A plot of PRESS against Lasso and Group Lasso tuning parameters. Note that on the x axis are the index numbers of
+#'Lasso and Group Lasso tuning parameters, and to find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
+#'\item{plotSE}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis are the index numbers of
+#'Lasso and Group Lasso tuning parameters, and to find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
+#'\item{Lasso_values}{The sequence of Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
+#'for Lasso is \code{6}, its corresponding Lasso tuning parameter is \code{Lasso_values[6]}.}
+#'\item{Glasso_values}{The sequence of Group Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
+#'for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}
 #'
 #'@examples
 #'cv.CDpre(DATA, Jk, R, CommPosition, component_structure, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
@@ -115,6 +119,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   vec_se <- c(se_MSE)
   #lasso_label <- rep(LassoSequence, length(GLassoSequence))
   lasso_index <- rep(1:length(LassoSequence), length(GLassoSequence))
+
   #Glasso_label <- rep(GLassoSequence, each=length(LassoSequence))
   Glasso_index <- rep(1:length(GLassoSequence), each=length(LassoSequence))
 
@@ -122,7 +127,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE)
   Lseq <- 1:length(lasso_index)
   abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
-  axis(2, round(seq(from=min(vec_PRESS), to=max(vec_PRESS), length.out = 10), digits = 3), las=1)
+  axis(2, round(seq(from=min(vec_PRESS), to=max(vec_PRESS), length.out = 10), digits = 2), las=1)
   axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
   mtext("Lasso",1,line=0,at=-1)
   axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
@@ -134,7 +139,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE, xaxt='n', yaxt="n")
   abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
   arrows(1:length(lasso_index), vec_PRESS-vec_se, 1:length(lasso_index), vec_PRESS+vec_se, length=0.05, angle=90, code=3)
-  axis(2, round(seq(from=y_min, to=y_max, length.out = 10), digits = 3), las=1)
+  axis(2, round(seq(from=y_min, to=y_max, length.out = 10), digits = 2), las=1)
   axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
   mtext("Lasso",1,line=0,at=-1)
   axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
@@ -143,10 +148,10 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
 
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
-  return_crossvali$LassoSeqence <- LassoSequence
-  return_crossvali$GLassoSeqence <- GLassoSequence
   return_crossvali$plot <- pic1
   return_crossvali$plotSE <- pic2
+  return_crossvali$Lasso_values <- LassoSequence
+  return_crossvali$Glasso_values <- GLassoSequence
   return(return_crossvali)
 
 }
