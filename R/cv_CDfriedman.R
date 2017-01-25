@@ -8,7 +8,7 @@
 #'@param Jk A vector. Each element of this vector is the number of columns of a data block.
 #'@param R The number of components.
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
-#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 20.
+#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 5.
 #'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.001
 #'to the smallest Lasso tuning parameter that can make all the components to be zeros.
 #'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.001
@@ -18,7 +18,8 @@
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
 #'\item{LassoSequence}{The sequence of Lasso tuning parameters used in cross-validation.}
 #'\item{GLassoSequence}{The sequence of Group Lasso tuning parameters used in cross-validation.}
-#'\item{plot}{A plot of PRESS against Lasso and Group Lasso tuning parameters. }
+#'\item{pic1}{A plot of PRESS against Lasso and Group Lasso tuning parameters. }
+#'\item{pic2}{A plot of PRESS +/- 1SE against Lasso and Group Lasso tuning parameters. }
 #'
 #'@examples
 #'cv.CDpre(DATA, Jk, R, CommPosition, component_structure, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
@@ -49,7 +50,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   }
 
   if(missing(NRSTARTS)){
-    NRSTARTS <- 20
+    NRSTARTS <- 5
   }
 
   if(missing(nfolds)){
@@ -59,16 +60,19 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
     stop("Must be at least 2 folds")
 
   PRESS <- matrix(0, length(LassoSequence), length(GLassoSequence))
+  se_MSE <- matrix(0, length(LassoSequence), length(GLassoSequence))
   percentRemove <- 1/nfolds
   randmat <- matrix(runif(nrow(DATA) * ncol(DATA)), ncol = ncol(DATA))
 
   for (g in 1: length(GLassoSequence)){
+
     for (l in 1:length(LassoSequence)){
 
-      print(g)
-      print(l)
-      error_x <- 0
+      cat(sprintf("\nThe cross-validation procedure might take while to finish. Please be patient."))
+      cat(sprintf("\nGroup Lasso: %s", GLassoSequence[g]))
+      cat(sprintf("\nLasso: %s", LassoSequence[l]))
 
+      error_x <- array()
       for (i in 1:nfolds){
         ToRemove <- ((i - 1) * percentRemove < randmat) & (randmat < i * percentRemove) # this idea is from PMA package
         DATArm <- DATA
@@ -97,20 +101,52 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
         ToutBest <- Tout3d[[k]]
 
         DATA_hat <- ToutBest%*%t(PoutBest)
-        error_x <- error_x + sum((DATA[ToRemove] - DATA_hat[ToRemove])^2)
+        error_x[i] <- sum((DATA[ToRemove] - DATA_hat[ToRemove])^2)
 
       }
 
 
-      PRESS[l,g] <- error_x/nfolds
+      PRESS[l,g] <- sum(error_x)/nfolds
+      se_MSE[l,g] <- sd(error_x)/sqrt(nfolds)
     }
   }
 
+  vec_PRESS <- c(PRESS)
+  vec_se <- c(se_MSE)
+  #lasso_label <- rep(LassoSequence, length(GLassoSequence))
+  lasso_index <- rep(1:length(LassoSequence), length(GLassoSequence))
+  #Glasso_label <- rep(GLassoSequence, each=length(LassoSequence))
+  Glasso_index <- rep(1:length(GLassoSequence), each=length(LassoSequence))
+
+
+  plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE)
+  Lseq <- 1:length(lasso_index)
+  abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
+  axis(2, round(seq(from=min(vec_PRESS), to=max(vec_PRESS), length.out = 10), digits = 3), las=1)
+  axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
+  mtext("Lasso",1,line=0,at=-1)
+  axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
+  mtext("G-Lasso",1,line=2,at=-1)
+  pic1 <- recordPlot()
+
+  y_min <- min(vec_PRESS-vec_se)
+  y_max <- max(vec_PRESS+vec_se)
+  plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE, xaxt='n', yaxt="n")
+  abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
+  arrows(1:length(lasso_index), vec_PRESS-vec_se, 1:length(lasso_index), vec_PRESS+vec_se, length=0.05, angle=90, code=3)
+  axis(2, round(seq(from=y_min, to=y_max, length.out = 10), digits = 3), las=1)
+  axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
+  mtext("Lasso",1,line=0,at=-1)
+  axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
+  mtext("G-Lasso",1,line=2,at=-1)
+  pic2 <- recordPlot()
 
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$LassoSeqence <- LassoSequence
   return_crossvali$GLassoSeqence <- GLassoSequence
+  return_crossvali$pic1
+  return_crossvali$pic2
   return(return_crossvali)
 
 }
