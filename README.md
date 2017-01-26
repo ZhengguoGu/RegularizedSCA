@@ -38,10 +38,12 @@ Another option is http://www.ebi.ac.uk/arrayexpress/experiments/E-GEOD-66245/?ke
   
 3. Other things ongoing/planned
 
-  3.0 improve the code: use Vectorize() (see http://stackoverflow.com/questions/13544594/create-a-vector-function-from-a-scalar-function for a nice example).
+  3.0 improve the code: use Vectorize() (see http://stackoverflow.com/questions/13544594/create-a-vector-function-from-a-scalar-function for a nice example) and foreach 
 
   3.1 [ongoing] test functions systematically. Although all the functions have been tested once they are finished. But they have not been tested systematically and rigoriously with multiple blocks and varying numbers of components
   
   3.2 [ongoing] refine the code and reducing the running time, if possible
+  
+  3.3 improve model selection procedures. It is known that cross-validation focuses too much on fit and thus more variables in P matrix are selected (than necessary?). 
   
   
