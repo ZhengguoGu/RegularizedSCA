@@ -30,13 +30,7 @@ Current stage of this package
   
   1.12 cv_CDfriedman.R: A k-fold cross-validation procedure for the CDfriedman.R algorithm
   
-  
-2. Check data from http://www.ebi.ac.uk/arrayexpress/experiments/E-TABM-15/ It's publicly available data. See paper Chin et al.(2006). Genomic and transcriptional aberrations linked to breast cancer
-pathophysiologies. Cancer Cell. 10. 529-541.
- 
-Another option is http://www.ebi.ac.uk/arrayexpress/experiments/E-GEOD-66245/?keywords=&organism=Homo+sapiens&exptype%5B%5D=&exptype%5B%5D=&array=&page=7&pagesize=25
-  
-3. Other things ongoing/planned
+  2. Other things ongoing/planned
 
   3.0 improve the code: use Vectorize() (see http://stackoverflow.com/questions/13544594/create-a-vector-function-from-a-scalar-function for a nice example) and foreach 
 
