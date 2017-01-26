@@ -30,11 +30,11 @@ Current stage of this package
   
   1.12 cv_CDfriedman.R: A k-fold cross-validation procedure for the CDfriedman.R algorithm
   
-  2. Other things ongoing/planned
+2. Other things ongoing/planned
 
-  3.0 improve the code: use Vectorize() (see http://stackoverflow.com/questions/13544594/create-a-vector-function-from-a-scalar-function for a nice example) and foreach 
+  2.0 improve the code: use Vectorize() (see http://stackoverflow.com/questions/13544594/create-a-vector-function-from-a-scalar-function for a nice example) and foreach 
 
-  3.1 [ongoing] test functions systematically. Although all the functions have been tested once they are finished. But they have not been tested systematically and rigoriously with multiple blocks and varying numbers of components
+  2.1 [ongoing] test functions systematically. Although all the functions have been tested once they are finished. But they have not been tested systematically and rigoriously with multiple blocks and varying numbers of components
   
   3.2 [ongoing] refine the code and reducing the running time, if possible
   
