@@ -11,7 +11,7 @@ vignette: >
 ---
 ## Introduction
 
-This R package is a collection of functions for performing multi-block data integration. Specifically, the functions in this package deal with concatenated data blocks that share the same rows. For example, genomic data, denoted $\mathbf{X}_{I \times J}$, and behavioral data, $\mathbf{X}_{I \times K}$, with respect to the same persons can be concatenated $\mathbf{X}_C=[\mathbf{X}_{I \times J}\; \mathbf{X}_{I \times K}]$, and thus be jointly analyzed. 
+This R package is a collection of functions for performing multi-block data integration. Specifically, the functions in this package deal with concatenated data blocks that share the same rows (e.g. subjects). For example, genomic data, denoted $\mathbf{X}_{I \times J}$, and behavioral data, $\mathbf{X}_{I \times K}$, with respect to the same persons can be concatenated $\mathbf{X}_C=[\mathbf{X}_{I \times J}\; \mathbf{X}_{I \times K}]$, and thus be jointly analyzed. 
 
 Notice that the common and distinctive processes (also refered to as common and distinctive components) are with respect to the estimated component loading matrix $\mathbf{P}$. As for the technical details, we refer to:
 
@@ -26,15 +26,21 @@ Van Deun, K., Smilde, A.K., van der Werf, M.J., Kiers, H.A.L, & Mechelen, I.V. (
 ### Situation 1: No prior information on common and distinctive components
 When no prior information is available, users may first try the function `VAF()` with various numbers of components. This function provides an overview of proportions of variance accounted for (VAF) for each component in each block. 
 
-`DISCOsca()` is a better option when the number of data blocks and that of components are small, as this function tries all possible combinations of common and distinctive patterns in $\mathbf{P}$ matrix. Note that this algorithm utilizes a specific rule in determining common and distinctive processes: To put it simply, for each component across the entire data blocks, the algorithm calculates the distance among the sum of squares of the loadings per block (weighted by total variace of the block) to determine whether it is a common/distictive component. Thus, this rule may not work well when common components have certain level of sparsity. 
+`DISCOsca()` is a better option when the number of data blocks and that of components are small, as this function tries all possible combinations of common and distinctive patterns in $\mathbf{P}$ matrix. Note that this algorithm utilizes a specific rule to determine common and distinctive processes: To put it simply, for each component across the entire data blocks, the algorithm calculates the distance among the sum of squares of the loadings per block (weighted by total variace of the block) to determine whether it is a common/distictive component. Thus, this rule may not work well when common components are also very sparse. 
 
-`pca_gca()` identify common and distinctive components in a two stage procedure: First perform principle component analysis on each data block, and then perform a canonical correlation analysis on the component loadings across all the data blocks. 
+`pca_gca()` identify common and distinctive components in a two stage procedure: First perform principle component analysis on each data block, and then perform a canonical correlation analysis on the component loadings across all the data blocks. In case of more than 2 data blocks, users may need to repeatly apply the function to see, for example, whether some of the blocks share common components.
 
-`CDfriedman()` is an algorithm based on regularization method. It can itentify common and distinctive components as long as the proper tuning parameters for Lasso and Group Lasso are chosen. Note that this algorithm uses a MM procedure, meaning that the estimation takes some time to converge. 
+`CDfriedman()` is an algorithm based on regularization method. It can itentify common and distinctive components as long as the proper tuning parameters for Lasso and Group Lasso are chosen. Note that this algorithm uses a MM procedure, meaning that the estimation takes some time to converge. Uers may use `cv_CDfriedman()` to find suitable values for the Lasso and Group Lasso tuning parameters. `maxLGlasso()` helps to identy the max values for the Lasso and Group Lasso tuning parameters. 
 
 ### Situation 2: Prior information on common and distinctive components is avaiable
 This situation can happen, for example, when previous research has already provided some information on the common/distictive processes. In this case, researchers may want to specify a particular structure in the estimated $\mathbf{P}$ matrix; in other words, some elements in $\mathbf{P}$ are fixed to 0's. 
 
-To this end, users may want to use the funciton `component_structure()` together with `CDpre()`. We would like to remind the users that the `GroupStructure` parameter in `CDpre()` can be specified in flexible ways: That is, instead of using `component_structure()` for `GroupStructure`, users can specify a matrix for `GroupStructure` themselves and this matrix simply indicates where the 0's are expected to be in the estimated $\mathbf{P}$. 
+To this end, users may want to use the funciton `component_structure()` together with `CDpre()`. We would like to remind the users that the `GroupStructure` parameter in `CDpre()` can be specified in flexible ways: That is, instead of using `component_structure()` for `GroupStructure`, users can specify a matrix for `GroupStructure()` themselves and this matrix simply indicates where the 0's are expected to be in the estimated $\mathbf{P}$. 
 
-`cv_CDpre()` and `cv_CDpreKf()` are functions for identifying possible range of Lasso tuning parameters for the sparse common component(s), given the distictive components are known. At this moment, little research is done on cross-validation procedures for sparse common and distinctive componets. 
+`cv_CDpreKf()` are functions for identifying possible range of Lasso tuning parameters for the sparse common component(s), given the distictive components are known. Note that, at this moment, little research is done on cross-validation procedures for sparse common and distinctive componets. 
+
+### An example
+Here we use the dataset `RnaDna` included in this pacakge to illustrate how the functions are used. 
+```{r}
+attach(RnaDna)
+```
