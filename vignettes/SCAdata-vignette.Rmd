@@ -40,7 +40,19 @@ To this end, users may want to use the funciton `component_structure()` together
 `cv_CDpreKf()` are functions for identifying possible range of Lasso tuning parameters for the sparse common component(s), given the distictive components are known. Note that, at this moment, little research is done on cross-validation procedures for sparse common and distinctive componets. 
 
 ### An example
-Here we use the dataset `RnaDna` included in this pacakge to illustrate how the functions are used. 
+Here we use the dataset `RnaDna` included in this pacakge to illustrate how the functions are used. Here we will perform a joint analysis on the DNA data and RNA data. Notice that the both datasets have the same subjects (44 rows).
 ```{r}
-attach(RnaDna)
+data("RnaDna")
+DNA_data <- RnaDna[[1]]
+dim(DNA_data)
+sum(is.na(DNA_data))  # thus, there is no missing data
+RNA_data <- RnaDna[[2]]
+dim(RNA_data)
+sum(is.na(RNA_data))  # thus, there is no missing data
+```
+## Data pre-processing
+DNA data and RNA data need to be pre-processed.
+```{r}
+DNA_stand <- mySTD(DNA_data)
+RNA_stand <- mySTD(RNA_data)
 ```
