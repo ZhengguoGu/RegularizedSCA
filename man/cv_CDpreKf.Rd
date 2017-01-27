@@ -52,7 +52,18 @@ the distinctive components are fixed). This function may be of help if user
 wants to obtain some sparsness in the common component.
 }
 \examples{
-cv.CDpre(DATA, Jk, R, CommPosition, component_structure, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
+\dontrun{
+DATA1 <- matrix(rnorm(50), nrow=5)
+DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are with respect to the same 5 subjects here.
+DATA <- cbind(DATA1, DATA2)
+Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
+R <- 4 # assume we want to have 4 components in P matrix.
+CommPosition <- 1 # assume that we know the first column in concatenated P matrix is the common component.
+com_str <- component_structure(Jk, R, target) # we can either use the function component_structure() or to specify by ourselves
+                                                    # here we use the component_structure() function.
+cv_CDpreKf(DATA, Jk, R, CommPosition, component_structure=com_str, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
+# note that since we do now specify nfolds in cv_CDpreKf(), nfolds is set to be 10.
+}
 }
 \references{
 Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.

@@ -9,10 +9,14 @@
 #' @return It prints out the number of components of each block and the number of common components. It also returns the component scores for each block for further analysis.
 
 #' @examples
-#' DATA <- c(DATA1, DATA2)
-#' Jk <- c(ncol(DATA1), ncol(DATA1))
+#' \dontrun{
+#' DATA1 <- matrix(rnorm(50), nrow=5)
+#' DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are with respect to the same 5 subjects here.
+#' DATA <- cbind(DATA1, DATA2)
+#' R <- 5
+#' Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 #' pca_gca(DATA, Jk, cor_min = .8)
-#'
+#' }
 #' @references Tenenhaus, A., & Tenenhaus, M. (2011). Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284
 #' @note
 #' Please be ware of the interactive input: The function first performs PCA on each data block and then displays the eigenvalues (and a scree plot).

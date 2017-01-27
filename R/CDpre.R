@@ -22,8 +22,20 @@
 #'\item{Loss}{The loss in the final iteration.}
 #'
 #'@examples
+#'\dontrun{
+#'DATA1 <- matrix(rnorm(50), nrow=5)
+#'DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are with respect to the same 5 subjects here.
+#'DATA <- cbind(DATA1, DATA2)
+#'Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
+#'R <- 5 # assume that for some reason, we want to have 5 components in the concatenated P matrix.
+#'CommPosition <- 1 # assume that we know the first column in concatenated P matrix is the common component.
+#'GroupStructure <- component_structure(Jk, R, target) # we can either use the function component_structure() or to specify by ourselves
+#'                                                     # here we use the component_structure() function.
+#'LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value. Note that the Lasso here is with respect to the common component.
+#'             # the result will be a sparse common component.
+#'MaxIter <- 400
 #'CDpre(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter)
-#'
+#'}
 #'@references
 #'Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.
 
