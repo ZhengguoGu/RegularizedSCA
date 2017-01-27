@@ -66,7 +66,30 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   PRESS <- matrix(0, length(LassoSequence), length(GLassoSequence))
   se_MSE <- matrix(0, length(LassoSequence), length(GLassoSequence))
   percentRemove <- 1/nfolds
-  randmat <- matrix(runif(nrow(DATA) * ncol(DATA)), ncol = ncol(DATA))
+
+  ii <- 0
+  while(ii != 1){ #this procedure is to make sure that the training sample do not have an entire row/column of NA's
+
+    randmat <- matrix(runif(nrow(DATA) * ncol(DATA)), ncol = ncol(DATA))
+    jj <- 0
+    for (i in 1:nfolds){
+      ToRemove <- ((i - 1) * percentRemove < randmat) & (randmat < i * percentRemove) # this idea is from PMA package
+      DATArm <- DATA
+      DATArm[ToRemove] <- NA
+
+      if(ncol(DATArm) %in% rowSums(is.na(DATArm))){
+        break
+      } else if(nrow(DATArm) %in% colSums(is.na(DATArm))){
+        break
+      }else{
+        jj <- jj+1
+      }
+    }
+
+    if(jj == nfolds){
+      ii <- 1
+    }
+  }
 
   for (g in 1: length(GLassoSequence)){
 
