@@ -1,4 +1,26 @@
-# An algorithm for determining the max value for lasso and group lasso tuning parameters.
+#' An algorithm for determining the maximum value for Lasso and Group Lasso tuning parameters that are worthy of considering.
+#'
+#' \code{maxLGlasso} identify the minimum value for Lasso and Group Lasso tuning parameters that
+#' lead to an estimated P matrix with all of its elements equal 0. This minimum value is thus the maximum value (the boundary) that users
+#' should consider for Lasso and Group Lasso.
+#'
+#' @param DATA The concatenated data block, with rows represending subjects
+#' @param Jk A vector. Each element of this vector is the number of columns of a data block.
+#' @param R The number of components.
+#'
+#' @return
+#' \item{Glasso}{The maximum value for Group Lasso tuning parameter.}
+#' \item{Lasso}{The maximum value for Lasso tunign parameter.}
+#'
+#' @examples
+#' DATA1 <- matrix(rnorm(50), nrow=5)
+#' DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are with respect to the same 5 subjects here.
+#' DATA <- cbind(DATA1, DATA2)
+#' Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
+#' results <- maxLGlasso(DATA, Jk, R=5)
+#' maxGLasso <- results$Glasso
+#' maxLasso <- results$Lasso
+#'@export
 maxLGlasso <- function(DATA, Jk, R){
 
   I_Data <- dim(DATA)[1]

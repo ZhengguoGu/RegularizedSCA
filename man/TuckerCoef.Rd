@@ -12,12 +12,16 @@ TuckerCoef(MatrixA, MatrixB)
 \item{MatrixB}{A matrix, which is to be compared to MatrixA}
 }
 \value{
-Return the permutation order, the Tucker coefficient, and the Tucker vector
+\item{perm}{the permutation order.}
+\item{tucker_value}{the Tucker coefficient.}
+\item{tucker_vector}{the Tucker vector.}
 }
 \description{
-Calculate Tucker's coefficient of congruence between columns but after accounting for permutational freedom and reflections
+\code{TuckerCoef} calculate Tucker's coefficient of congruence between columns but after accounting for permutational freedom and reflections
 }
 \examples{
-TuckerCoef(X, Y)
+maxtrix1 <- matrix(rnorm(50), nrow=5)
+maxtrix2 <- matrix(rnorm(50), nrow=5)
+TuckerCoef(maxtrix1, maxtrix2)
 }
 

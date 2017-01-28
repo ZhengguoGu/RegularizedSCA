@@ -25,7 +25,7 @@
 #'}
 #' @references
 #' Schouteden, M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Performing DISCO-SCA to search for distinctive and common information in linked data. Behavior research methods, 46(2), 576-587.
-
+#'@export
 
 DISCOsca <- function(DATA, R, Jk){
 

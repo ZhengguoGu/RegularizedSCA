@@ -21,6 +21,7 @@
 #' @note
 #' Please be ware of the interactive input: The function first performs PCA on each data block and then displays the eigenvalues (and a scree plot).
 #' Afterwards the function awaits the input from the user - it needs to know how many components need to be retained for that block.
+#'@export
 pca_gca <- function(DATA, Jk, cor_min){
   #see Mage, Naes, Hankemeier, & Bro, 2016
 

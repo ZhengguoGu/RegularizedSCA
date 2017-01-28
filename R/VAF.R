@@ -23,7 +23,7 @@
 #' Schouteden, M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Performing DISCO-SCA to search for distinctive and common information in linked data. Behavior research methods, 46(2), 576-587.
 #' @references
 #' Schouteden, M., Van Deun, K., Pattyn, S., & Van Mechelen, I. (2013). SCA with rotation to distinguish common and distinctive information in linked data. Behavior research methods, 45(3), 822-833.
-
+#'@export
 VAF <- function(DATA, Jk, R){
 
   SVD_DATA <- svd(DATA, R, R)

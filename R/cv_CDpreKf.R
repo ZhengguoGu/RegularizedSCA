@@ -26,7 +26,6 @@
 #'  that can make the entire common component(s) to be zeros.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will
 #'  be performed.
-
 #'@return
 #'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
 #'\item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
@@ -47,6 +46,7 @@
 #'}
 #'@references Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.
 #'@references Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, \emph{158}, 187-199.
+#'@export
 cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, NRSTARTS, LassoSequence, nfolds){
 
   #this cross-validation function makes use of the CDpre.R.
