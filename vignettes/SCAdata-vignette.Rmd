@@ -1,5 +1,5 @@
 ---
-title: "SCAdata - an R package for multi-block data integration with sparsity"
+title: "RSCA - an R package for regularized simultaneous component based data integration"
 author: "Zhengguo Gu and Katrijn Van Deun"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette

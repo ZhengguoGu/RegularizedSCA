@@ -1,6 +1,4 @@
-
-
-# SCAdata
+#RSCA - regularized SCA 
 
 Current stage of this package
 
