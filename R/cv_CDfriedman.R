@@ -175,6 +175,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   mtext("Lasso",1,line=0,at=-1)
   axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
   mtext("G-Lasso",1,line=2,at=-1)
+  abline(h=y_min[which(vec_PRESS==min(vec_PRESS))], lty=2)
   pic2 <- recordPlot()
 
   return_crossvali <- list()
