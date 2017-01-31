@@ -167,9 +167,10 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
 
   y_min <- min(vec_PRESS-vec_se)
   y_max <- max(vec_PRESS+vec_se)
+  vec_PRESSmax <- vec_PRESS+vec_se
   plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE, xaxt='n', yaxt="n", ylim = c(y_min, y_max))
   abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
-  abline(h=y_max[which(vec_PRESS==min(vec_PRESS))], lty=2)
+  abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
   arrows(1:length(lasso_index), vec_PRESS-vec_se, 1:length(lasso_index), vec_PRESS+vec_se, length=0.05, angle=90, code=3)
   axis(2, round(seq(from=y_min, to=y_max, length.out = 10), digits = 2), las=1)
   axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
