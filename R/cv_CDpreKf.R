@@ -125,8 +125,10 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
 
   y_min <- min(PRESS-sd_MSE)
   y_max <- max(PRESS+sd_MSE)
+  vec_PRESSmax <- vec_PRESS+vec_se
   plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SE', ylim = c(y_min, y_max), type = "b")
   arrows(LassoSequence, PRESS-sd_MSE, LassoSequence, PRESS+sd_MSE, length=0.05, angle=90, code=3)
+  abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
   pic2 <- recordPlot()
 
   return_crossvali <- list()
