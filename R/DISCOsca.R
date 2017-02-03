@@ -29,8 +29,6 @@
 
 DISCOsca <- function(DATA, R, Jk){
 
-
-
   num_block <- length(Jk)
 
   pre_results <- svd(DATA, R, R)
@@ -82,7 +80,8 @@ DISCOsca <- function(DATA, R, Jk){
 
       posit_indicator <- matrix(0, num_block, R)
       posit_indicator[combinations[,j]] <- 1
-
+      cat(sprintf("Now checking the following component structure:\n"))
+      print(posit_indicator)
       if (min(rowSums(posit_indicator))!=0 & min(colSums(posit_indicator))!=0){
         # if function is to remove cases where an entire column/block is 0
 
@@ -105,7 +104,7 @@ DISCOsca <- function(DATA, R, Jk){
 
         maxiter <- 5000;
         convergence <- 0.000000001;
-        nrstarts <- 5  #pre=5
+        nrstarts <- 2  #default was 5 in fact, but its too slow. 
 
         LOSS <- array()
         BMAT <- list()
