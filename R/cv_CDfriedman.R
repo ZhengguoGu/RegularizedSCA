@@ -148,37 +148,63 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
 
   vec_PRESS <- c(PRESS)
   vec_se <- c(se_MSE)
-  #lasso_label <- rep(LassoSequence, length(GLassoSequence))
+  
   lasso_index <- rep(1:length(LassoSequence), length(GLassoSequence))
-
-  #Glasso_label <- rep(GLassoSequence, each=length(LassoSequence))
   Glasso_index <- rep(1:length(GLassoSequence), each=length(LassoSequence))
 
+  if (length(lasso_index)>=2 & length(Glasso_index)>=2){
 
-  plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE)
-  Lseq <- 1:length(lasso_index)
-  abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
-  axis(2, round(seq(from=min(vec_PRESS), to=max(vec_PRESS), length.out = 10), digits = 2), las=1)
-  axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
-  mtext("Lasso",1,line=0,at=-1)
-  axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
-  mtext("G-Lasso",1,line=2,at=-1)
-  pic1 <- recordPlot()
+    plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE)
+    Lseq <- 1:length(lasso_index)
+    abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
+    axis(2, round(seq(from=min(vec_PRESS), to=max(vec_PRESS), length.out = 10), digits = 2), las=1)
+    axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
+    mtext("Lasso",1,line=0,at=-1)
+    axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
+    mtext("G-Lasso",1,line=2,at=-1)
+    pic1 <- recordPlot()
 
-  y_min <- min(vec_PRESS-vec_se)
-  y_max <- max(vec_PRESS+vec_se)
-  vec_PRESSmax <- vec_PRESS+vec_se
-  plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE, xaxt='n', yaxt="n", ylim = c(y_min, y_max))
-  abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
-  abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
-  arrows(1:length(lasso_index), vec_PRESS-vec_se, 1:length(lasso_index), vec_PRESS+vec_se, length=0.05, angle=90, code=3)
-  axis(2, round(seq(from=y_min, to=y_max, length.out = 10), digits = 2), las=1)
-  axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
-  mtext("Lasso",1,line=0,at=-1)
-  axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
-  mtext("G-Lasso",1,line=2,at=-1)
-  abline(h=y_min[which(vec_PRESS==min(vec_PRESS))], lty=2)
-  pic2 <- recordPlot()
+    y_min <- min(vec_PRESS-vec_se)
+    y_max <- max(vec_PRESS+vec_se)
+    vec_PRESSmax <- vec_PRESS+vec_se
+    plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE, xaxt='n', yaxt="n", ylim = c(y_min, y_max))
+    abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
+    abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
+    arrows(1:length(lasso_index), vec_PRESS-vec_se, 1:length(lasso_index), vec_PRESS+vec_se, length=0.05, angle=90, code=3)
+    axis(2, round(seq(from=y_min, to=y_max, length.out = 10), digits = 2), las=1)
+    axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
+    mtext("Lasso",1,line=0,at=-1)
+    axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
+    mtext("G-Lasso",1,line=2,at=-1)
+    abline(h=y_min[which(vec_PRESS==min(vec_PRESS))], lty=2)
+    pic2 <- recordPlot()
+  } if(length(lasso_index)>=2 & length(Glasso_index)==1){
+    
+    plot(LassoSequence, vec_PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error', type = "b")
+    pic1 <- recordPlot()
+    
+    y_min <- min(vec_PRESS-vec_se)
+    y_max <- max(vec_PRESS+vec_se)
+    vec_PRESSmax <- vec_PRESS+vec_se
+    plot(LassoSequence, vec_PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SE', ylim = c(y_min, y_max), type = "b")
+    arrows(LassoSequence, vec_PRESS-vec_se, LassoSequence, vec_PRESS+vec_se, length=0.05, angle=90, code=3)
+    abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
+    pic2 <- recordPlot()
+    
+  } if(length(lasso_index)==1 & length(Glasso_index)>= 2){
+    
+    plot(GLassoSequence, vec_PRESS, xlab = 'Group Lasso tuning parameter', ylab = 'Mean Square Error', type = "b")
+    pic1 <- recordPlot()
+    
+    y_min <- min(vec_PRESS-vec_se)
+    y_max <- max(vec_PRESS+vec_se)
+    vec_PRESSmax <- vec_PRESS+vec_se
+    plot(GLassoSequence, vec_PRESS, xlab = 'Group Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SE', ylim = c(y_min, y_max), type = "b")
+    arrows(GLassoSequence, vec_PRESS-vec_se, GLassoSequence, vec_PRESS+vec_se, length=0.05, angle=90, code=3)
+    abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
+    pic2 <- recordPlot()
+    
+  }
 
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
