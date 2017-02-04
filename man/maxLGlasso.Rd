@@ -22,6 +22,10 @@ maxLGlasso(DATA, Jk, R)
 lead to an estimated P matrix with all of its elements equal 0. This minimum value is thus the maximum value (the boundary) that users
 should consider for Lasso and Group Lasso.
 }
+\note{
+The description of how to obtain the maximum value for Lasso tuning parameter can be found in page 17 of Hastie, Tibshirani, and Wainwright (2015). We are not aware of 
+any literature that mentions how to obtain the maximum value for Group Lasso, but this value can easily be derived from the algorithm.
+}
 \examples{
 DATA1 <- matrix(rnorm(50), nrow=5)
 DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are with respect to the same 5 subjects here.
@@ -30,5 +34,9 @@ Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 results <- maxLGlasso(DATA, Jk, R=5)
 maxGLasso <- results$Glasso
 maxLasso <- results$Lasso
+
+}
+\references{
+Hastie, T., Tibshirani, R., & Wainwright, M. (2015). \emph{Statistical learning with sparsity}. CRC press.
 }
 

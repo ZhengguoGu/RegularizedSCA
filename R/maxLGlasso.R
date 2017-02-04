@@ -20,6 +20,11 @@
 #' results <- maxLGlasso(DATA, Jk, R=5)
 #' maxGLasso <- results$Glasso
 #' maxLasso <- results$Lasso
+#' 
+#' @references 
+#' Hastie, T., Tibshirani, R., & Wainwright, M. (2015). \emph{Statistical learning with sparsity}. CRC press.
+#' @note The description of how to obtain the maximum value for Lasso tuning parameter can be found in page 17 of Hastie, Tibshirani, and Wainwright (2015). We are not aware of 
+#' any literature that mentions how to obtain the maximum value for Group Lasso, but this value can easily be derived from the algorithm. 
 #'@export
 maxLGlasso <- function(DATA, Jk, R){
 
