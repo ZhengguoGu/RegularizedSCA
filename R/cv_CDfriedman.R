@@ -152,7 +152,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   lasso_index <- rep(1:length(LassoSequence), length(GLassoSequence))
   Glasso_index <- rep(1:length(GLassoSequence), each=length(LassoSequence))
 
-  if (length(lasso_index)>=2 & length(Glasso_index)>=2){
+  if (length(LassoSequence)>=2 & length(GLassoSequence)>=2){
 
     plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE)
     Lseq <- 1:length(lasso_index)
@@ -178,7 +178,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
     mtext("G-Lasso",1,line=2,at=-1)
     abline(h=y_min[which(vec_PRESS==min(vec_PRESS))], lty=2)
     pic2 <- recordPlot()
-  } else if(length(lasso_index)>=2 & length(Glasso_index)==1){
+  } else if(length(LassoSequence)>=2 & length(GLassoSequence)==1){
     
     plot(LassoSequence, vec_PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error', type = "b")
     pic1 <- recordPlot()
@@ -191,7 +191,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
     abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
     pic2 <- recordPlot()
     
-  } else if(length(lasso_index)==1 & length(Glasso_index)>= 2){
+  } else if(length(LassoSequence)==1 & length(GLassoSequence)>= 2){
     
     plot(GLassoSequence, vec_PRESS, xlab = 'Group Lasso tuning parameter', ylab = 'Mean Square Error', type = "b")
     pic1 <- recordPlot()
