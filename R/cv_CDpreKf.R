@@ -29,8 +29,8 @@
 #'@return
 #'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
 #'\item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
-#'\item{plot}{A plot of mean square errors against Lasso tuning parameters.}
-#'\item{plotSE}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters.}
+#'\item{plot}{A plot of mean square errors against Lasso tuning parameters (on log scale).}
+#'\item{plotSE}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters (on log scale).}
 #'@examples
 #'\dontrun{
 #'DATA1 <- matrix(rnorm(50), nrow=5)
@@ -120,17 +120,17 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
 
 
 
-  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error', type = "b")
-  points(LassoSequence, PRESS,  col='red', pch=16)
+  plot(log(LassoSequence), PRESS, xlab = 'Lasso tuning parameter (log scale)', ylab = 'Mean Square Error', type = "b")
+  points(log(LassoSequence), PRESS,  col='red', pch=16)
   pic1 <- recordPlot()
 
   y_min <- min(PRESS-sd_MSE)
   y_max <- max(PRESS+sd_MSE)
   vec_PRESSmax <- PRESS+sd_MSE
-  plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SE', ylim = c(y_min, y_max), type = "b")
-  points(LassoSequence, PRESS,  col='red', pch=16)
-  arrows(LassoSequence, PRESS-sd_MSE, LassoSequence, PRESS+sd_MSE, length=0.05, angle=90, code=3, col="gray")
-  points(LassoSequence, PRESS,  col='red', pch=16)
+  plot(log(LassoSequence), PRESS, xlab = 'Lasso tuning parameter (log scale)', ylab = 'Mean Square Error +/- 1SE', ylim = c(y_min, y_max), type = "b")
+  points(log(LassoSequence), PRESS,  col='red', pch=16)
+  arrows(log(LassoSequence), PRESS-sd_MSE, log(LassoSequence), PRESS+sd_MSE, length=0.05, angle=90, code=3, col="gray")
+  points(log(LassoSequence), PRESS,  col='red', pch=16)
   abline(h=vec_PRESSmax[which(PRESS==min(PRESS))], lty=2)
   pic2 <- recordPlot()
 
