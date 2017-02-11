@@ -29,8 +29,8 @@ value is 400.}
 value is 10.}
 
 \item{LassoSequence}{The range of lasso tuning parameters. The default value
-is a sequence of 10 numbers from 0 to the smallest Lasso tuning parameter
-that can make the entire common component(s) to be zeros.}
+is a sequence of 10 numbers from exp(-7) to the smallest Lasso tuning parameter
+that can make the entire common component(s) to be zeros. Note that by default the 10 numbers are equally spaced on the log scale.}
 
 \item{nfolds}{Number of folds. If missing, then 10 fold cross-validation will
 be performed.}

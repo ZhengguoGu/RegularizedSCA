@@ -22,8 +22,8 @@
 #'@param NRSTARTS The number of multistarts for this algorithm. The default
 #'  value is 10.
 #'@param LassoSequence The range of lasso tuning parameters. The default value
-#'  is a sequence of 10 numbers from 0 to the smallest Lasso tuning parameter
-#'  that can make the entire common component(s) to be zeros.
+#'  is a sequence of 10 numbers from exp(-7) to the smallest Lasso tuning parameter
+#'  that can make the entire common component(s) to be zeros. Note that by default the 10 numbers are equally spaced on the log scale.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will
 #'  be performed.
 #'@return
@@ -59,7 +59,7 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
 
     results <- CDpre(DATA, Jk, R, CommPosition, component_structure, 0, MaxIter)
     Lassomax <- max(abs(results$Pmatrix[, CommPosition]))
-    LassoSequence <- seq(from = 0, to = Lassomax, length.out = 10)
+    LassoSequence <- exp(seq(from = -7, to = log(Lassomax), length.out = 10))
 
   }
 
@@ -121,13 +121,16 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
 
 
   plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error', type = "b")
+  points(LassoSequence, PRESS,  col='red', pch=16)
   pic1 <- recordPlot()
 
   y_min <- min(PRESS-sd_MSE)
   y_max <- max(PRESS+sd_MSE)
   vec_PRESSmax <- PRESS+sd_MSE
   plot(LassoSequence, PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SE', ylim = c(y_min, y_max), type = "b")
-  arrows(LassoSequence, PRESS-sd_MSE, LassoSequence, PRESS+sd_MSE, length=0.05, angle=90, code=3)
+  points(LassoSequence, PRESS,  col='red', pch=16)
+  arrows(LassoSequence, PRESS-sd_MSE, LassoSequence, PRESS+sd_MSE, length=0.05, angle=90, code=3, col="gray")
+  points(LassoSequence, PRESS,  col='red', pch=16)
   abline(h=vec_PRESSmax[which(PRESS==min(PRESS))], lty=2)
   pic2 <- recordPlot()
 

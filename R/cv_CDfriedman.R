@@ -9,10 +9,10 @@
 #'@param R The number of components.
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default value is 5.
-#'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.001
-#'to the smallest Lasso tuning parameter that can make all the components to be zeros.
-#'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.001
-#'to the smallest Group Lasso tuning parameter that can make all the components to be zeros.
+#'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
+#'to the smallest Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. 
+#'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
+#'to the smallest Group Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. 
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
 #'@return
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
@@ -49,11 +49,11 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
       Lassomax <- results$Lasso
 
     if(missing(LassoSequence)){
-      LassoSequence <- seq(from = 0.001, to = Lassomax, length.out = 5)
+      LassoSequence <- exp(seq(from = -7, to = log(Lassomax), length.out = 5))
     }
 
     if(missing(GLassoSequence)){
-      GLassoSequence <- seq(from = 0.001, to = GLassomax, length.out = 5)
+      GLassoSequence <- exp(seq(from = -7, to = log(GLassomax), length.out = 5))
       }
   }
 
@@ -155,6 +155,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   if (length(LassoSequence)>=2 & length(GLassoSequence)>=2){
 
     plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE)
+    points(1:length(lasso_index), vec_PRESS,  col='red', pch=16)
     Lseq <- 1:length(lasso_index)
     abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
     axis(2, round(seq(from=min(vec_PRESS), to=max(vec_PRESS), length.out = 10), digits = 2), las=1)
@@ -170,7 +171,8 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
     plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE, xaxt='n', yaxt="n", ylim = c(y_min, y_max))
     abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
     abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
-    arrows(1:length(lasso_index), vec_PRESS-vec_se, 1:length(lasso_index), vec_PRESS+vec_se, length=0.05, angle=90, code=3)
+    arrows(1:length(lasso_index), vec_PRESS-vec_se, 1:length(lasso_index), vec_PRESS+vec_se, length=0.05, angle=90, code=3, col="gray")
+    points(1:length(lasso_index), vec_PRESS,  col='red', pch=16)
     axis(2, round(seq(from=y_min, to=y_max, length.out = 10), digits = 2), las=1)
     axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
     mtext("Lasso",1,line=0,at=-1)

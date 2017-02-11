@@ -18,11 +18,11 @@ cv_CDfriedman(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence,
 
 \item{NRSTARTS}{The number of multistarts for this algorithm. The default value is 5.}
 
-\item{LassoSequence}{The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.001
-to the smallest Lasso tuning parameter that can make all the components to be zeros.}
+\item{LassoSequence}{The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
+to the smallest Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale.}
 
-\item{GLassoSequence}{The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.001
-to the smallest Group Lasso tuning parameter that can make all the components to be zeros.}
+\item{GLassoSequence}{The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
+to the smallest Group Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale.}
 
 \item{nfolds}{Number of folds. If missing, then 10 fold cross-validation will be performed.}
 }
