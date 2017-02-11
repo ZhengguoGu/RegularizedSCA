@@ -79,6 +79,10 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
   randmat <- matrix(runif(nrow(DATA) * ncol(DATA)), ncol = ncol(DATA))
 
   for (l in 1:length(LassoSequence)){
+    
+    cat(sprintf("\nThe cross-validation procedure might take a while to finish. Please be patient."))
+    cat(sprintf("\nLasso: %s", LassoSequence[l]))
+    
 
     error_x <- array()
     for (i in 1:nfolds){
