@@ -8,7 +8,7 @@
 #'@param Jk A vector. Each element of this vector is the number of columns of a data block.
 #'@param R The number of components.
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
-#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 5.
+#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 1.
 #'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
 #'to the smallest Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. 
 #'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
@@ -62,7 +62,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   }
 
   if(missing(NRSTARTS)){
-    NRSTARTS <- 5
+    NRSTARTS <- 1
   }
 
   if(missing(nfolds)){

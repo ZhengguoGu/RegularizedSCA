@@ -16,7 +16,7 @@ cv_CDfriedman(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence,
 
 \item{MaxIter}{Maximum number of iterations for this algorithm. The default value is 400.}
 
-\item{NRSTARTS}{The number of multistarts for this algorithm. The default value is 5.}
+\item{NRSTARTS}{The number of multistarts for this algorithm. The default value is 1.}
 
 \item{LassoSequence}{The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
 to the smallest Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale.}
