@@ -20,7 +20,7 @@
 #'@param MaxIter Maximum number of iterations for this algorithm. The default
 #'  value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default
-#'  value is 10.
+#'  value is 1.
 #'@param LassoSequence The range of lasso tuning parameters. The default value
 #'  is a sequence of 10 numbers from exp(-7) to the smallest Lasso tuning parameter
 #'  that can make the entire common component(s) to be zeros. Note that by default the 10 numbers are equally spaced on the log scale.
@@ -64,7 +64,7 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
   }
 
   if(missing(NRSTARTS)){
-    NRSTARTS <- 10
+    NRSTARTS <- 1
   }
 
   if(missing(nfolds)){
