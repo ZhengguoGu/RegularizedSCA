@@ -26,7 +26,7 @@ matrix should be fixed at zeros. see \code{component_structure}.}
 value is 400.}
 
 \item{NRSTARTS}{The number of multistarts for this algorithm. The default
-value is 10.}
+value is 1.}
 
 \item{LassoSequence}{The range of lasso tuning parameters. The default value
 is a sequence of 10 numbers from exp(-7) to the smallest Lasso tuning parameter
@@ -38,8 +38,8 @@ be performed.}
 \value{
 \item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
 \item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
-\item{plot}{A plot of mean square errors against Lasso tuning parameters.}
-\item{plotSE}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters.}
+\item{plot}{A plot of mean square errors against Lasso tuning parameters (on log scale).}
+\item{plotSE}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters (on log scale).}
 }
 \description{
 \code{cv_CDpreKf} helps to find a range of lasso tuning parameters for the
