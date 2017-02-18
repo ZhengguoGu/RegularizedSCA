@@ -6,25 +6,23 @@
 \title{44 experienced psychiatrists' rating on 17 symptoms shown in two psychiatric groups}
 \format{The dataset contains the following list:
 \describe{
- \item{depressed}{a 44x17 matrix of psychiatrists x symptoms for the "manic-depressed" group.}
- \item{schizophrenic}{a 44x17 matrix of psychiatrists x symptoms for the "schizophrenic" group.}
+ \item{depressed}{A 44x17 matrix of psychiatrists x symptoms for the "manic-depressed" group.}
+ \item{schizophrenic}{A 44x17 matrix of psychiatrists x symptoms for the "schizophrenic" group.}
 }}
 \source{
-The data is from Mezzich, J. E., & Solomon, H. (1980). Quantitative studies in social relations. London, UK: Academic Press.
+The data is originally from Mezzich, J. E., & Solomon, H. (1980). Quantitative studies in social relations. London,
+UK: Academic Press.
 }
 \usage{
 MizzichSolomon
 }
 \description{
-This dataset contains 44 experienced psychiatrists' rating on 17 symptoms shown in 
-two psychiatric groups. Each psychiatrist rated to what extent the 17 sypmtoms matched 
-certain archetypcal psychiatric patients in a grouped classified as "manic-depressed" 
-and patients in a group classified as "schizophrenic".
+This dataset contains 44 experienced psychiatrists' rating on 17 symptoms shown in two psychiatric groups. Each psychiatrist rated to what extent the 17 sypmtoms matched certain archetypcal psychiatric patients in a grouped classified as "manic-depressed" and patients in a group classified as "schizophrenic".
 }
 \note{
-Note that in the original study (Mezzich & Solomon, 1980), the data contained 22 psychiatrists' rating on 4 groups of 17 symtoms.
-The 4 groups were later merged into 2 groups, and therefore the data are treated as if there are 44 psychiatrists (see,also Schouteden, 
-M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Performing DISCO-SCA to search for distinctive and common information 
-in linked data. Behavior research methods, 46(2), 576-587.)
+Note that in the original study (Mezzich & Solomon, 1980), the data contained 22 psychiatrists' rating on 4 groups #' of 17 symtoms. The 4 groups were later merged into 2 groups, and therefore the data are treated as if there are 44 #' psychiatrists (see,also Schouteden, M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Performing 
+DISCO-SCA to search for distinctive and common information in linked data. Behavior research methods, 46(2), 576
+-587.)
 }
 \keyword{datasets}
+

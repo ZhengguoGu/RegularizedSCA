@@ -39,3 +39,4 @@ maxLasso <- results$Lasso
 \references{
 Hastie, T., Tibshirani, R., & Wainwright, M. (2015). \emph{Statistical learning with sparsity}. CRC press.
 }
+

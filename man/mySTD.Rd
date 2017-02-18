@@ -23,3 +23,4 @@ Van Deun, K., Smilde, A.K., van der Werf, M.J., Kiers, H.A.L., & Mechelen, I.V. 
 \examples{
 mySTD(matrix(1:12), nrow=3, byrow=T))
 }
+
