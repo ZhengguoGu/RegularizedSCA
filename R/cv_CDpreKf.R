@@ -29,7 +29,6 @@
 #'@return
 #'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
 #'\item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
-#'\item{plot}{A plot of mean square errors against Lasso tuning parameters (on log scale).}
 #'\item{plotSE}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters (on log scale).}
 #'@examples
 #'\dontrun{
@@ -123,26 +122,21 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
   }
 
 
+  upper <- PRESS + sd_MSE
+  lower <- PRESS - sd_MSE
+ 
+  df <- data.frame( LassoI = log(LassoSequence), Press = PRESS, Upper = upper, Lower = lower)
+  p <- ggplot(df, aes(x=LassoI,y=Press)) +
+    geom_errorbar(aes(ymin=Lower,ymax=Upper), width=.1) +
+    geom_point(aes(x=LassoI,y=Press))
+  p <- p + labs(x = "Lasso (log scale)", y="Predicted Mean Squared Errors +/- 1SE")
 
-  plot(log(LassoSequence), PRESS, xlab = 'Lasso tuning parameter (log scale)', ylab = 'Mean Square Error', type = "b")
-  points(log(LassoSequence), PRESS,  col='red', pch=16)
-  pic1 <- recordPlot()
-
-  y_min <- min(PRESS-sd_MSE)
-  y_max <- max(PRESS+sd_MSE)
-  vec_PRESSmax <- PRESS+sd_MSE
-  plot(log(LassoSequence), PRESS, xlab = 'Lasso tuning parameter (log scale)', ylab = 'Mean Square Error +/- 1SE', ylim = c(y_min, y_max), type = "b")
-  points(log(LassoSequence), PRESS,  col='red', pch=16)
-  arrows(log(LassoSequence), PRESS-sd_MSE, log(LassoSequence), PRESS+sd_MSE, length=0.05, angle=90, code=3, col="gray")
-  points(log(LassoSequence), PRESS,  col='red', pch=16)
-  abline(h=vec_PRESSmax[which(PRESS==min(PRESS))], lty=2)
-  pic2 <- recordPlot()
+  
 
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$LassoSeqence <- LassoSequence
-  return_crossvali$plot <- pic1
-  return_crossvali$plotSE <- pic2
+  return_crossvali$plotSE <- p
   return(return_crossvali)
 
 }

@@ -16,9 +16,7 @@
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
 #'@return
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
-#'\item{plot}{A plot of PRESS against Lasso and Group Lasso tuning parameters. Note that on the x axis are the index numbers of
-#'Lasso and Group Lasso tuning parameters, and to find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
-#'\item{plotSE}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis are the index numbers of
+#'\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis are the index numbers of
 #'Lasso and Group Lasso tuning parameters, and to find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
 #'\item{Lasso_values}{The sequence of Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
 #'for Lasso is \code{6}, its corresponding Lasso tuning parameter is \code{Lasso_values[6]}.}
@@ -148,70 +146,42 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
 
   vec_PRESS <- c(PRESS)
   vec_se <- c(se_MSE)
-  
+  upper <- vec_PRESS + vec_se
+  lower <- vec_PRESS - vec_se 
   lasso_index <- rep(1:length(LassoSequence), length(GLassoSequence))
   Glasso_index <- rep(1:length(GLassoSequence), each=length(LassoSequence))
-
+  
+  lasso_index <- paste("L", lasso_index)
+  Glasso_index<- paste("G", Glasso_index)
+  
+  df <- data.frame(GLassoI = Glasso_index, LassoI = lasso_index, Press = vec_PRESS, Upper = upper, Lower = lower)
+  
   if (length(LassoSequence)>=2 & length(GLassoSequence)>=2){
-
-    plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE)
-    points(1:length(lasso_index), vec_PRESS,  col='red', pch=16)
-    Lseq <- 1:length(lasso_index)
-    abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
-    axis(2, round(seq(from=min(vec_PRESS), to=max(vec_PRESS), length.out = 10), digits = 2), las=1)
-    axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
-    mtext("Lasso",1,line=0,at=-1)
-    axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
-    mtext("G-Lasso",1,line=2,at=-1)
-    pic1 <- recordPlot()
-
-    y_min <- min(vec_PRESS-vec_se)
-    y_max <- max(vec_PRESS+vec_se)
-    vec_PRESSmax <- vec_PRESS+vec_se
-    plot(1:length(lasso_index), vec_PRESS, xlab = "" , ylab = "", axes=FALSE, xaxt='n', yaxt="n", ylim = c(y_min, y_max))
-    abline(v=Lseq[which(lasso_index==max(lasso_index))], lty=2)
-    abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
-    arrows(1:length(lasso_index), vec_PRESS-vec_se, 1:length(lasso_index), vec_PRESS+vec_se, length=0.05, angle=90, code=3, col="gray")
-    points(1:length(lasso_index), vec_PRESS,  col='red', pch=16)
-    axis(2, round(seq(from=y_min, to=y_max, length.out = 10), digits = 2), las=1)
-    axis(1,at=1:length(lasso_index), labels = lasso_index, line=0)
-    mtext("Lasso",1,line=0,at=-1)
-    axis(1,at=1:length(Glasso_index), labels = Glasso_index, line=2)
-    mtext("G-Lasso",1,line=2,at=-1)
-    abline(h=y_min[which(vec_PRESS==min(vec_PRESS))], lty=2)
-    pic2 <- recordPlot()
+    p <- ggplot(df, aes(x=LassoI,y=Press,group=GLassoI)) +
+      facet_grid(.~GLassoI)+
+      geom_errorbar(aes(ymin=Lower,ymax=Upper, group=GLassoI), width=.1) +
+      geom_point(aes(x=LassoI,y=Press,group=GLassoI))
+    p <- p + labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
+    
   } else if(length(LassoSequence)>=2 & length(GLassoSequence)==1){
-    
-    plot(LassoSequence, vec_PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error', type = "b")
-    pic1 <- recordPlot()
-    
-    y_min <- min(vec_PRESS-vec_se)
-    y_max <- max(vec_PRESS+vec_se)
-    vec_PRESSmax <- vec_PRESS+vec_se
-    plot(LassoSequence, vec_PRESS, xlab = 'Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SE', ylim = c(y_min, y_max), type = "b")
-    arrows(LassoSequence, vec_PRESS-vec_se, LassoSequence, vec_PRESS+vec_se, length=0.05, angle=90, code=3)
-    abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
-    pic2 <- recordPlot()
+    p <- ggplot(df, aes(x=LassoI,y=Press)) +
+      geom_errorbar(aes(ymin=Lower,ymax=Upper), width=.1) +
+      geom_point(aes(x=LassoI,y=Press))
+    p <- p + labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
     
   } else if(length(LassoSequence)==1 & length(GLassoSequence)>= 2){
     
-    plot(GLassoSequence, vec_PRESS, xlab = 'Group Lasso tuning parameter', ylab = 'Mean Square Error', type = "b")
-    pic1 <- recordPlot()
+    p <- ggplot(df, aes(x=GLassoI,y=Press)) +
+      geom_errorbar(aes(ymin=Lower,ymax=Upper), width=.1) +
+      geom_point(aes(x=GLassoI,y=Press))
+    p <- p + labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
     
-    y_min <- min(vec_PRESS-vec_se)
-    y_max <- max(vec_PRESS+vec_se)
-    vec_PRESSmax <- vec_PRESS+vec_se
-    plot(GLassoSequence, vec_PRESS, xlab = 'Group Lasso tuning parameter', ylab = 'Mean Square Error +/- 1SE', ylim = c(y_min, y_max), type = "b")
-    arrows(GLassoSequence, vec_PRESS-vec_se, GLassoSequence, vec_PRESS+vec_se, length=0.05, angle=90, code=3)
-    abline(h=vec_PRESSmax[which(vec_PRESS==min(vec_PRESS))], lty=2)
-    pic2 <- recordPlot()
     
   }
 
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
-  return_crossvali$plot <- pic1
-  return_crossvali$plotSE <- pic2
+  return_crossvali$plot <- p
   return_crossvali$Lasso_values <- LassoSequence
   return_crossvali$Glasso_values <- GLassoSequence
   return(return_crossvali)
