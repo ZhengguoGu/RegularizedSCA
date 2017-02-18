@@ -70,4 +70,3 @@ Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposit
 
 Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, \emph{158}, 187-199.
 }
-
