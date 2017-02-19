@@ -9,9 +9,9 @@
 #'@param R The number of components.
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default value is 1.
-#'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
+#'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.0001
 #'to the smallest Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. 
-#'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
+#'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.0001
 #'to the smallest Group Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. 
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
 #'@return
@@ -47,11 +47,11 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
       Lassomax <- results$Lasso
 
     if(missing(LassoSequence)){
-      LassoSequence <- exp(seq(from = -7, to = log(Lassomax), length.out = 5))
+      LassoSequence <- exp(seq(from = log(.0001), to = log(Lassomax), length.out = 5))
     }
 
     if(missing(GLassoSequence)){
-      GLassoSequence <- exp(seq(from = -7, to = log(GLassomax), length.out = 5))
+      GLassoSequence <- exp(seq(from = log(.0001), to = log(GLassomax), length.out = 5))
       }
   }
 
