@@ -55,6 +55,13 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
       }
   }
 
+  if (min(GLassoSequence) < 0) {
+    stop("Group Lasso tuning parameter must be non-negative!")
+  }
+  
+  if (min(LassoSequence) < 0) {
+    stop("Lasso tuning parameter must be non-negative!")
+  }
   if(missing(MaxIter)){
     MaxIter <- 400
   }
@@ -66,9 +73,9 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   if(missing(nfolds)){
     nfolds <- 10
   }
-  if (nfolds < 2)
-    stop("Must be at least 2 folds")
-
+  if (nfolds < 2){
+    stop("Must be at least 2 folds!")
+  }
   PRESS <- matrix(0, length(LassoSequence), length(GLassoSequence))
   se_MSE <- matrix(0, length(LassoSequence), length(GLassoSequence))
   percentRemove <- 1/nfolds

@@ -61,7 +61,14 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
     LassoSequence <- exp(seq(from = -7, to = log(Lassomax), length.out = 10))
 
   }
-
+  
+  if(min(LassoSequence) == 0){
+    LassoSequence[which(LassoSequence==min(LassoSequence))] <- exp(-7)
+  }
+  
+  if (min(LassoSequence) < 0) {
+    stop("Lasso tuning parameter must be non-negative!")
+  }
   if(missing(NRSTARTS)){
     NRSTARTS <- 1
   }
@@ -69,9 +76,9 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
   if(missing(nfolds)){
     nfolds <- 10
   }
-  if (nfolds < 2)
-    stop("Must be at least 2 folds")
-
+  if (nfolds < 2){
+    stop("Must be at least 2 folds!")
+  }
   PRESS <- array()
   sd_MSE <- array()  #note that this is standard error (not standard deviation, although it's called sd)
   percentRemove <- 1/nfolds
