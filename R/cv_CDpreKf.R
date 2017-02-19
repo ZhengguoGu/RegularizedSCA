@@ -29,7 +29,7 @@
 #'@return
 #'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
 #'\item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
-#'\item{plotSE}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters (on log scale).}
+#'\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters (on log scale).}
 #'@examples
 #'\dontrun{
 #'DATA1 <- matrix(rnorm(50), nrow=5)
@@ -137,7 +137,7 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$LassoSeqence <- LassoSequence
-  return_crossvali$plotSE <- p
+  return_crossvali$plot <- p
   return(return_crossvali)
 
 }
