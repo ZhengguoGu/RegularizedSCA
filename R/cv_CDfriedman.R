@@ -159,23 +159,26 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   Glasso_index <- rep(1:length(GLassoSequence), each=length(LassoSequence))
   
   lasso_index <- paste("L", lasso_index)
-  Glasso_index<- paste("G", Glasso_index)
+  Glasso_index<- factor(paste("G", Glasso_index), levels=paste("G", 1:length(GLassoSequence)))
   
   df <- data.frame(GLassoI = Glasso_index, LassoI = lasso_index, Press = vec_PRESS, Upper = upper, Lower = lower)
+  
   
   if (length(LassoSequence)>=2 & length(GLassoSequence)>=2){
     p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
       ggplot2::facet_grid(.~GLassoI)+
       ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper, group=GLassoI), width=.1) +
       ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
-      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)
+      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)+
+      ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
     p <- p + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
     
   } else if(length(LassoSequence)>=2 & length(GLassoSequence)==1){
     p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
       ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
       ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press))+
-      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)
+      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)+
+      ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
     p <- p + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
     
   } else if(length(LassoSequence)==1 & length(GLassoSequence)>= 2){
@@ -183,7 +186,8 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
     p <- ggplot2::ggplot(df, ggplot2::aes(x=GLassoI,y=Press)) +
       ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
       ggplot2::geom_point(ggplot2::aes(x=GLassoI,y=Press))+
-      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)
+      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)+
+      ggplot2::scale_x_discrete(limits=Glasso_index[1:length(GLassoSequence)])
     p <- p + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
     
     
