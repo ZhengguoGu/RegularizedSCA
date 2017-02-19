@@ -128,7 +128,8 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
   df <- data.frame( LassoI = log(LassoSequence), Press = PRESS, Upper = upper, Lower = lower)
   p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
     ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
-    ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press))
+    ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press))+
+    ggplot2::geom_hline(yintercept = min(upper), linetype = 3)
   p <- p + ggplot2::labs(x = "Lasso (log scale)", y="Predicted Mean Squared Errors +/- 1SE")
 
   

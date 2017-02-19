@@ -160,20 +160,23 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
     p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
       ggplot2::facet_grid(.~GLassoI)+
       ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper, group=GLassoI), width=.1) +
-      ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press,group=GLassoI))
+      ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
+      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)
     p <- p + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
     
   } else if(length(LassoSequence)>=2 & length(GLassoSequence)==1){
     p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
       ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
-      ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press))
+      ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press))+
+      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)
     p <- p + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
     
   } else if(length(LassoSequence)==1 & length(GLassoSequence)>= 2){
     
     p <- ggplot2::ggplot(df, ggplot2::aes(x=GLassoI,y=Press)) +
       ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
-      ggplot2::geom_point(ggplot2::aes(x=GLassoI,y=Press))
+      ggplot2::geom_point(ggplot2::aes(x=GLassoI,y=Press))+
+      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)
     p <- p + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
     
     
