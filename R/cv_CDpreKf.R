@@ -22,7 +22,7 @@
 #'@param NRSTARTS The number of multistarts for this algorithm. The default
 #'  value is 1.
 #'@param LassoSequence The range of lasso tuning parameters. The default value
-#'  is a sequence of 10 numbers from exp(-7) to the smallest Lasso tuning parameter
+#'  is a sequence of 10 numbers from 0.0001 to the smallest Lasso tuning parameter
 #'  that can make the entire common component(s) to be zeros. Note that by default the 10 numbers are equally spaced on the log scale.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will
 #'  be performed.
@@ -58,12 +58,12 @@ cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, 
 
     results <- CDpre(DATA, Jk, R, CommPosition, component_structure, 0, MaxIter)
     Lassomax <- max(abs(results$Pmatrix[, CommPosition]))
-    LassoSequence <- exp(seq(from = -7, to = log(Lassomax), length.out = 10))
+    LassoSequence <- exp(seq(from = log(.0001), to = log(Lassomax), length.out = 10))
 
   }
   
   if(min(LassoSequence) == 0){
-    LassoSequence[which(LassoSequence==min(LassoSequence))] <- exp(-7)
+    LassoSequence[which(LassoSequence==min(LassoSequence))] <- 0.0001
   }
   
   if (min(LassoSequence) < 0) {
