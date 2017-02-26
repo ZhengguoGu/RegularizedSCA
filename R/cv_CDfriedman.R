@@ -117,7 +117,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
       cat(sprintf("\nGroup Lasso: %s", GLassoSequence[g]))
       cat(sprintf("\nLasso: %s", LassoSequence[l]))
 
-      Forvarselected <- CDfriedman(DATArm, Jk, R, LassoSequence[l], GLassoSequence[g], MaxIter)
+      Forvarselected <- CDfriedman(DATA, Jk, R, LassoSequence[l], GLassoSequence[g], MaxIter)
       varselected[l,g] <- sum(Forvarselected$Pmatrix != 0)  #how many variables in P have been selected?
       
       error_x <- array()
