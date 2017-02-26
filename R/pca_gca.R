@@ -48,7 +48,7 @@ pca_gca <- function(DATA, Jk, cor_min, return_scores){
     svdblock <- svd(data_block[[k]])
     cat(sprintf("The eigenvalues of block \"%s\" are\n", k))
     print(svdblock$d)
-    y <- readline("Show the scree plot for the eigenvalues. 1: yes; 0: no.\n (Please enter 1 or 0.)   ")
+    y <- readline("Show the scree plot for the eigenvalues. 1: YES; 0: NO.")
     if (y == 1){
       plot(as.vector(svdblock$d), type='b', ylab = "Eigenvalue", xlab = 'Component Number')
     } else if (y!=1 & y!=0){
