@@ -2,14 +2,14 @@ Package: RSCA
 Type: Package
 Title: An R package for regularized simultaneous component based data
     integration
-Version: 0.1.5
+Version: 0.1.6
 Author: Zhengguo Gu, Katrijn Van Deun
 Maintainer: Zhengguo Gu <z.gu@tilburguniversity.edu>
 Description: This package performs regularized simultaneous component based data
     integration for multiblock data
 License: GPL (>= 2)
 LazyData: TRUE
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Suggests:
     testthat,
     knitr,
