@@ -9,7 +9,7 @@
 #'@param R The number of components.
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default value is 1.
-#'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
+#'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 10 numbers from 0.00000001
 #'to the smallest Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. 
 #'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.00000001
 #'to the smallest Group Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. 
@@ -48,7 +48,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
       Lassomax <- results$Lasso
 
     if(missing(LassoSequence)){
-      LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 20))
+      LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 10))
     }
 
     if(missing(GLassoSequence)){
