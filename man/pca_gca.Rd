@@ -4,7 +4,7 @@
 \alias{pca_gca}
 \title{PCA-GCA method}
 \usage{
-pca_gca(DATA, Jk, cor_min)
+pca_gca(DATA, Jk, cor_min, return_scores)
 }
 \arguments{
 \item{DATA}{A concatinated data matrix with the same number of rows.}
@@ -13,9 +13,11 @@ pca_gca(DATA, Jk, cor_min)
 
 \item{cor_min}{The minimum corelation bewtween two components. The default value is .9; thus, it means that if the correlation
 between the two component is at least .9, then these two components are regarded as forming a single common component.}
+
+\item{return_scores}{If TRUE, then the function will return the component scores for each block for further analysis.}
 }
 \value{
-It prints out the number of components of each block and the number of common components. It also returns the component scores for each block for further analysis.
+It prints out the number of components of each block and the number of common components. It also returns the component scores for each block for further analysis, if \code{return_scores = TRUE}.
 }
 \description{
 Use PCA-GCA method to identify common and distictive components.
@@ -37,4 +39,3 @@ pca_gca(DATA, Jk, cor_min = .8)
 \references{
 Tenenhaus, A., & Tenenhaus, M. (2011). Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284
 }
-

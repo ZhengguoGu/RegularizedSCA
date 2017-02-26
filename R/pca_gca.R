@@ -6,8 +6,8 @@
 #' @param Jk A vector containing number of variables  in the concatinated data matrix. Please see the example below.
 #' @param cor_min The minimum corelation bewtween two components. The default value is .9; thus, it means that if the correlation
 #' between the two component is at least .9, then these two components are regarded as forming a single common component.
-#' @return It prints out the number of components of each block and the number of common components. It also returns the component scores for each block for further analysis.
-
+#' @param return_scores If TRUE, then the function will return the component scores for each block for further analysis.
+#' @return It prints out the number of components of each block and the number of common components. It also returns the component scores for each block for further analysis, if \code{return_scores = TRUE}.
 #' @examples
 #' \dontrun{
 #' DATA1 <- matrix(rnorm(50), nrow=5)
@@ -22,8 +22,11 @@
 #' Please be ware of the interactive input: The function first performs PCA on each data block and then displays the eigenvalues (and a scree plot).
 #' Afterwards the function awaits the input from the user - it needs to know how many components need to be retained for that block.
 #'@export
-pca_gca <- function(DATA, Jk, cor_min){
+pca_gca <- function(DATA, Jk, cor_min, return_scores){
  
+  if(is.missing(return_scores)==TRUE){
+    return_scores <- FALSE
+  }
   DATA <- data.matrix(DATA)
   if(missing(cor_min)){
     cor_min <- .9
@@ -74,6 +77,9 @@ pca_gca <- function(DATA, Jk, cor_min){
 
   cat(sprintf("\nThere are in total %s common components in the concatenated data.\n", com_comp))
 
-  return(compScores_block)
+  if(return_scores==TRUE){
+    return(compScores_block)
+  }
+
 
 }

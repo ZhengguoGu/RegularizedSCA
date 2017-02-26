@@ -18,19 +18,17 @@ cv_CDfriedman(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence,
 
 \item{NRSTARTS}{The number of multistarts for this algorithm. The default value is 1.}
 
-\item{LassoSequence}{The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
+\item{LassoSequence}{The range of Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.00000001
 to the smallest Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale.}
 
-\item{GLassoSequence}{The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from exp(-7)
+\item{GLassoSequence}{The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.00000001
 to the smallest Group Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale.}
 
 \item{nfolds}{Number of folds. If missing, then 10 fold cross-validation will be performed.}
 }
 \value{
 \item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
-\item{plot}{A plot of PRESS against Lasso and Group Lasso tuning parameters. Note that on the x axis are the index numbers of
-Lasso and Group Lasso tuning parameters, and to find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
-\item{plotSE}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis are the index numbers of
+\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis are the index numbers of
 Lasso and Group Lasso tuning parameters, and to find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
 \item{Lasso_values}{The sequence of Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
 for Lasso is \code{6}, its corresponding Lasso tuning parameter is \code{Lasso_values[6]}.}
@@ -60,4 +58,3 @@ Friedman, J., Hastie, T., & Tibshirani, R. (2010). A note on the group lasso and
 
 Yuan, M., & Lin, Y. (2006). Model selection and estimation in regression with grouped variables. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 68(1), 49-67.
 }
-
