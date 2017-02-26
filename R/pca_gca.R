@@ -72,7 +72,7 @@ pca_gca <- function(DATA, Jk, cor_min){
 
   cat("The number of components in each block are:", num_componentBlock)
 
-  cat(sprintf("\nThere are in total %s common components in the concatenated data.", com_comp))
+  cat(sprintf("\nThere are in total %s common components in the concatenated data.\n", com_comp))
 
   return(compScores_block)
 
