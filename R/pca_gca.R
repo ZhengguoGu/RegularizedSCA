@@ -43,7 +43,7 @@ pca_gca <- function(DATA, Jk, cor_min){
     U <- L + Jk[k] - 1
     data_block[[k]] <- DATA[, L:U]
     svdblock <- svd(data_block[[k]])
-    cat(sprintf("The eigenvalues of block \"%s\" is", k))
+    cat(sprintf("The eigenvalues of block \"%s\" are\n", k))
     print(svdblock$d)
     y <- readline("I would like to see the scree plot for the eigenvalues. 1: yes; 0: no. (Please enter 1 or 0.)   ")
     if (y == 1){
