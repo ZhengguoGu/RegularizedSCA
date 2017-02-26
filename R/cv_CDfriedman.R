@@ -17,7 +17,9 @@
 #'@return
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
 #'\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis are the index numbers of
-#'Lasso and Group Lasso tuning parameters, and to find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
+#'Lasso and Group Lasso tuning parameters. In case both the Lasso sequence and the Group Lasso sequence contain more than 2 elements, there will be an extra plot, which is 
+#'the number of variables selected against Lasso and Group Lasso tuning parameters. In this case \code{plot} is a list of two plots.
+#'To find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
 #'\item{Lasso_values}{The sequence of Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
 #'for Lasso is \code{6}, its corresponding Lasso tuning parameter is \code{Lasso_values[6]}.}
 #'\item{Glasso_values}{The sequence of Group Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
@@ -79,6 +81,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   }
   PRESS <- matrix(0, length(LassoSequence), length(GLassoSequence))
   se_MSE <- matrix(0, length(LassoSequence), length(GLassoSequence))
+  varselected <- matrix(0, length(LassoSequence), length(GLassoSequence))
   percentRemove <- 1/nfolds
 
   ii <- 0
@@ -105,6 +108,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
     }
   }
 
+  
   for (g in 1: length(GLassoSequence)){
 
     for (l in 1:length(LassoSequence)){
@@ -113,6 +117,9 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
       cat(sprintf("\nGroup Lasso: %s", GLassoSequence[g]))
       cat(sprintf("\nLasso: %s", LassoSequence[l]))
 
+      Forvarselected <- CDfriedman(DATArm, Jk, R, LassoSequence[l], GLassoSequence[g], MaxIter)
+      varselected[l,g] <- sum(Forvarselected$Pmatrix != 0)  #how many variables in P have been selected?
+      
       error_x <- array()
       for (i in 1:nfolds){
         ToRemove <- ((i - 1) * percentRemove < randmat) & (randmat < i * percentRemove) # this idea is from PMA package
@@ -154,6 +161,7 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
 
   vec_PRESS <- c(PRESS)
   vec_se <- c(se_MSE)
+  vec_varsel <- c(varselected)
   upper <- vec_PRESS + vec_se
   lower <- vec_PRESS - vec_se 
   lasso_index <- rep(1:length(LassoSequence), length(GLassoSequence))
@@ -164,15 +172,27 @@ cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoS
   
   df <- data.frame(GLassoI = Glasso_index, LassoI = lasso_index, Press = vec_PRESS, Upper = upper, Lower = lower)
   
-  
   if (length(LassoSequence)>=2 & length(GLassoSequence)>=2){
-    p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
-      ggplot2::facet_grid(.~GLassoI)+
-      ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper, group=GLassoI), width=.1) +
-      ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
-      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)+
-      ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
-    p <- p + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
+    
+    df2 <- data.frame(GLassoI = Glasso_index, LassoI = lasso_index,  Var = vec_varsel)
+
+    p1 <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
+         ggplot2::facet_grid(.~GLassoI)+
+         ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper, group=GLassoI), width=.1) +
+         ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
+         ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)+
+         ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
+    p1 <- p1 + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
+
+    p2 <- ggplot2::ggplot(df2, ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) +
+         ggplot2::facet_grid(.~GLassoI)+
+         ggplot2::geom_point(ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) +
+         ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
+    p2 <- p2 + ggplot2::labs(x = "", y="Variables selected in P matrix")
+    
+    p <- list()
+    p[[1]] <- p1
+    p[[2]] <- p2
     
   } else if(length(LassoSequence)>=2 & length(GLassoSequence)==1){
     p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
