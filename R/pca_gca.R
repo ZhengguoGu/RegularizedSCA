@@ -24,7 +24,7 @@
 #'@export
 pca_gca <- function(DATA, Jk, cor_min, return_scores){
  
-  if(is.missing(return_scores)==TRUE){
+  if(missing(return_scores)==TRUE){
     return_scores <- FALSE
   }
   DATA <- data.matrix(DATA)
