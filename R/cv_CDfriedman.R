@@ -40,6 +40,7 @@
 #'@export
 cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence, nfolds){
 
+  DATA <- data.matrix(DATA)
   if(missing(LassoSequence) | missing(GLassoSequence)){
 
       results <- maxLGlasso(DATA, Jk, R)

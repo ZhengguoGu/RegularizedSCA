@@ -29,6 +29,7 @@
 
 DISCOsca <- function(DATA, R, Jk){
 
+  DATA <- data.matrix(DATA)
   num_block <- length(Jk)
 
   pre_results <- svd(DATA, R, R)

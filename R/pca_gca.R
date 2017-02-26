@@ -23,8 +23,8 @@
 #' Afterwards the function awaits the input from the user - it needs to know how many components need to be retained for that block.
 #'@export
 pca_gca <- function(DATA, Jk, cor_min){
-  #see Mage, Naes, Hankemeier, & Bro, 2016
-
+ 
+  DATA <- data.matrix(DATA)
   if(missing(cor_min)){
     cor_min <- .9
   }

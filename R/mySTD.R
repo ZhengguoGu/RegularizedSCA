@@ -10,6 +10,8 @@
 #' Van Deun, K., Smilde, A.K., van der Werf, M.J., Kiers, H.A.L., & Mechelen, I.V. (2009). A structured overview of simultaneous component based data integration. \emph{BMC Bioinformatics}, 10:246.
 #'@export
 mySTD <- function(DATA) {
+  
+  DATA <- data.matrix(DATA)
   nrow_data <- dim(DATA)[1]
   ncol_data <- dim(DATA)[2]
   v <- matrix(1, nrow = nrow_data, ncol = nrow_data)  # note here: it's a square matrix

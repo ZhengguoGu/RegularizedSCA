@@ -41,6 +41,7 @@
 #'@export
 CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
 
+  DATA <- data.matrix(DATA)
   DistPosition <- setdiff(1:R, CommPosition)
   I_Data <- dim(DATA)[1]
   sumJk <- dim(DATA)[2]

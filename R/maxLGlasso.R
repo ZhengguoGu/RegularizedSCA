@@ -28,6 +28,7 @@
 #'@export
 maxLGlasso <- function(DATA, Jk, R){
 
+  DATA <- data.matrix(DATA)
   I_Data <- dim(DATA)[1]
   sumJk <- dim(DATA)[2]
   eps <- 10^(-12)

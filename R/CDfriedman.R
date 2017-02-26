@@ -36,7 +36,8 @@
 #'@export
 
 CDfriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
-
+  
+  DATA <- data.matrix(DATA)
   I_Data <- dim(DATA)[1]
   sumJk <- dim(DATA)[2]
   eps <- 10^(-12)

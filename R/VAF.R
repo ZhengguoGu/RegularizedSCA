@@ -26,6 +26,7 @@
 #'@export
 VAF <- function(DATA, Jk, R){
 
+  DATA <- data.matrix(DATA)
   SVD_DATA <- svd(DATA, R, R)
   Tmat <- SVD_DATA$u
   Pmat <- SVD_DATA$v %*% diag(SVD_DATA$d[1:R])

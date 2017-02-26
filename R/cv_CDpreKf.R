@@ -48,6 +48,7 @@
 #'@export
 cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, NRSTARTS, LassoSequence, nfolds){
 
+  DATA <- data.matrix(DATA)
   #this cross-validation function makes use of the CDpre.R.
 
   if(missing(MaxIter)){

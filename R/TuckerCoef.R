@@ -16,6 +16,7 @@
 #' Lorenzo-Seva, U., & Ten Berge, J. M. (2006). Tucker's congruence coefficient as a meaningful index of factor similarity. \emph{Methodology}, \emph{2}(2), 57-64.
 #'@export
 TuckerCoef <- function(MatrixA, MatrixB){
+  
   nrow_data <- dim(MatrixA)[1]
   ncol_data <- dim(MatrixA)[2]
   INDIC_Mat <- gtools::permutations(ncol_data, ncol_data)
