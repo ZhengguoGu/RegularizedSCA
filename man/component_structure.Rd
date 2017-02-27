@@ -33,4 +33,3 @@ component_structure(Jk, R, target)
 \references{
 Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.
 }
-

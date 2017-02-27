@@ -36,4 +36,3 @@ Schouteden, M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Perf
 
 Schouteden, M., Van Deun, K., Pattyn, S., & Van Mechelen, I. (2013). SCA with rotation to distinguish common and distinctive information in linked data. Behavior research methods, 45(3), 822-833.
 }
-

@@ -1,6 +1,6 @@
 #'A K-fold cross-validation procedure when common/distictive processes are unknown.
 #'
-#'\code{cv_CDfriedman} helps to find a range of Lasso and Group Lasso tuning parameters for the common component so as to generate sparse common component.
+#'\code{cv_sparseSCA} helps to find a range of Lasso and Group Lasso tuning parameters for the common component so as to generate sparse common component.
 #'
 #'This function search through a range of Lasso and Group Lasso tuning parameters for identifying common and distinctive components
 #'
@@ -32,7 +32,7 @@
 #'DATA <- cbind(DATA1, DATA2)
 #'Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 #'# assume that we do not know which values to choose for the Lasso/Group Lasso tuning parameter, then no need to specify them.
-#'cv_CDfriedman(DATA, Jk, R=5, MaxIter = 100, NRSTARTS = 40, nfolds=10)
+#'cv_sparseSCA(DATA, Jk, R=5, MaxIter = 100, NRSTARTS = 40, nfolds=10)
 #'}
 #'@references Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.
 #'@references
@@ -40,7 +40,7 @@
 #'@references
 #'Yuan, M., & Lin, Y. (2006). Model selection and estimation in regression with grouped variables. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 68(1), 49-67.
 #'@export
-cv_CDfriedman <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence, nfolds){
+cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence, nfolds){
 
   DATA <- data.matrix(DATA)
   if(missing(LassoSequence) | missing(GLassoSequence)){

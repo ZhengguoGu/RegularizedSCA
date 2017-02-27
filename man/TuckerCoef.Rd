@@ -27,4 +27,3 @@ TuckerCoef(maxtrix1, maxtrix2)
 \references{
 Lorenzo-Seva, U., & Ten Berge, J. M. (2006). Tucker's congruence coefficient as a meaningful index of factor similarity. \emph{Methodology}, \emph{2}(2), 57-64.
 }
-
