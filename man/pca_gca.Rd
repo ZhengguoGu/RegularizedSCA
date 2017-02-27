@@ -39,3 +39,4 @@ pca_gca(DATA, Jk, cor_min = .8)
 \references{
 Tenenhaus, A., & Tenenhaus, M. (2011). Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284
 }
+
