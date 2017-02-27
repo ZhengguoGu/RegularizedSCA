@@ -1,7 +1,7 @@
 #'A K-fold cross-validation procedure when common/distictive processes are
 #'known.
 #'
-#'\code{cv_CDpreKf} helps to find a range of lasso tuning parameters for the
+#'\code{cv_structuredSCA} helps to find a range of lasso tuning parameters for the
 #'common component so as to generate sparse common component.
 #'
 #'This function search through a range of lasso tuning parameters for the common
@@ -40,13 +40,13 @@
 #'CommPosition <- 1 # assume that we know the first column in concatenated P matrix is the common component.
 #'com_str <- component_structure(Jk, R, target) # we can either use the function component_structure() or to specify by ourselves
 #'                                                     # here we use the component_structure() function.
-#'cv_CDpreKf(DATA, Jk, R, CommPosition, component_structure=com_str, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
+#'cv_structuredSCA(DATA, Jk, R, CommPosition, component_structure=com_str, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
 #'# note that since we do now specify nfolds in cv_CDpreKf(), nfolds is set to be 10.
 #'}
 #'@references Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.
 #'@references Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, \emph{158}, 187-199.
 #'@export
-cv_CDpreKf <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, NRSTARTS, LassoSequence, nfolds){
+cv_structuredSCA <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, NRSTARTS, LassoSequence, nfolds){
 
   DATA <- data.matrix(DATA)
   #this cross-validation function makes use of the CDpre.R.
