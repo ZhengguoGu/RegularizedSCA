@@ -46,7 +46,7 @@ pca_gca <- function(DATA, Jk, cor_min, return_scores){
     U <- L + Jk[k] - 1
     data_block[[k]] <- DATA[, L:U]
     svdblock <- svd(data_block[[k]])
-    cat(sprintf("The eigenvalues of block \"%s\" are\n", k))
+    cat(sprintf("\nThe eigenvalues of block \"%s\" are\n", k))
     print(svdblock$d)
     y <- readline("Show the scree plot for the eigenvalues. 1: YES; 0: NO.    ")
     if (y == 1){
@@ -73,7 +73,7 @@ pca_gca <- function(DATA, Jk, cor_min, return_scores){
 
   com_comp <- sum(sqrt(canonical_cor$AVE$AVE_inner) >= cor_min)
 
-  cat("The number of components in each block are:", num_componentBlock)
+  cat("\nThe number of components in each block:  ", num_componentBlock)
 
   cat(sprintf("\nThere are in total %s common components in the concatenated data.\n", com_comp))
 
