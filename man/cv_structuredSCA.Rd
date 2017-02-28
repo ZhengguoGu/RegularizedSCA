@@ -5,8 +5,8 @@
 \title{A K-fold cross-validation procedure when common/distictive processes are
 known.}
 \usage{
-cv_structuredSCA(DATA, Jk, R, CommPosition, component_structure, MaxIter,
-  NRSTARTS, LassoSequence, nfolds)
+cv_structuredSCA(DATA, Jk, R, Position, component_structure, MaxIter, NRSTARTS,
+  LassoSequence, nfolds)
 }
 \arguments{
 \item{DATA}{The concatenated data block, with rows represending subjects.}
@@ -16,8 +16,7 @@ data block.}
 
 \item{R}{The number of components.}
 
-\item{CommPosition}{A number (vector) indicating which component(s) is the
-common component(s).}
+\item{Position}{A scaler or a vector indicating the column(s) of which the variables will be selected by LASSO in the component loading matrix (P).}
 
 \item{component_structure}{A matrix specifing which elements in the component
 matrix should be fixed at zeros. see \code{component_structure}.}
@@ -57,10 +56,10 @@ DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are wi
 DATA <- cbind(DATA1, DATA2)
 Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 R <- 4 # assume we want to have 4 components in P matrix.
-CommPosition <- 1 # assume that we know the first column in concatenated P matrix is the common component.
+Position <- 1 # assume that we let the variables in the first column to be selected by LASSO in concatenated P matrix.
 com_str <- component_structure(Jk, R, target) # we can either use the function component_structure() or to specify by ourselves
                                                     # here we use the component_structure() function.
-cv_structuredSCA(DATA, Jk, R, CommPosition, component_structure=com_str, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
+cv_structuredSCA(DATA, Jk, R, Position, component_structure=com_str, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
 # note that since we do now specify nfolds in cv_CDpreKf(), nfolds is set to be 10.
 }
 }

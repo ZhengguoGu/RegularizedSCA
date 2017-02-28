@@ -13,8 +13,7 @@
 #'@param Jk A vector. Each element of this vector is the number of columns of a
 #'  data block.
 #'@param R The number of components.
-#'@param CommPosition A number (vector) indicating which component(s) is the
-#'  common component(s).
+#'@param Position A scaler or a vector indicating the column(s) of which the variables will be selected by LASSO in the component loading matrix (P). 
 #'@param component_structure A matrix specifing which elements in the component
 #'  matrix should be fixed at zeros. see \code{component_structure}.
 #'@param MaxIter Maximum number of iterations for this algorithm. The default
@@ -37,16 +36,16 @@
 #'DATA <- cbind(DATA1, DATA2)
 #'Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 #'R <- 4 # assume we want to have 4 components in P matrix.
-#'CommPosition <- 1 # assume that we know the first column in concatenated P matrix is the common component.
+#'Position <- 1 # assume that we let the variables in the first column to be selected by LASSO in concatenated P matrix.
 #'com_str <- component_structure(Jk, R, target) # we can either use the function component_structure() or to specify by ourselves
 #'                                                     # here we use the component_structure() function.
-#'cv_structuredSCA(DATA, Jk, R, CommPosition, component_structure=com_str, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
+#'cv_structuredSCA(DATA, Jk, R, Position, component_structure=com_str, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
 #'# note that since we do now specify nfolds in cv_CDpreKf(), nfolds is set to be 10.
 #'}
 #'@references Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.
 #'@references Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, \emph{158}, 187-199.
 #'@export
-cv_structuredSCA <- function(DATA, Jk, R, CommPosition, component_structure, MaxIter, NRSTARTS, LassoSequence, nfolds){
+cv_structuredSCA <- function(DATA, Jk, R, Position, component_structure, MaxIter, NRSTARTS, LassoSequence, nfolds){
 
   DATA <- data.matrix(DATA)
   #this cross-validation function makes use of the CDpre.R.
@@ -57,8 +56,8 @@ cv_structuredSCA <- function(DATA, Jk, R, CommPosition, component_structure, Max
 
   if(missing(LassoSequence)){
 
-    results <- CDpre(DATA, Jk, R, CommPosition, component_structure, 0, MaxIter)
-    Lassomax <- max(abs(results$Pmatrix[, CommPosition]))
+    results <- CDpre(DATA, Jk, R, Position, component_structure, 0, MaxIter)
+    Lassomax <- max(abs(results$Pmatrix[, Position]))
     LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 10))
 
   }
@@ -106,7 +105,7 @@ cv_structuredSCA <- function(DATA, Jk, R, CommPosition, component_structure, Max
       Tout3d <- list()
       LOSS <- array()
       for (n in 1:NRSTARTS){
-        VarSelectResult <- CDpre(DATArm, Jk, R, CommPosition, component_structure, LassoSequence[l], MaxIter)
+        VarSelectResult <- CDpre(DATArm, Jk, R, Position, component_structure, LassoSequence[l], MaxIter)
         Pout3d[[n]] <- VarSelectResult$Pmatrix
         Tout3d[[n]] <- VarSelectResult$Tmatrix
         LOSS[n] <- VarSelectResult$Loss

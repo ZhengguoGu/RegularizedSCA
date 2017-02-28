@@ -27,7 +27,7 @@
 #'DATA <- cbind(DATA1, DATA2)
 #'Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 #'R <- 5 # assume that for some reason, we want to have 5 components in the concatenated P matrix.
-#'Position <- 1 # assume that we know the first column in concatenated P matrix is the common component.
+#'Position <- 1 # assume that we let the variables in the first column to be selected by LASSO in concatenated P matrix.
 #'GroupStructure <- component_structure(Jk, R, target) # we can either use the function component_structure() or to specify by ourselves
 #'                                                     # here we use the component_structure() function.
 #'LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value. Note that the Lasso here is with respect to the common component.
