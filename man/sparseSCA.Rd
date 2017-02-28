@@ -4,7 +4,7 @@
 \alias{sparseSCA}
 \title{Variable selection with Lasso and Group Lasso with a multi-start procedure}
 \usage{
-sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTART)
+sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS)
 }
 \arguments{
 \item{DATA}{A matrix, which contains the concatenated data with the same subjects from multiple blocks.}
@@ -19,7 +19,7 @@ sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTART)
 
 \item{MaxIter}{The maximum rounds of iterations. It should be a positive integer. The default value is 400.}
 
-\item{NRSTART}{Multi-start procedure: The number of multi-starts. The default value is 20.}
+\item{NRSTARTS}{Multi-start procedure: The number of multi-starts. The default value is 20.}
 }
 \value{
 \item{Pmatrix}{The best estimated component loading matrix (i.e., P), if multi-starts >= 2.}
@@ -40,7 +40,7 @@ R <- 5 # assume that for some reason, we want to have 5 components in the concat
 LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value.
 GROUPLASSO <- 0.4 # assume that Group Lasso =0.4 is a suitable value.
 MaxIter <- 400
-results <- sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTART = 10)
+results <- sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS = 10)
 
 results$Pmatrix # to check the best concatenated component loading matrix.
 }

@@ -5,7 +5,7 @@
 \title{Variable selection algorithm with a predefined component loading structure}
 \usage{
 structuredSCA(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter,
-  NRSTART)
+  NRSTARTS)
 }
 \arguments{
 \item{DATA}{A matrix, which contains the concatenated data with the same subjects from multiple blocks.}
@@ -24,7 +24,7 @@ will not be sparse.}
 
 \item{MaxIter}{The maximum rounds of iterations. It should be a positive integer. The default value is 400.}
 
-\item{NRSTART}{Multi-start procedure: The number of multi-starts. The default value is 20.}
+\item{NRSTARTS}{Multi-start procedure: The number of multi-starts. The default value is 20.}
 }
 \value{
 \item{Pmatrix}{The best estimated component loading matrix (i.e., P), if multi-starts >= 2.}
@@ -49,8 +49,8 @@ GroupStructure <- component_structure(Jk, R, target) # we can either use the fun
 LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value. Note that the Lasso here is with respect to the common component.
             # the result will be a sparse common component.
 MaxIter <- 400
-NRSTART <- 5
-structuredSCA(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter, NRSTART)
+NRSTARTS <- 5
+structuredSCA(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter, NRSTARTS)
 }
 }
 \references{
