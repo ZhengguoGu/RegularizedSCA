@@ -24,7 +24,6 @@ sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS)
 \value{
 \item{Pmatrix}{The best estimated component loading matrix (i.e., P), if multi-starts >= 2.}
 \item{Tmatrix}{The best estimated component score matrix (i.e., T), if multi-starts >= 2.}
-\item{Lossvec}{A list of vectors containing the loss in each iteration for each multi-start.}
 }
 \description{
 Variable selection with Lasso and Group Lasso penalties to identify component and distinctive components. This algorithm incorporates
