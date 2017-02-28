@@ -53,7 +53,7 @@ structuredSCA <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxI
   
   for (n in 1:NRSTARTS){
     
-    VarSelectResult <- CDpre(DATA, Jk, R, CommPosition, component_structure, LASSO, MaxIter)
+    VarSelectResult <- CDpre(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter)
     Pout3d[[n]] <- VarSelectResult$Pmatrix
     Tout3d[[n]] <- VarSelectResult$Tmatrix
     LOSS[n] <- VarSelectResult$Loss
