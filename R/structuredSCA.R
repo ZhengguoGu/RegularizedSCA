@@ -72,4 +72,5 @@ structuredSCA <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxI
   return_varselect$Pmatrix <- PoutBest
   return_varselect$Tmatrix <- ToutBest
   return_varselect$Lossvec <- LOSSvec
+  return(return_varselect)
 }
