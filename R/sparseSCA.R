@@ -14,6 +14,7 @@
 #'@return
 #'\item{Pmatrix}{The best estimated component loading matrix (i.e., P), if multi-starts >= 2.}
 #'\item{Tmatrix}{The best estimated component score matrix (i.e., T), if multi-starts >= 2.}
+#'\item{Lossvec}{A list of vectors containing the loss in each iteration for each multi-start.}
 #'
 #'@examples
 #'\dontrun{
@@ -62,7 +63,7 @@ sparseSCA <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS){
   }
 
   return_varselect <- list()
-  return_varselect$Pmatrix <- Pout3d[[k]]
-  return_varselect$Tmatrix <- Tout3d[[k]]
-  #return_varselect$Lossvec <- LOSSvec
+  return_varselect$Pbest[[1]] <- Pout3d[[k]]
+  return_varselect$Tbest[[2]] <- Tout3d[[k]]
+  return_varselect$Lossvector[[3]] <- LOSSvec
 }
