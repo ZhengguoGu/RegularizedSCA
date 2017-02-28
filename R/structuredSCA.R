@@ -13,7 +13,7 @@
 #'@param LASSO A Lasso tuning parameter for the common component. If Lasso=0, then the common component
 #'will not be sparse. 
 #'@param MaxIter The maximum rounds of iterations. It should be a positive integer. The default value is 400.
-#'@param NRSTART Multi-start procedure: The number of multi-starts. The default value is 20.
+#'@param NRSTARTS Multi-start procedure: The number of multi-starts. The default value is 20.
 #'
 #'@return
 #'\item{Pmatrix}{The best estimated component loading matrix (i.e., P), if multi-starts >= 2.}
@@ -40,7 +40,7 @@
 #'Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.
 #'@export
 
-structuredSCA <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter, NRSTART){
+structuredSCA <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter, NRSTARTS){
   
   if(missing(NRSTARTS)){
     NRSTARTS <- 20
