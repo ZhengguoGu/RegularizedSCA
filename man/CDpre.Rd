@@ -9,4 +9,3 @@ CDpre(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter)
 \description{
 Variable selection algorithm with a predefined component loading structure
 }
-

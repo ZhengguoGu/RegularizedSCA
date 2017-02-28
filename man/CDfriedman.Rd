@@ -9,4 +9,3 @@ CDfriedman(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter)
 \description{
 Variable selection with Lasso and Group Lasso
 }
-
