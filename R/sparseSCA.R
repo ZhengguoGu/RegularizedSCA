@@ -9,7 +9,7 @@
 #'@param LASSO A Lasso tuning parameter.
 #'@param GROUPLASSO A group Lasso tuning parameter.
 #'@param MaxIter The maximum rounds of iterations. It should be a positive integer. The default value is 400.
-#'@param NRSTART Multi-start procedure: The number of multi-starts. The default value is 20.
+#'@param NRSTARTS Multi-start procedure: The number of multi-starts. The default value is 20.
 #'
 #'@return
 #'\item{Pmatrix}{The best estimated component loading matrix (i.e., P), if multi-starts >= 2.}
@@ -36,7 +36,7 @@
 #'Yuan, M., & Lin, Y. (2006). Model selection and estimation in regression with grouped variables. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 68(1), 49-67.
 #'@export
 
-sparseSCA <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTART){
+sparseSCA <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS){
   
   if(missing(NRSTARTS)){
     NRSTARTS <- 20
