@@ -33,8 +33,8 @@
 #'LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value. Note that the Lasso here is with respect to the common component.
 #'             # the result will be a sparse common component.
 #'MaxIter <- 400
-#'NRSTART <- 5
-#'structuredSCA(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter, NRSTART)
+#'NRSTARTS <- 5
+#'structuredSCA(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter, NRSTARTS)
 #'}
 #'@references
 #'Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.

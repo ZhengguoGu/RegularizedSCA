@@ -26,7 +26,7 @@
 #'LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value.
 #'GROUPLASSO <- 0.4 # assume that Group Lasso =0.4 is a suitable value.
 #'MaxIter <- 400
-#'results <- sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTART = 10)
+#'results <- sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS = 10)
 #'
 #'results$Pmatrix # to check the best concatenated component loading matrix.
 #'}
