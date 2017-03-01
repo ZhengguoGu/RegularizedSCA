@@ -16,4 +16,4 @@
 #' @source 
 #' The data is originally from Mezzich, J. E., & Solomon, H. (1980). Quantitative studies in social relations. London,
 #' UK: Academic Press.
-"MizzichSolomon"
+"MezzichSolomon"
