@@ -22,13 +22,14 @@
 #'  value is 1.
 #'@param LassoSequence The range of lasso tuning parameters. The default value
 #'  is a sequence of 10 numbers from 0.00000001 to the smallest Lasso tuning parameter
-#'  that can make the entire common component(s) to be zeros. Note that by default the 10 numbers are equally spaced on the log scale.
+#'  that can make the entire common component(s) to be zeros. Note that by default the 50 numbers are equally spaced on the log scale.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will
 #'  be performed.
 #'@return
 #'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
 #'\item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
-#'\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters (on log scale).}
+#'\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted agains a log scale of lumbda if \code{LassoSequence} is not defined by users. }
+#'\item{LassoRegion}{A region where the suitable lambda can be found, according to the "1 SE rule". }
 #'@examples
 #'\dontrun{
 #'DATA1 <- matrix(rnorm(50), nrow=5)
@@ -54,12 +55,14 @@ cv_structuredSCA <- function(DATA, Jk, R, Position, component_structure, MaxIter
     MaxIter <- 400
   }
 
+  plotlog <- 0 # this is to tell whether the plot is against the log scale of lasso
   if(missing(LassoSequence)){
 
     results <- CDpre(DATA, Jk, R, Position, component_structure, 0, MaxIter)
     Lassomax <- max(abs(results$Pmatrix[, Position]))
-    LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 10))
+    LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 50))
 
+    plotlog <- 1
   }
   
   if(min(LassoSequence) == 0){
@@ -131,13 +134,60 @@ cv_structuredSCA <- function(DATA, Jk, R, Position, component_structure, MaxIter
 
   upper <- PRESS + sd_MSE
   lower <- PRESS - sd_MSE
- 
-  df <- data.frame( LassoI = log(LassoSequence), Press = PRESS, Upper = upper, Lower = lower)
-  p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
-    ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
-    ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press))+
-    ggplot2::geom_hline(yintercept = min(upper), linetype = 3)
-  p <- p + ggplot2::labs(x = "Lasso (log scale)", y="Predicted Mean Squared Errors +/- 1SE")
+  
+  if(plotlog == 1){
+    df <- data.frame( LassoI = log(LassoSequence), Press = PRESS, Upper = upper, Lower = lower)
+    lowestPress <- min(PRESS)
+    lowestplus1SE <- lowestPress + sd_MSE[which(min(PRESS) == lowestPress)] #plot 1SE rule region the idea is to fine the region of lasso where according to the 1SE rule the lasso should be in that region. 
+    lasso1 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))]
+    if(PRESS[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] - lowestplus1SE > 0 ){
+      lasso2 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE))) - 1]
+      lregion <- c(lasso2, lasso1)
+    } else if (PRESS[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] - lowestplus1SE < 0 ){
+      lasso2 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE))) + 1]
+      lregion <- c(lasso1, lasso2)
+    } else {
+      lasso2 <- lasso1
+      lregion <- lasso1
+    }
+    p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
+      ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
+      ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press)) +
+      ggplot2::geom_hline(yintercept = upper[which(PRESS == min(PRESS))], linetype = 3) +
+      ggplot2::geom_vline(xintercept = lasso1, 
+        linetype = "longdash", col = "red") +
+      ggplot2::geom_vline(xintercept = lasso2, 
+        linetype = "longdash", col = "red") 
+    p <- p + ggplot2::labs(x = "Lasso (log scale)", y="Predicted Mean Squared Errors +/- 1SE")
+  } else{
+    
+    df <- data.frame( LassoI = LassoSequence, Press = PRESS, Upper = upper, Lower = lower)
+    
+    lowestPress <- min(PRESS)
+    lowestplus1SE <- lowestPress + sd_MSE[which(min(PRESS) == lowestPress)] #plot 1SE rule region the idea is to fine the region of lasso where according to the 1SE rule the lasso should be in that region. 
+    lasso1 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))]
+    if(PRESS[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] - lowestplus1SE > 0 ){
+      lasso2 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE))) - 1]
+      lregion <- c(lasso2, lasso1)
+    } else if (PRESS[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] - lowestplus1SE < 0 ){
+      lasso2 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE))) + 1]
+      lregion <- c(lasso1, lasso2)
+    } else {
+      lasso2 <- lasso1
+      lregion <- lasso1
+    }
+    
+    p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
+      ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
+      ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press)) +
+      ggplot2::geom_hline(yintercept = upper[which(PRESS == min(PRESS))], linetype = 3) +
+      ggplot2::geom_vline(xintercept = lasso1, 
+        linetype = "longdash", col = "red") +
+      ggplot2::geom_vline(xintercept = lasso2, 
+        linetype = "longdash", col = "red") 
+    p <- p + ggplot2::labs(x = "Lasso", y="Predicted Mean Squared Errors +/- 1SE")
+  }
+  
 
   
 
@@ -145,6 +195,7 @@ cv_structuredSCA <- function(DATA, Jk, R, Position, component_structure, MaxIter
   return_crossvali$PRESS <- PRESS
   return_crossvali$LassoSeqence <- LassoSequence
   return_crossvali$plot <- p
+  return_crossvali$LassoRegion <- lregion
   return(return_crossvali)
 
 }
