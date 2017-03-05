@@ -28,8 +28,8 @@ value is 400.}
 value is 1.}
 
 \item{LassoSequence}{The range of lasso tuning parameters. The default value
-is a sequence of 10 numbers from 0.00000001 to the smallest Lasso tuning parameter
-that can make the entire common component(s) to be zeros. Note that by default the 10 numbers are equally spaced on the log scale.}
+is a sequence of 50 numbers from 0.00000001 to the smallest Lasso tuning parameter
+that can make the entire common component(s) to be zeros. Note that by default the 50 numbers are equally spaced on the log scale.}
 
 \item{nfolds}{Number of folds. If missing, then 10 fold cross-validation will
 be performed.}
@@ -37,7 +37,8 @@ be performed.}
 \value{
 \item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
 \item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
-\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters (on log scale).}
+\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted agains a log scale of lumbda if \code{LassoSequence} is not defined by users. }
+\item{LassoRegion}{A region where the suitable lambda can be found, according to the "1 SE rule". }
 }
 \description{
 \code{cv_structuredSCA} helps to find a range of lasso tuning parameters for the
