@@ -10,9 +10,9 @@
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default value is 1.
 #'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 10 numbers from 0.00000001
-#'to the smallest Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. 
+#'to the smallest Lasso tuning parameter value that can make all the components to be zeros. Note that by default the 10 numbers are equally spaced on the log scale. Note that if \code{GLassoSequence} contains only one number, then by default \code{LassoSequence} is a sequence of 50 values.
 #'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.00000001
-#'to the smallest Group Lasso tuning parameter that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. 
+#'to the smallest Group Lasso tuning parameter value that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
 #'@return
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
@@ -43,19 +43,25 @@
 cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence, nfolds){
 
   DATA <- data.matrix(DATA)
+  plotlog <- 0
+
   if(missing(LassoSequence) | missing(GLassoSequence)){
 
       results <- maxLGlasso(DATA, Jk, R)
       GLassomax <- results$Glasso
       Lassomax <- results$Lasso
 
-    if(missing(LassoSequence)){
-      LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 10))
+    if(missing(LassoSequence) & missing(GLassoSequence)){
+      LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 20))
+      GLassoSequence <- seq(from = 0.00000001, to = GLassomax, length.out = 10)  #note that Glasso is not on the log scale, because it is not helpful.
+    } else if(missing(LassoSequence) & (length(GLassoSequence) == 1)){
+        LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 50))
+        plotlog <- 1
+    } else if(missing(GLassoSequence) & (length(LassoSequence) == 1)){
+        GLassoSequence <- exp(seq(from = log(0.00000001), to = log(GLassomax), length.out = 50))
+        plotlog <- 1
     }
-
-    if(missing(GLassoSequence)){
-      GLassoSequence <- exp(seq(from = log(0.00000001), to = log(GLassomax), length.out = 5))
-      }
+    
   }
 
   if (min(GLassoSequence) < 0) {
@@ -164,53 +170,239 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   vec_varsel <- c(varselected)
   upper <- vec_PRESS + vec_se
   lower <- vec_PRESS - vec_se 
-  lasso_index <- rep(1:length(LassoSequence), length(GLassoSequence))
-  Glasso_index <- rep(1:length(GLassoSequence), each=length(LassoSequence))
+  #lasso_index0 <- rep(1:length(LassoSequence), length(GLassoSequence))
+  #Glasso_index0 <- rep(1:length(GLassoSequence), each=length(LassoSequence))
   
-  lasso_index <- paste("L", lasso_index)
-  Glasso_index<- factor(paste("G", Glasso_index), levels=paste("G", 1:length(GLassoSequence)))
+  #lasso_index <- paste("L", lasso_index0)
+  #Glasso_index<- factor(paste("G", Glasso_index0), levels=paste("G", 1:length(GLassoSequence)))
   
-  df <- data.frame(GLassoI = Glasso_index, LassoI = lasso_index, Press = vec_PRESS, Upper = upper, Lower = lower)
-  
-  if (length(LassoSequence)>=2 & length(GLassoSequence)>=2){
-    
-    df2 <- data.frame(GLassoI = Glasso_index, LassoI = lasso_index,  Var = vec_varsel)
 
+  
+  if (length(LassoSequence)>=2 & length(GLassoSequence)>=2){ #### CASE1: multiple lasso and glasso
+    lambdaregion <- 0
+    
+
+    #df <- data.frame(GLassoI = Glasso_index, LassoI = lasso_index, Press = vec_PRESS, Upper = upper, Lower = lower)
+    #df2 <- data.frame(GLassoI = Glasso_index, LassoI = lasso_index,  Var = vec_varsel)
+    lasso_index0 <- rep(LassoSequence, length(GLassoSequence))
+    #Glasso_index0 <- rep(round(GLassoSequence, digits = 6), each=length(LassoSequence))
+    Glasso_index0 <- rep(1:length(GLassoSequence), each=length(LassoSequence))
+    Glasso_index0<- factor(paste("G", Glasso_index0), levels=paste("G", 1:length(GLassoSequence)))
+    
+    lowestPress <- min(vec_PRESS)
+    lowestplus1SE <- lowestPress + vec_se[which(vec_PRESS == lowestPress)] #plot 1SE rule region 
+    lasso1 <- array()
+    lasso2 <- array()
+      for(i in 1:length(GLassoSequence)){
+        
+        pressindex <- which(abs(PRESS[, i]-lowestplus1SE)==min(abs(PRESS[, i]-lowestplus1SE)))  #comment: it seems that we have to have an index number here, instead of inserting the index directly in PRESS[index, i]
+        pressindex <- pressindex[length(pressindex)]  #this is because in case of large Glasso values, preindex is a vector, we choose the one with the most sparse results
+        lasso1temp <- LassoSequence[pressindex]
+        print(pressindex)
+        if(PRESS[pressindex, i] - lowestplus1SE > 0 ){
+          if(LassoSequence[pressindex] == LassoSequence[1]){
+            lasso2temp <- lasso1temp  #otherwise lasso2 is out of the boundary
+          } else{
+            lasso2temp <- LassoSequence[pressindex - 1]
+            if(PRESS[pressindex - 1, i]  - lowestplus1SE > 0){
+              lasso2temp <- lasso1temp
+            }
+          }
+          #the following condition concerns a rare case 
+          
+          lasso1[i] <- lasso2temp
+          lasso2[i] <- lasso1temp
+        }  else if (PRESS[which(abs(PRESS[, i]-lowestplus1SE)==min(abs(PRESS[, i]-lowestplus1SE))), i] - lowestplus1SE < 0 ){
+              if(LassoSequence[pressindex] == LassoSequence[length(LassoSequence)]){
+                lasso2temp <- lasso1temp #otherwise lasso2 is out of the boundary
+              } else{
+                lasso2temp <- LassoSequence[which(abs(PRESS[, i]-lowestplus1SE)==min(abs(PRESS[, i]-lowestplus1SE))) + 1]
+                #the following condition concerns a rare case 
+                if(PRESS[pressindex + 1, i]  - lowestplus1SE < 0) {
+                  lasso2temp <- lasso1temp
+                }
+              }
+            
+            lasso1[i] <- lasso1temp
+            lasso2[i] <- lasso2temp
+          
+        } else { #this is when a PRESS value lies exactly on the 1SE dotted line 
+      
+          lasso1[i] <- lasso1temp
+          lasso2[i] <- lasso1temp
+        }
+      }
+ 
+    lambdaregion <- cbind(lasso1, lasso2)
+    l1matrix <- t(cbind(lasso1, matrix(NA, length(lasso1), length(LassoSequence)-1)))
+    l2matrix <- t(cbind(lasso2, matrix(NA, length(lasso2), length(LassoSequence)-1)))
+  print(lambdaregion)
+    df <- data.frame(GLassoI = Glasso_index0, LassoI = lasso_index0, Press = vec_PRESS, Upper = upper, Lower = lower)
+    df2 <- data.frame(GLassoI = Glasso_index0, LassoI = lasso_index0,  Var = vec_varsel)
+    
     p1 <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
          ggplot2::facet_grid(.~GLassoI)+
          ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper, group=GLassoI), width=.1) +
          ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
-         ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)+
-         ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
-    p1 <- p1 + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
+         ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3) +
+         ggplot2::geom_vline(aes(xintercept = lasso1,group=GLassoI),
+           linetype = "longdash", col = "red") +
+         ggplot2::geom_vline(aes(xintercept = lasso2,group=GLassoI),
+           linetype = "longdash", col = "red") 
+         #ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
+    p1 <- p1 + ggplot2::labs(x = "log(Lasso)", y="Predicted Mean Squared Errors +/- 1SE")
 
     p2 <- ggplot2::ggplot(df2, ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) +
          ggplot2::facet_grid(.~GLassoI)+
          ggplot2::geom_point(ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) +
-         ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
-    p2 <- p2 + ggplot2::labs(x = "", y="Variables selected in P matrix")
+         ggplot2::geom_vline(aes(xintercept = lasso1,group=GLassoI),
+            linetype = "longdash", col = "red") +
+         ggplot2::geom_vline(aes(xintercept = lasso2,group=GLassoI),
+            linetype = "longdash", col = "red") 
+         #ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
+    p2 <- p2 + ggplot2::labs(x = "log(Lasso)", y="Variables selected in P matrix")
     
     p <- list()
     p[[1]] <- p1
     p[[2]] <- p2
     
-  } else if(length(LassoSequence)>=2 & length(GLassoSequence)==1){
-    p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
-      ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
-      ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press))+
-      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)+
-      ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
-    p <- p + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
+  } else if(length(LassoSequence)>=2 & length(GLassoSequence)==1){ #### CASE2: multiple lasso, one glasso
     
-  } else if(length(LassoSequence)==1 & length(GLassoSequence)>= 2){
+    df <- data.frame(LassoI = LassoSequence, Press = vec_PRESS, Upper = upper, Lower = lower)
     
-    p <- ggplot2::ggplot(df, ggplot2::aes(x=GLassoI,y=Press)) +
-      ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
-      ggplot2::geom_point(ggplot2::aes(x=GLassoI,y=Press))+
-      ggplot2::geom_hline(yintercept = min(df$Upper), linetype = 3)+
-      ggplot2::scale_x_discrete(limits=Glasso_index[1:length(GLassoSequence)])
-    p <- p + ggplot2::labs(x = "", y="Predicted Mean Squared Errors +/- 1SE")
+    lowestPress <- min(vec_PRESS)
+    lowestplus1SE <- lowestPress + vec_se[which(vec_PRESS == lowestPress)] #plot 1SE rule region 
+    lasso1 <- df$LassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))]
+    if(vec_PRESS[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] - lowestplus1SE > 0 ){
+      if(df$LassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] == df$LassoI[1]){
+        lasso2 <- lasso1 #otherwise lasso2 is out of the boundary
+      } else{
+        lasso2 <- df$LassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE))) - 1]
+      }
+      #the following condition concerns a rare case 
+      if((vec_PRESS[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE))) - 1]  - lowestplus1SE > 0) &
+          (df$LassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] != df$LassoI[1])){
+        lasso2 <- lasso1
+        cat("\nWarning! The region for proper tuning parameter values is not available. A possible value is ", lasso1)
+        lambdaregion <- glasso1
+      } else{
+        lambdaregion <- c(lasso2, lasso1)
+      }
+    } else if (vec_PRESS[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] - lowestplus1SE < 0 ){
+        if(df$LassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] == df$LassoI[length(LassoSequence)]){
+          lasso2 <- lasso1 #otherwise lasso2 is out of the boundary
+        } else{
+          lasso2 <- df$LassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE))) + 1]
+        }
+      
+      #the following condition concerns a rare case 
+      if((vec_PRESS[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE))) + 1]  - lowestplus1SE < 0) & 
+          (df$LassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] != df$LassoI[length(LassoSequence)])){
+        lasso2 <- lasso1
+        cat("\nWarning! The region for proper tuning parameter values is not available. A possible value is ", lasso1)
+        lambdaregion <- lasso1
+      } else{
+        lambdaregion <- c(lasso1, lasso2)
+      }
+      
+    } else {#this is when a PRESS value lies exactly on the 1SE dotted line
+      lasso2 <- lasso1
+      lambdaregion <- lasso1
+    }
     
+    if (plotlog == 1){
+      df$LassoI = log(LassoSequence)
+      p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
+        ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
+        ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press))+
+        ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3)+
+        #ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)]) +
+        ggplot2::geom_vline(xintercept = log(lasso1), 
+          linetype = "longdash", col = "red") +
+        ggplot2::geom_vline(xintercept = log(lasso2), 
+          linetype = "longdash", col = "red") 
+      p <- p + ggplot2::labs(x = "Lasso (on log scale)", y="Predicted Mean Squared Errors +/- 1SE")
+    } else{
+      p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
+        ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
+        ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press))+
+        ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3)+
+        #ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)]) +
+        ggplot2::geom_vline(xintercept = lasso1, 
+          linetype = "longdash", col = "red") +
+        ggplot2::geom_vline(xintercept = lasso2, 
+          linetype = "longdash", col = "red") 
+      p <- p + ggplot2::labs(x = "Lasso", y="Predicted Mean Squared Errors +/- 1SE")
+    }
+  } else if(length(LassoSequence)==1 & length(GLassoSequence)>= 2){####CASE 3: Multiple glasso, one lasso
+     
+      df <- data.frame(GLassoI = GLassoSequence, Press = vec_PRESS, Upper = upper, Lower = lower)
+    
+      lowestPress <- min(vec_PRESS)
+      lowestplus1SE <- lowestPress + vec_se[which(vec_PRESS == lowestPress)] #plot 1SE rule region 
+      glasso1 <- df$GLassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))]
+      if(vec_PRESS[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] - lowestplus1SE > 0 ){
+        if(df$GLassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] == df$GLassoI[1]){
+          glasso2 <- glasso1  #otherwise Glasso2 is out of the boundary
+        } else{
+          glasso2 <- df$GLassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE))) - 1]
+        }
+        #the following condition concerns a rare case 
+        if((vec_PRESS[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE))) - 1]  - lowestplus1SE > 0) &
+            (df$GLassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] != df$GLassoI[1])){
+          glasso2 <- glasso1
+          cat("\nWarning! The region for proper tuning parameter values is not available. A possible value is ", glasso1)
+          lambdaregion <- glasso1
+        } else{
+          lambdaregion <- c(glasso2, glasso1)
+        }
+        
+      } else if (vec_PRESS[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] - lowestplus1SE < 0 ){
+        if(df$GLassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] == df$GLassoI[length(GLassoSequence)]){
+          glasso2 <- glasso1 #otherwise glasso2 is out of the boundary
+        } else{
+          glasso2 <- df$GLassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE))) + 1]
+        }
+        
+        #the following condition concerns a rare case 
+        if((vec_PRESS[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE))) + 1]  - lowestplus1SE < 0) & 
+            (df$GLassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] != df$GLassoI[length(GLassoSequence)])){
+          glasso2 <- glasso1
+          cat("\nWarning! The region for proper tuning parameter values is not available. A possible value is ", glasso1)
+          lambdaregion <- glasso1
+        } else{
+          lambdaregion <- c(glasso1, glasso2)
+        }
+        
+      } else { #this is when a PRESS value lies exactly on the 1SE dotted line 
+        glasso2 <- glasso1
+        lambdaregion <- glasso1
+      }
+    
+      if (plotlog == 1){
+        df$GLassoI = log(GLassoSequence)
+        p <- ggplot2::ggplot(df, ggplot2::aes(x=GLassoI,y=Press)) +
+        ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
+        ggplot2::geom_point(ggplot2::aes(x=GLassoI,y=Press))+
+        ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3) +
+        #ggplot2::scale_x_discrete(limits=Glasso_index[1:length(GLassoSequence)])
+        ggplot2::geom_vline(xintercept = log(glasso1), 
+          linetype = "longdash", col = "red") +
+        ggplot2::geom_vline(xintercept = log(glasso2), 
+          linetype = "longdash", col = "red") 
+        p <- p + ggplot2::labs(x = "Group Lasso (on log scale)", y="Predicted Mean Squared Errors +/- 1SE")
+      } else{
+        p <- ggplot2::ggplot(df, ggplot2::aes(x=GLassoI,y=Press)) +
+          ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
+          ggplot2::geom_point(ggplot2::aes(x=GLassoI,y=Press))+
+          ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3) +
+          #ggplot2::scale_x_discrete(limits=Glasso_index[1:length(GLassoSequence)])
+          ggplot2::geom_vline(xintercept = glasso1, 
+            linetype = "longdash", col = "red") +
+          ggplot2::geom_vline(xintercept = glasso2, 
+            linetype = "longdash", col = "red") 
+        p <- p + ggplot2::labs(x = "Group Lasso", y="Predicted Mean Squared Errors +/- 1SE")
+      }
     
   }
 
@@ -219,6 +411,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   return_crossvali$plot <- p
   return_crossvali$Lasso_values <- LassoSequence
   return_crossvali$Glasso_values <- GLassoSequence
+  return_crossvali$Lambdaregion <- lambdaregion
   return(return_crossvali)
 
 }

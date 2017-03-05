@@ -138,7 +138,7 @@ cv_structuredSCA <- function(DATA, Jk, R, Position, component_structure, MaxIter
   if(plotlog == 1){
     df <- data.frame( LassoI = log(LassoSequence), Press = PRESS, Upper = upper, Lower = lower)
     lowestPress <- min(PRESS)
-    lowestplus1SE <- lowestPress + sd_MSE[which(min(PRESS) == lowestPress)] #plot 1SE rule region the idea is to fine the region of lasso where according to the 1SE rule the lasso should be in that region. 
+    lowestplus1SE <- lowestPress + sd_MSE[which(PRESS == lowestPress)] #plot 1SE rule region the idea is to fine the region of lasso where according to the 1SE rule the lasso should be in that region. 
     lasso1 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))]
     if(PRESS[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] - lowestplus1SE > 0 ){
       lasso2 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE))) - 1]
@@ -164,7 +164,7 @@ cv_structuredSCA <- function(DATA, Jk, R, Position, component_structure, MaxIter
     df <- data.frame( LassoI = LassoSequence, Press = PRESS, Upper = upper, Lower = lower)
     
     lowestPress <- min(PRESS)
-    lowestplus1SE <- lowestPress + sd_MSE[which(min(PRESS) == lowestPress)] #plot 1SE rule region the idea is to fine the region of lasso where according to the 1SE rule the lasso should be in that region. 
+    lowestplus1SE <- lowestPress + sd_MSE[which(PRESS == lowestPress)] #plot 1SE rule region the idea is to fine the region of lasso where according to the 1SE rule the lasso should be in that region. 
     lasso1 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))]
     if(PRESS[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] - lowestplus1SE > 0 ){
       lasso2 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE))) - 1]
