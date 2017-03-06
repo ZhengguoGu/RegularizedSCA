@@ -245,20 +245,17 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
          ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper, group=GLassoI), width=.1) +
          ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
          ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3) +
-         ggplot2::geom_vline(aes(xintercept = lasso1,group=GLassoI),
-           linetype = "longdash", col = "red") +
-         ggplot2::geom_vline(aes(xintercept = lasso2,group=GLassoI),
-           linetype = "longdash", col = "red") 
+         #ggplot2::geom_vline(ggplot2::aes(xintercept =1, linetype = "longdash", col = "red") )
+         ggplot2::geom_vline(ggplot2::aes(xintercept = lasso1, linetype = "longdash", col = "red") ) 
+         #ggplot2::geom_vline(aes(xintercept = lasso2, linetype = "longdash", col = "red") ) 
          #ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
     p1 <- p1 + ggplot2::labs(x = "log(Lasso)", y="Predicted Mean Squared Errors +/- 1SE")
 
     p2 <- ggplot2::ggplot(df2, ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) +
          ggplot2::facet_grid(.~GLassoI)+
-         ggplot2::geom_point(ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) +
-         ggplot2::geom_vline(aes(xintercept = lasso1,group=GLassoI),
-            linetype = "longdash", col = "red") +
-         ggplot2::geom_vline(aes(xintercept = lasso2,group=GLassoI),
-            linetype = "longdash", col = "red") 
+         ggplot2::geom_point(ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) 
+         #ggplot2::geom_vline(aes(xintercept = lasso1, linetype = "longdash", col = "red") )+
+         #ggplot2::geom_vline(aes(xintercept = lasso2, linetype = "longdash", col = "red") ) 
          #ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
     p2 <- p2 + ggplot2::labs(x = "log(Lasso)", y="Variables selected in P matrix")
     
