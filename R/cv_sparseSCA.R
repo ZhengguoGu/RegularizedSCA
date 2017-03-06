@@ -54,6 +54,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     if(missing(LassoSequence) & missing(GLassoSequence)){
       LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 20))
       GLassoSequence <- seq(from = 0.00000001, to = GLassomax, length.out = 10)  #note that Glasso is not on the log scale, because it is not helpful.
+      plotlog <- 1
     } else if(missing(LassoSequence) & (length(GLassoSequence) == 1)){
         LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 50))
         plotlog <- 1
@@ -179,15 +180,10 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
 
   
   if (length(LassoSequence)>=2 & length(GLassoSequence)>=2){ #### CASE1: multiple lasso and glasso
-    lambdaregion <- 0
     
-
-    #df <- data.frame(GLassoI = Glasso_index, LassoI = lasso_index, Press = vec_PRESS, Upper = upper, Lower = lower)
-    #df2 <- data.frame(GLassoI = Glasso_index, LassoI = lasso_index,  Var = vec_varsel)
     lasso_index0 <- rep(LassoSequence, length(GLassoSequence))
-    #Glasso_index0 <- rep(round(GLassoSequence, digits = 6), each=length(LassoSequence))
     Glasso_index0 <- rep(1:length(GLassoSequence), each=length(LassoSequence))
-    Glasso_index0<- factor(paste("G", Glasso_index0), levels=paste("G", 1:length(GLassoSequence)))
+    Glasso_index0<- factor(paste("G", round(Glasso_index0, digits = 3)), levels=paste("G", 1:length(GLassoSequence)))
     
     lowestPress <- min(vec_PRESS)
     lowestplus1SE <- lowestPress + vec_se[which(vec_PRESS == lowestPress)] #plot 1SE rule region 
@@ -198,7 +194,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
         pressindex <- which(abs(PRESS[, i]-lowestplus1SE)==min(abs(PRESS[, i]-lowestplus1SE)))  #comment: it seems that we have to have an index number here, instead of inserting the index directly in PRESS[index, i]
         pressindex <- pressindex[length(pressindex)]  #this is because in case of large Glasso values, preindex is a vector, we choose the one with the most sparse results
         lasso1temp <- LassoSequence[pressindex]
-        print(pressindex)
+      
         if(PRESS[pressindex, i] - lowestplus1SE > 0 ){
           if(LassoSequence[pressindex] == LassoSequence[1]){
             lasso2temp <- lasso1temp  #otherwise lasso2 is out of the boundary
@@ -236,28 +232,34 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     lambdaregion <- cbind(lasso1, lasso2)
     l1matrix <- t(cbind(lasso1, matrix(NA, length(lasso1), length(LassoSequence)-1)))
     l2matrix <- t(cbind(lasso2, matrix(NA, length(lasso2), length(LassoSequence)-1)))
-  print(lambdaregion)
-    df <- data.frame(GLassoI = Glasso_index0, LassoI = lasso_index0, Press = vec_PRESS, Upper = upper, Lower = lower)
-    df2 <- data.frame(GLassoI = Glasso_index0, LassoI = lasso_index0,  Var = vec_varsel)
+  
+    if(plotlog == 1){
+      df <- data.frame(GLassoI = Glasso_index0, LassoI = log(lasso_index0), Press = vec_PRESS, Upper = upper, Lower = lower, l1s = c(log(l1matrix)), l2s = c(log(l2matrix)))
+      df2 <- data.frame(GLassoI = Glasso_index0, LassoI = log(lasso_index0),  Var = vec_varsel, l1s = c(log(l1matrix)), l2s = c(log(l2matrix)))
+      xtag <- "log(Lasso)"
+    } else{
+      df <- data.frame(GLassoI = Glasso_index0, LassoI = lasso_index0, Press = vec_PRESS, Upper = upper, Lower = lower, l1s = c(l1matrix), l2s = c(l2matrix))
+      df2 <- data.frame(GLassoI = Glasso_index0, LassoI = lasso_index0,  Var = vec_varsel, l1s = c(l1matrix), l2s = c(l2matrix))
+      xtag <- "Lasso"
+    }
+    
     
     p1 <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
          ggplot2::facet_grid(.~GLassoI)+
          ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper, group=GLassoI), width=.1) +
          ggplot2::geom_point(ggplot2::aes(x=LassoI,y=Press,group=GLassoI)) +
          ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3) +
-         #ggplot2::geom_vline(ggplot2::aes(xintercept =1, linetype = "longdash", col = "red") )
-         ggplot2::geom_vline(ggplot2::aes(xintercept = lasso1, linetype = "longdash", col = "red") ) 
-         #ggplot2::geom_vline(aes(xintercept = lasso2, linetype = "longdash", col = "red") ) 
-         #ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
-    p1 <- p1 + ggplot2::labs(x = "log(Lasso)", y="Predicted Mean Squared Errors +/- 1SE")
+         ggplot2::geom_vline(data = subset(df, !is.na(l1s)), ggplot2::aes(xintercept = l1s), linetype = "longdash", col = "red" ) +
+         ggplot2::geom_vline(data = subset(df, !is.na(l2s)), ggplot2::aes(xintercept = l2s), linetype = "longdash", col = "red" )      
+    
+    p1 <- p1 + ggplot2::labs(x = xtag, y="Predicted Mean Squared Errors +/- 1SE")
 
     p2 <- ggplot2::ggplot(df2, ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) +
-         ggplot2::facet_grid(.~GLassoI)+
-         ggplot2::geom_point(ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) 
-         #ggplot2::geom_vline(aes(xintercept = lasso1, linetype = "longdash", col = "red") )+
-         #ggplot2::geom_vline(aes(xintercept = lasso2, linetype = "longdash", col = "red") ) 
-         #ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)])
-    p2 <- p2 + ggplot2::labs(x = "log(Lasso)", y="Variables selected in P matrix")
+          ggplot2::facet_grid(.~GLassoI)+
+          ggplot2::geom_point(ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) +
+          ggplot2::geom_vline(data = subset(df, !is.na(l1s)), ggplot2::aes(xintercept = l1s), linetype = "longdash", col = "red" ) +
+          ggplot2::geom_vline(data = subset(df, !is.na(l2s)), ggplot2::aes(xintercept = l2s), linetype = "longdash", col = "red" )  
+    p2 <- p2 + ggplot2::labs(x = xtag, y="Variables selected in P matrix")
     
     p <- list()
     p[[1]] <- p1
