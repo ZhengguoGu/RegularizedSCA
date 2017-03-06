@@ -32,7 +32,7 @@ Note that if \code{LassoSequence} contains only one number, then by default \cod
 \item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
 \item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis (bottom) are 
 Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
-G1, for example, indicates the first value in the \cote{GLassoSequence}.
+G1, for example, indicates the first value in the \code{GLassoSequence}.
 In case both the Lasso sequence and the Group Lasso sequence contain more than 2 elements, there will be an extra plot, which is 
 the number of variables selected against Lasso and Group Lasso tuning parameters. In this case \code{plot} is a list of two plots.
 To find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}

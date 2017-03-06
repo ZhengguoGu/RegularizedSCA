@@ -21,7 +21,7 @@
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
 #'\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis (bottom) are 
 #'Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
-#'G1, for example, indicates the first value in the \cote{GLassoSequence}.
+#'G1, for example, indicates the first value in the \code{GLassoSequence}.
 #'In case both the Lasso sequence and the Group Lasso sequence contain more than 2 elements, there will be an extra plot, which is 
 #'the number of variables selected against Lasso and Group Lasso tuning parameters. In this case \code{plot} is a list of two plots.
 #'To find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
@@ -190,15 +190,21 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     Glasso_index0 <- factor(paste("G", round(Glasso_index0, digits = 3)), levels=paste("G", 1:length(GLassoSequence)))
     
     lowestPress <- min(vec_PRESS)
-    lowestplus1SE <- lowestPress + vec_se[which(vec_PRESS == lowestPress)] #plot 1SE rule region 
+    
+    if(length(which(vec_PRESS == lowestPress))>1){
+      #this happens when min(vec_PRESS) contains multiple values
+      lowestplus1SE <- lowestPress + min(vec_se[which(vec_PRESS == lowestPress)]) 
+    } else{
+      lowestplus1SE <- lowestPress + vec_se[which(vec_PRESS == lowestPress)] #plot 1SE rule region 
+    }
     lasso1 <- array()
     lasso2 <- array()
       for(i in 1:length(GLassoSequence)){
-        
+       
         pressindex <- which(abs(PRESS[, i]-lowestplus1SE)==min(abs(PRESS[, i]-lowestplus1SE)))  #comment: it seems that we have to have an index number here, instead of inserting the index directly in PRESS[index, i]
         pressindex <- pressindex[length(pressindex)]  #this is because in case of large Glasso values, preindex is a vector, we choose the one with the most sparse results
         lasso1temp <- LassoSequence[pressindex]
-      
+        
         if(PRESS[pressindex, i] - lowestplus1SE > 0 ){
           if(LassoSequence[pressindex] == LassoSequence[1]){
             lasso2temp <- lasso1temp  #otherwise lasso2 is out of the boundary
@@ -212,11 +218,11 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
           
           lasso1[i] <- lasso2temp
           lasso2[i] <- lasso1temp
-        }  else if (PRESS[which(abs(PRESS[, i]-lowestplus1SE)==min(abs(PRESS[, i]-lowestplus1SE))), i] - lowestplus1SE < 0 ){
+        }  else if (PRESS[pressindex, i] - lowestplus1SE < 0 ){
               if(LassoSequence[pressindex] == LassoSequence[length(LassoSequence)]){
                 lasso2temp <- lasso1temp #otherwise lasso2 is out of the boundary
               } else{
-                lasso2temp <- LassoSequence[which(abs(PRESS[, i]-lowestplus1SE)==min(abs(PRESS[, i]-lowestplus1SE))) + 1]
+                lasso2temp <- LassoSequence[pressindex + 1]
                 #the following condition concerns a rare case 
                 if(PRESS[pressindex + 1, i]  - lowestplus1SE < 0) {
                   lasso2temp <- lasso1temp
