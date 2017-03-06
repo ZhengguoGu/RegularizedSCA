@@ -9,22 +9,26 @@
 #'@param R The number of components.
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default value is 1.
-#'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 10 numbers from 0.00000001
-#'to the smallest Lasso tuning parameter value that can make all the components to be zeros. Note that by default the 10 numbers are equally spaced on the log scale. Note that if \code{GLassoSequence} contains only one number, then by default \code{LassoSequence} is a sequence of 50 values.
-#'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 5 numbers from 0.00000001
-#'to the smallest Group Lasso tuning parameter value that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced on the log scale. Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.
+#'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
+#'to the smallest Lasso tuning parameter value that can make all the components to be zeros. Note that by default the 20 numbers are equally spaced on the log scale. 
+#'Note that if \code{GLassoSequence} contains only one number, then by default \code{LassoSequence} is a sequence of 50 values.
+#'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 10 numbers from 0.00000001
+#'to the smallest Group Lasso tuning parameter value that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced (but not on the log scale). 
+#'Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
+#'
 #'@return
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
-#'\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis are the index numbers of
-#'Lasso and Group Lasso tuning parameters. In case both the Lasso sequence and the Group Lasso sequence contain more than 2 elements, there will be an extra plot, which is 
+#'\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis (bottom) are 
+#'Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
+#'G1, for example, indicates the first value in the \cote{GLassoSequence}.
+#'In case both the Lasso sequence and the Group Lasso sequence contain more than 2 elements, there will be an extra plot, which is 
 #'the number of variables selected against Lasso and Group Lasso tuning parameters. In this case \code{plot} is a list of two plots.
 #'To find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
-#'\item{Lasso_values}{The sequence of Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
-#'for Lasso is \code{6}, its corresponding Lasso tuning parameter is \code{Lasso_values[6]}.}
+#'\item{Lasso_values}{The sequence of Lasso tuning parameters used for cross-validation. Users may also consult \code{Lambdaregion} (explained below).}
 #'\item{Glasso_values}{The sequence of Group Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
 #'for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}
-#'
+#'\item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
 #'@examples
 #'\dontrun{
 #'DATA1 <- matrix(rnorm(50), nrow=5)
@@ -183,7 +187,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     
     lasso_index0 <- rep(LassoSequence, length(GLassoSequence))
     Glasso_index0 <- rep(1:length(GLassoSequence), each=length(LassoSequence))
-    Glasso_index0<- factor(paste("G", round(Glasso_index0, digits = 3)), levels=paste("G", 1:length(GLassoSequence)))
+    Glasso_index0 <- factor(paste("G", round(Glasso_index0, digits = 3)), levels=paste("G", 1:length(GLassoSequence)))
     
     lowestPress <- min(vec_PRESS)
     lowestplus1SE <- lowestPress + vec_se[which(vec_PRESS == lowestPress)] #plot 1SE rule region 
