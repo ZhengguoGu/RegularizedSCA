@@ -19,6 +19,7 @@
 #'
 #'@return
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
+#'\item{Press1SE}{The lowest PRESS + 1SE.}
 #'\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis (bottom) are 
 #'Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
 #'G1, for example, indicates the first value in the \code{GLassoSequence}.
@@ -417,6 +418,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
 
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
+  return_crossvali$Press1SE <- lowestplus1SE
   return_crossvali$plot <- p
   return_crossvali$Lasso_values <- LassoSequence
   return_crossvali$Glasso_values <- GLassoSequence

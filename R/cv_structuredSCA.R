@@ -26,7 +26,8 @@
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will
 #'  be performed.
 #'@return
-#'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameters.}
+#'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameter values.}
+#'\item{Press1SE}{The lowest PRESS + 1SE.}
 #'\item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
 #'\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted agains a log scale of lumbda if \code{LassoSequence} is not defined by users. }
 #'\item{LassoRegion}{A region where the suitable lambda can be found, according to the "1 SE rule". }
@@ -221,9 +222,11 @@ cv_structuredSCA <- function(DATA, Jk, R, Position, component_structure, MaxIter
 
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
+  return_crossvali$Press1SE <- lowestplus1SE
   return_crossvali$LassoSeqence <- LassoSequence
   return_crossvali$plot <- p
   return_crossvali$LassoRegion <- lregion
+  
   return(return_crossvali)
 
 }
