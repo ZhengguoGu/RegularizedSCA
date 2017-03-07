@@ -416,6 +416,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     
   }
 
+  colnames(lambdaregion) <- c("lower bound", "upper bound")
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$Press1SE <- lowestplus1SE
