@@ -138,23 +138,27 @@ cv_structuredSCA <- function(DATA, Jk, R, Position, component_structure, MaxIter
   if(plotlog == 1){
     df <- data.frame( LassoI = log(LassoSequence), Press = PRESS, Upper = upper, Lower = lower)
     lowestPress <- min(PRESS)
-    lowestplus1SE <- lowestPress + sd_MSE[which(PRESS == lowestPress)] #plot 1SE rule region the idea is to fine the region of lasso where according to the 1SE rule the lasso should be in that region. 
-    lasso1 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))]
-    if(PRESS[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] - lowestplus1SE > 0 ){
-      if(df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] == df$LassoI[1]){
+    lowestplus1SE <- lowestPress + min(sd_MSE[which(PRESS == lowestPress)]) #plot 1SE rule region the idea is to fine the region of lasso 
+                                                                            #where according to the 1SE rule the lasso should be in that region. 
+                                                                            #min() is used in case there are multiple PRESS==lowestPress
+    pressindex <- which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))
+    lasso1 <- df$LassoI[tail(pressindex)] #in case multiple Lasso values are available, choose the most sparse one. 
+    
+    if(PRESS[tail(pressindex)] - lowestplus1SE > 0 ){
+      if(df$LassoI[tail(pressindex)] == df$LassoI[1]){
         #this is the first value of the vector
         lregion <- c(lasso1, lasso1)
       } else{
-        lasso2 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE))) - 1]
+        lasso2 <- df$LassoI[tail(pressindex) - 1]
         lregion <- c(lasso2, lasso1)
       }
       
-    } else if (PRESS[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] - lowestplus1SE < 0 ){
-      if(df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] == df$LassoI[length(df$LassoI)]){
+    } else if (PRESS[tail(pressindex)] - lowestplus1SE < 0 ){
+      if(df$LassoI[tail(pressindex)] == df$LassoI[length(df$LassoI)]){
         #this is the last value of the vector
         lregion <- c(lasso1, lasso1)
       } else{
-        lasso2 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE))) + 1]
+        lasso2 <- df$LassoI[tail(pressindex) + 1]
         lregion <- c(lasso1, lasso2)
       }
       
@@ -176,22 +180,25 @@ cv_structuredSCA <- function(DATA, Jk, R, Position, component_structure, MaxIter
     df <- data.frame( LassoI = LassoSequence, Press = PRESS, Upper = upper, Lower = lower)
     
     lowestPress <- min(PRESS)
-    lowestplus1SE <- lowestPress + sd_MSE[which(PRESS == lowestPress)] #plot 1SE rule region the idea is to fine the region of lasso where according to the 1SE rule the lasso should be in that region. 
-    lasso1 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))]
-    if(PRESS[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] - lowestplus1SE > 0 ){
-      if(df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] == df$LassoI[1]){
+    lowestplus1SE <- lowestPress + min(sd_MSE[which(PRESS == lowestPress)]) #plot 1SE rule region the idea is to fine the region of lasso where according to the 1SE rule the lasso should be in that region. 
+    
+    pressindex <- which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))
+    lasso1 <- df$LassoI[tail(pressindex)] #in case multiple lasso values available
+    
+    if(PRESS[tail(pressindex)] - lowestplus1SE > 0 ){
+      if(df$LassoI[tail(pressindex)] == df$LassoI[1]){
         # this is the first element of the vector
         lregion <- c(lasso1, lasso1)
       } else{
-        lasso2 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE))) - 1]
+        lasso2 <- df$LassoI[tail(pressindex) - 1]
         lregion <- c(lasso2, lasso1)
       }
       
-    } else if (PRESS[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] - lowestplus1SE < 0 ){
-        if(df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))] == length(LassoSequence)){
+    } else if (PRESS[tail(pressindex)] - lowestplus1SE < 0 ){
+        if(df$LassoI[tail(pressindex)] == length(LassoSequence)){
           lasso2 <- lasso1
         } else{
-          lasso2 <- df$LassoI[which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE))) + 1]
+          lasso2 <- df$LassoI[tail(pressindex) + 1]
         }
       lregion <- c(lasso1, lasso2)
     } else {
