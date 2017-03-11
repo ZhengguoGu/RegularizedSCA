@@ -15,27 +15,42 @@ This R package is a collection of functions for performing multi-block data inte
 
 Notice that the common and distinctive processes (also refered to as common and distinctive components) are with respect to the estimated component loading matrix $\mathbf{P}$. As for the technical details, we refer to:
 
-Van Deun, K., Wilderjans, T.F., Van Den Berg, R.A., Antoniadis, A., & Van Mechelen, I. (2011). A flexible framework for sparse simultaneous component based data integration. BMC Bioinformatics. 12(1), 448.
+- Van Deun, K., Wilderjans, T.F., Van Den Berg, R.A., Antoniadis, A., & Van Mechelen, I. (2011). A flexible framework for sparse simultaneous component based data integration. BMC Bioinformatics. 12(1), 448.
 
 ## Data pre-processing
 Raw data must be standardized (i.e., pre-processed) before analysis, and thus we provide a function `mySTD()`. The following paper provides a nice overview of how and why raw data should be pre-processed:
 
-Van Deun, K., Smilde, A.K., van der Werf, M.J., Kiers, H.A.L, & Mechelen, I.V. (2009). A structured overview of simultaneous component based data integration. BMC Bioinformatics, 10:246.
+- Van Deun, K., Smilde, A.K., van der Werf, M.J., Kiers, H.A.L, & Mechelen, I.V. (2009). A structured overview of simultaneous component based data integration. BMC Bioinformatics, 10:246.
 
 ## Identify common and distinctive components
 ### Situation 1: No prior information on common and distinctive components
-When no prior information is available, users may first try the function `VAF()` with various numbers of components. This function provides an overview of proportions of variance accounted for (VAF) for each component in each block. 
+When no prior information is available, users may first try the function `VAF()` with various numbers of components. This function provides an overview of proportions of variance accounted for (VAF) for each component in each block. The idea is that we let `VAF()` do the analysis with an arbitrarily large number of components, say `R*`. Then the results of `VAF()` will show that only a smaller nuber is needed (i.e., `R << R*`), and thus we have found `R`. For referenc e of `VAF()`, see:
 
-`DISCOsca()` is a better option when the number of data blocks and that of components are small, as this function tries all possible combinations of common and distinctive patterns in $\mathbf{P}$ matrix. Note that this algorithm utilizes a specific rule to determine common and distinctive processes: To put it simply, for each component across the entire data blocks, the algorithm calculates the distance among the sum of squares of the loadings per block (weighted by total variace of the block) to determine whether it is a common/distictive component. Thus, this rule may not work well when common components are also very sparse. 
+ - Schouteden, M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Performing DISCO-SCA to search for distinctive and common information in linked data. Behavior research methods, 46(2), 576-587.
+ - Schouteden, M., Van Deun, K., Pattyn, S., & Van Mechelen, I. (2013). SCA with rotation to distinguish common and distinctive information in linked data. Behavior research methods, 45(3), 822-833.
 
-`pca_gca()` identify common and distinctive components in a two stage procedure: First perform principle component analysis on each data block, and then perform a canonical correlation analysis on the component loadings across all the data blocks. In case of more than 2 data blocks, users may need to repeatly apply the function to see, for example, whether some of the blocks share common components.
+`DISCOsca()` is a better option when the number of data blocks and that of components are small, as this function tries all possible combinations of common and distinctive patterns in $\mathbf{P}$ matrix. Note that this algorithm utilizes a specific rule to determine common and distinctive processes: To put it simply, for each component across the entire data blocks, the algorithm calculates the distance among the sum of squares of the loadings per block (weighted by total variace of the block) to determine whether it is a common/distictive component. Thus, this rule may not work well when, for example, common components are also very sparse. For technical details, see
 
-`CDfriedman()` is an algorithm based on regularization method. It can itentify common and distinctive components as long as the proper tuning parameters for Lasso and Group Lasso are chosen. Note that this algorithm uses a MM procedure, meaning that the estimation takes some time to converge. Uers may use `cv_CDfriedman()` to find suitable values for the Lasso and Group Lasso tuning parameters. `maxLGlasso()` helps to identy the max values for the Lasso and Group Lasso tuning parameters. 
+- Schouteden, M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Performing DISCO-SCA to search for distinctive and common information in linked data. Behavior research methods, 46(2), 576-587.
+
+`pca_gca()` identify common and distinctive components in a two stage procedure: First perform principle component analysis on each data block, and then perform a canonical correlation analysis on the component loadings across all the data blocks. In case of more than 2 data blocks, users may need to repeatly apply the function to see, for example, whether some of the blocks (but not all) share common components. See
+
+- Tenenhaus, A., & Tenenhaus, M. (2011). Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284.
+- Smilde, A.K., Mage, I., Naes, T., Hankemeier, T., Lips, M.A., Kiers, H.A., Acar, E., & Bro, R. (2016). Common and distinct components in data fusion. arXiv preprint arXiv:1607.02328.
+
+`structuredSCA()` is an algorithm for sparse SCA - that is, a Lasso penalty and a Group Lasso penalty are added to the SCA model. The algorithm can itentify common and distinctive components as long as the proper tuning parameters for Lasso and Group Lasso are chosen. Note that this algorithm uses a MM procedure, meaning that the estimation takes some time to converge. Uers may use `cv_sparseSCA()` to find suitable values for the Lasso and Group Lasso tuning parameters. `maxLGlasso()` helps to identy the max values for the Lasso and Group Lasso tuning parameters. Also noted that, `structuredSCA()` incorporates a multi-start procedure to deal with the local minima problem. For technical details, see
+
+- Gu, Z., & Van Deun, K. RSCA: Regularized simultaneous component analysis for data integration in R. (under review)
+- Friedman, J., Hastie, T., & Tibshirani, R. (2010). A note on the group lasso and a sparse group lasso. arXiv preprint arXiv:1001.0736.
+- Yuan, M., & Lin, Y. (2006). Model selection and estimation in regression with grouped variables. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 68(1), 49-67.
 
 ### Situation 2: Prior information on common and distinctive components is avaiable
 This situation can happen, for example, when previous research has already provided some information on the common/distictive processes. In this case, researchers may want to specify a particular structure in the estimated $\mathbf{P}$ matrix; in other words, some elements in $\mathbf{P}$ are fixed to 0's. 
 
-To this end, users may want to use the funciton `component_structure()` together with `CDpre()`. We would like to remind the users that the `GroupStructure` parameter in `CDpre()` can be specified in flexible ways: That is, instead of using `component_structure()` for `GroupStructure`, users can specify a matrix for `GroupStructure()` themselves and this matrix simply indicates where the 0's are expected to be in the estimated $\mathbf{P}$. 
+To this end, users may want to use the function `structuredSCA()` or `cv_structuredSCA()`. `structuredSCA()` allows for flexibly estimating $\mathbf{P}$ given a pre-defined structure in $\mathbf{P}$. The algorithm incorprates a Lasso penalty to achieve sparseness (and thus the Group Lasso is droped). To identify a proper value for Lasso tuning parmater, users are advised to try `cv_structuredSCA()`. For technical details, see
 
-`cv_CDpreKf()` are functions for identifying possible range of Lasso tuning parameters for the sparse common component(s), given the distictive components are known. Note that, at this moment, little research is done on cross-validation procedures for sparse common and distinctive componets. 
+- Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.
+ 
+
+ 
 

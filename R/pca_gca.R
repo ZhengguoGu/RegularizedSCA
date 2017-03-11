@@ -17,7 +17,8 @@
 #' Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 #' pca_gca(DATA, Jk, cor_min = .8)
 #' }
-#' @references Tenenhaus, A., & Tenenhaus, M. (2011). Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284
+#' @references Tenenhaus, A., & Tenenhaus, M. (2011). Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284.
+#' @references Smilde, A.K., Mage, I., Naes, T., Hankemeier, T., Lips, M.A., Kiers, H.A., Acar, E., & Bro, R. (2016). Common and distinct components in data fusion. arXiv preprint arXiv:1607.02328.
 #' @note
 #' Please be ware of the interactive input: The function first performs PCA on each data block and then displays the eigenvalues (and a scree plot).
 #' Afterwards the function awaits the input from the user - it needs to know how many components need to be retained for that block.
