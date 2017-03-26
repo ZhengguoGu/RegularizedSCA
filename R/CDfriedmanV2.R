@@ -1,6 +1,6 @@
-# Variable selection with Lasso and Group Lasso
-# Version 1: treat each datablock as a group (as opposed to verison 2 where each column is a group)
-CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
+#'Variable selection with Lasso and Group Lasso
+
+CDfriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   
   DATA <- data.matrix(DATA)
   I_Data <- dim(DATA)[1]
@@ -74,21 +74,18 @@ CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
           Xk_r <- matrix(NA, R, Jk[i])
           soft_Xkr <- matrix(NA, R, Jk[i])
 
-          #for (j in 1:Jk[i]){
-          #  for (r in 1:R){
-          #    xkr <- t(Tmat[, r]) %*% data[, j]
-          #    Xk_r[r, j] <- xkr
-          #    soft_Xkr[r, j] <- sign(xkr)*max((abs(xkr) - LASSO), 0)
-          #  }
-          #}
-          
-          Xk_r <- t(Tmat) %8% data
-          soft_Xkr <- sign(Xk_r) * max((abs(Xk_r) - LASSO), 0)
+          for (j in 1:Jk[i]){
+            for (r in 1:R){
+              xkr <- t(Tmat[, r]) %*% data[, j]
+              Xk_r[r, j] <- xkr
+              soft_Xkr[r, j] <- sign(xkr)*max((abs(xkr) - LASSO), 0)
+            }
+          }
 
-          Vec_Xkr <- as.vector(Xk_r)
-          Vec_soft_Xkr <- as.vector(soft_Xkr)
+         Vec_Xkr <- as.vector(Xk_r)
+         Vec_soft_Xkr <- as.vector(soft_Xkr)
 
-          l2_soft_Xkr <- sqrt(sum(Vec_soft_Xkr^2))
+         l2_soft_Xkr <- sqrt(sum(Vec_soft_Xkr^2))
 
          if (l2_soft_Xkr/(Jk[i]*GROUPLASSO^2) <= 1 & GROUPLASSO !=0 ){
            Pt[ ,c(L:U)] <- 0
