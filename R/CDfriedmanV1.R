@@ -142,5 +142,4 @@ CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   #return_varselect$iter <- iter - 1
   return(return_varselect)
 
-
 }
