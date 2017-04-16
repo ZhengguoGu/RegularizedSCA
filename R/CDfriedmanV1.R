@@ -1,4 +1,6 @@
-#'Variable selection with Lasso and Group Lasso
+#Variable selection with Lasso and Group Lasso - Version 1: "datablock" method. 
+#The algorithm applies sparse Group Lasso on the entire concatenate datablock, 
+
 
 CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   
@@ -65,7 +67,7 @@ CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
 
         U <- L + Jk[i] - 1
         Pt_1 <- Pt[ ,c(L:U)]
-        data <- DATA[ ,c(L:U)]
+        data <- DATA[ ,c(L:U)] #here we focus on each datablock.
 
         sum_abs_theta <- sum(abs(Pt_1))
         if (sum_abs_theta != 0){
@@ -82,7 +84,7 @@ CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
           #  }
           #}
           
-          Xk_r <- t(Tmat) %8% data
+          Xk_r <- t(Tmat) %*% data
           soft_Xkr <- sign(Xk_r) * max((abs(Xk_r) - LASSO), 0)
 
           Vec_Xkr <- as.vector(Xk_r)

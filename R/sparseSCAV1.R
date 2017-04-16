@@ -1,4 +1,5 @@
-#'Variable selection with Lasso and Group Lasso with a multi-start procedure
+#'Variable selection with Lasso and Group Lasso with a multi-start procedure 
+#'
 #'
 #'Variable selection with Lasso and Group Lasso penalties to identify component and distinctive components. This algorithm incorporates
 #'a multi-start procedure to deal with the possible existence of local minima. 
@@ -10,6 +11,9 @@
 #'@param GROUPLASSO A group Lasso tuning parameter.
 #'@param MaxIter The maximum rounds of iterations. It should be a positive integer. The default value is 400.
 #'@param NRSTARTS Multi-start procedure: The number of multi-starts. The default value is 20.
+#'@param method "datablock" or "component". If \code{method="component"}, the algorithm treats each component across all blocks independently, and thus sparse Group Lasso 
+#'is applied per component. If \code{method="datablock"}, the algorithm applies sparse Group Lasso on the entire concatenated data block altogether.
+#'If \code{method} is missing, then the \code{"component"} method is used. 
 #'
 #'@return
 #'\item{Pmatrix}{The best estimated component loading matrix (i.e., P), if multi-starts >= 2.}
@@ -26,7 +30,7 @@
 #'LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value.
 #'GROUPLASSO <- 0.4 # assume that Group Lasso =0.4 is a suitable value.
 #'MaxIter <- 400
-#'results <- sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS = 10)
+#'results <- sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS = 10, method = "datablock")
 #'
 #'results$Pmatrix # to check the best concatenated component loading matrix.
 #'}
@@ -36,12 +40,15 @@
 #'Yuan, M., & Lin, Y. (2006). Model selection and estimation in regression with grouped variables. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 68(1), 49-67.
 #'@export
 
-sparseSCA <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS){
+sparseSCA <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS, method){
   
   if(missing(NRSTARTS)){
     NRSTARTS <- 20
   } 
   
+  if(missing(method)){
+    method <- "component"
+  }
   Pout3d <- list()
   Tout3d <- list()
   LOSS <- array()
@@ -49,7 +56,12 @@ sparseSCA <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS){
   
   for (n in 1:NRSTARTS){
     
-    VarSelectResult <- CDfriedman(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter)
+    if(method == "datablock"){
+      VarSelectResult <- CDfriedmanV1(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter)
+    } else if (method == "component"){
+      VarSelectResult <- CDfriedmanV2(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter)
+    }
+    
     Pout3d[[n]] <- VarSelectResult$Pmatrix
     Tout3d[[n]] <- VarSelectResult$Tmatrix
     LOSS[n] <- VarSelectResult$Loss
