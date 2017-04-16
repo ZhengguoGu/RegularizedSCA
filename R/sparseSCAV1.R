@@ -40,7 +40,11 @@
 #'Yuan, M., & Lin, Y. (2006). Model selection and estimation in regression with grouped variables. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 68(1), 49-67.
 #'@export
 
+<<<<<<< HEAD
 sparseSCA <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS, method){
+=======
+sparseSCAV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS){
+>>>>>>> 1c53dd4d419f3a1bdb6497de6d6ef45664fd0d7d
   
   if(missing(NRSTARTS)){
     NRSTARTS <- 20
