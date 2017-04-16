@@ -1,12 +1,7 @@
-<<<<<<< HEAD
+
 #Variable selection with Lasso and Group Lasso - Version 1: "datablock" method. 
 #The algorithm applies sparse Group Lasso on the entire concatenate datablock, 
 
-
-=======
-# Variable selection with Lasso and Group Lasso
-# Version 1: treat each datablock as a group (as opposed to verison 2 where each column is a group)
->>>>>>> 1c53dd4d419f3a1bdb6497de6d6ef45664fd0d7d
 CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   
   DATA <- data.matrix(DATA)
@@ -74,38 +69,23 @@ CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
         Pt_1 <- Pt[ ,c(L:U)]
         data <- DATA[ ,c(L:U)] #here we focus on each datablock.
 
-        sum_abs_theta <- sum(abs(Pt_1))
-        if (sum_abs_theta != 0){
-          # to test whether the entire Pk should be zeros, i.e., ||Sj||2 <=1
-
-          Xk_r <- matrix(NA, R, Jk[i])
-          soft_Xkr <- matrix(NA, R, Jk[i])
-
-          #for (j in 1:Jk[i]){
-          #  for (r in 1:R){
-          #    xkr <- t(Tmat[, r]) %*% data[, j]
-          #    Xk_r[r, j] <- xkr
-          #    soft_Xkr[r, j] <- sign(xkr)*max((abs(xkr) - LASSO), 0)
-          #  }
-          #}
+        if (sum(abs(Pt_1)) != 0){
+         
+          # 1. calculate S(2Vec(T'X_l), lambda_L), and its l2 norm.
           
-          Xk_r <- t(Tmat) %*% data
-          soft_Xkr <- sign(Xk_r) * max((abs(Xk_r) - LASSO), 0)
-
-          Vec_Xkr <- as.vector(Xk_r)
-          Vec_soft_Xkr <- as.vector(soft_Xkr)
-
-          l2_soft_Xkr <- sqrt(sum(Vec_soft_Xkr^2))
-
-         if (l2_soft_Xkr/(Jk[i]*GROUPLASSO^2) <= 1 & GROUPLASSO !=0 ){
-           Pt[ ,c(L:U)] <- 0
-         } else {
-           if(l2_soft_Xkr != 0){
-             #When Lasso is large enough so that l2_soft_Xkr = 0
-             Pt[ ,c(L:U)] <- max((l2_soft_Xkr - GROUPLASSO*sqrt(Jk[i])), 0) * soft_Xkr / l2_soft_Xkr
-           }else {
-             Pt[ ,c(L:U)] <- 0
-           }
+          S_2Vec_Lambda <- soft_th(2 * t(Tmat) %*% data, LASSO)
+          
+          S_2Vec_Lambda_norm <- sqrt(sum(S_2Vec_Lambda^2))
+          
+          s_l2 <- 0.5 - GROUPLASSO * sqrt(sqrt(Jk[i]))/S_2Vec_Lambda_norm
+         
+          if (s_l2 <= 0){
+        
+            Pt[ ,c(L:U)] <- 0
+          
+          } else{
+            Pt[ ,c(L:U)] <- s_l2 * S_2Vec_Lambda
+          }
          }
         }
         L <- U + 1
