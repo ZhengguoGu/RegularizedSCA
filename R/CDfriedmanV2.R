@@ -67,36 +67,27 @@ CDfriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
         Pt_1 <- Pt[ ,c(L:U)]
         data <- DATA[ ,c(L:U)]
 
-        sum_abs_theta <- sum(abs(Pt_1))
-        if (sum_abs_theta != 0){
-          # to test whether the entire Pk should be zeros, i.e., ||Sj||2 <=1
-
-          Xk_r <- matrix(NA, R, Jk[i])
-          soft_Xkr <- matrix(NA, R, Jk[i])
-
-          for (j in 1:Jk[i]){
-            for (r in 1:R){
-              xkr <- t(Tmat[, r]) %*% data[, j]
-              Xk_r[r, j] <- xkr
-              soft_Xkr[r, j] <- sign(xkr)*max((abs(xkr) - LASSO), 0)
+        
+        if (sum(abs(Pt_1)) != 0){
+          # calculate S(2(t_r \otimes I)' Vec(R), Lambda_L
+      
+          for(r in 1:R){
+            
+            copy_Pt1 <- Pt_1
+            copy_Pt1[r, ] <- 0
+            matrix_R <- t(data) - Tmat %*% copy_Pt1
+            
+            S_2Vec_Lambda <- soft_th(2 * matrix_R %*% Tmat[,r], LASSO)
+            S_2Vec_Lambda_norm <- sqrt(sum(S_2Vec_Lambda^2))
+            
+            s_l2 <- 0.5 - GROUPLASSO * sqrt(Jk[i])/S_2Vec_Lambda_norm
+            
+            if(s_l2 <= 0){
+              Pt[r ,c(L:U)] <- 0
+            } else{
+              Pt[r ,c(L:U)] <- s_l2 * c(S_2Vec_Lambda)
             }
           }
-
-         Vec_Xkr <- as.vector(Xk_r)
-         Vec_soft_Xkr <- as.vector(soft_Xkr)
-
-         l2_soft_Xkr <- sqrt(sum(Vec_soft_Xkr^2))
-
-         if (l2_soft_Xkr/(Jk[i]*GROUPLASSO^2) <= 1 & GROUPLASSO !=0 ){
-           Pt[ ,c(L:U)] <- 0
-         } else {
-           if(l2_soft_Xkr != 0){
-             #When Lasso is large enough so that l2_soft_Xkr = 0
-             Pt[ ,c(L:U)] <- max((l2_soft_Xkr - GROUPLASSO*sqrt(Jk[i])), 0) * soft_Xkr / l2_soft_Xkr
-           }else {
-             Pt[ ,c(L:U)] <- 0
-           }
-         }
         }
         L <- U + 1
       }
