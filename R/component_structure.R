@@ -11,10 +11,10 @@
 #the first row and first column is 1, then it means that the component belonging to the first block and the first component is selected; if it is 0, then the component is fixed at zeros.
 #@return A matrix indicating which cells in the component loading matrix should be fixed at zero.
 #@examples
-#'target <- matrix(c(1,1,1,0,1,0,0,1,0,1), 2, 5)
-#'Jk <- c(144, 44)
-#'R <- 5
-#'component_structure(Jk, R, target)
+#target <- matrix(c(1,1,1,0,1,0,0,1,0,1), 2, 5)
+#Jk <- c(144, 44)
+#R <- 5
+#component_structure(Jk, R, target)
 #@references Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.
 
 component_structure <- function(Jk, R, target){
