@@ -4,7 +4,7 @@
 \alias{sparseSCA}
 \title{Variable selection with Lasso and Group Lasso with a multi-start procedure}
 \usage{
-sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS)
+sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS, method)
 }
 \arguments{
 \item{DATA}{A matrix, which contains the concatenated data with the same subjects from multiple blocks.}
@@ -20,6 +20,10 @@ sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS)
 \item{MaxIter}{The maximum rounds of iterations. It should be a positive integer. The default value is 400.}
 
 \item{NRSTARTS}{Multi-start procedure: The number of multi-starts. The default value is 20.}
+
+\item{method}{"datablock" or "component". If \code{method="component"}, the algorithm treats each component across all blocks independently, and thus sparse Group Lasso 
+is applied per component. If \code{method="datablock"}, the algorithm applies sparse Group Lasso on the entire concatenated data block altogether.
+If \code{method} is missing, then the \code{"component"} method is used.}
 }
 \value{
 \item{Pmatrix}{The best estimated component loading matrix (i.e., P), if multi-starts >= 2.}
@@ -40,7 +44,7 @@ R <- 5 # assume that for some reason, we want to have 5 components in the concat
 LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value.
 GROUPLASSO <- 0.4 # assume that Group Lasso =0.4 is a suitable value.
 MaxIter <- 400
-results <- sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS = 10)
+results <- sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS = 10, method = "datablock")
 
 results$Pmatrix # to check the best concatenated component loading matrix.
 }

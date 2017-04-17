@@ -5,7 +5,7 @@
 \title{A K-fold cross-validation procedure when common/distictive processes are unknown.}
 \usage{
 cv_sparseSCA(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence,
-  nfolds)
+  nfolds, method)
 }
 \arguments{
 \item{DATA}{The concatenated data block, with rows represending subjects.}
@@ -27,6 +27,10 @@ to the smallest Group Lasso tuning parameter value that can make all the compone
 Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.}
 
 \item{nfolds}{Number of folds. If missing, then 10 fold cross-validation will be performed.}
+
+\item{method}{"datablock" or "component". If \code{method="component"}, the algorithm treats each component across all blocks independently, and thus sparse Group Lasso 
+is applied per component. If \code{method="datablock"}, the algorithm applies sparse Group Lasso on the entire concatenated data block altogether.
+If \code{method} is missing, then the \code{"component"} method is used.}
 }
 \value{
 \item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}

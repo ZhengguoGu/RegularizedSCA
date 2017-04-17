@@ -1,4 +1,4 @@
-#' Variable selection algorithm with a predefined component loading structure
+# Variable selection algorithm with a predefined component loading structure
 
 CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
 
