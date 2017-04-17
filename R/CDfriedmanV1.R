@@ -71,7 +71,7 @@ CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
 
         if (sum(abs(Pt_1)) != 0){
          
-          # 1. calculate S(2Vec(T'X_l), lambda_L), and its l2 norm.
+          #  calculate S(2Vec(T'X_l), lambda_L), and its l2 norm.
           
           S_2Vec_Lambda <- soft_th(2 * t(Tmat) %*% data, LASSO)
           
@@ -87,7 +87,7 @@ CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
             Pt[ ,c(L:U)] <- s_l2 * S_2Vec_Lambda
           }
          }
-        }
+        
         L <- U + 1
       }
       P <- t(Pt)
