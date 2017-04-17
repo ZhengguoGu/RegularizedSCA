@@ -16,6 +16,9 @@
 #'to the smallest Group Lasso tuning parameter value that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced (but not on the log scale). 
 #'Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
+#'@param method "datablock" or "component". If \code{method="component"}, the algorithm treats each component across all blocks independently, and thus sparse Group Lasso 
+#'is applied per component. If \code{method="datablock"}, the algorithm applies sparse Group Lasso on the entire concatenated data block altogether.
+#'If \code{method} is missing, then the \code{"component"} method is used. 
 #'
 #'@return
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
@@ -45,7 +48,7 @@
 #'@references
 #'Yuan, M., & Lin, Y. (2006). Model selection and estimation in regression with grouped variables. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 68(1), 49-67.
 #'@export
-cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence, nfolds){
+cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence, nfolds, method){
 
   DATA <- data.matrix(DATA)
   plotlog <- 0
@@ -91,6 +94,12 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   if (nfolds < 2){
     stop("Must be at least 2 folds!")
   }
+  
+  if(missing(method)){
+    method <- "component"
+  }
+  
+  
   PRESS <- matrix(0, length(LassoSequence), length(GLassoSequence))
   se_MSE <- matrix(0, length(LassoSequence), length(GLassoSequence))
   varselected <- matrix(0, length(LassoSequence), length(GLassoSequence))
@@ -129,7 +138,11 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
       cat(sprintf("\nGroup Lasso: %s", GLassoSequence[g]))
       cat(sprintf("\nLasso: %s", LassoSequence[l]))
 
-      Forvarselected <- CDfriedman(DATA, Jk, R, LassoSequence[l], GLassoSequence[g], MaxIter)
+      if(method == "datablock"){
+        Forvarselected <- CDfriedmanV1(DATA, Jk, R, LassoSequence[l], GLassoSequence[g], MaxIter)
+      }else if (method == "component"){
+        Forvarselected <- CDfriedmanV2(DATA, Jk, R, LassoSequence[l], GLassoSequence[g], MaxIter)
+      }
       varselected[l,g] <- sum(Forvarselected$Pmatrix != 0)  #how many variables in P have been selected?
       
       error_x <- array()
