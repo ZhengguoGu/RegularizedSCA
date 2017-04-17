@@ -75,8 +75,8 @@ CDfriedmanV2 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
             
             copy_Pt1 <- Pt_1
             copy_Pt1[r, ] <- 0
-            matrix_R <- t(data) - Tmat %*% copy_Pt1
-            
+            matrix_R <- data - Tmat %*% copy_Pt1
+            matrix_R <- t(matrix_R)
             S_2Vec_Lambda <- soft_th(2 * matrix_R %*% Tmat[,r], LASSO)
             S_2Vec_Lambda_norm <- sqrt(sum(S_2Vec_Lambda^2))
             
