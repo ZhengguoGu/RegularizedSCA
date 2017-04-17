@@ -3,7 +3,6 @@
 export(DISCOsca)
 export(TuckerCoef)
 export(VAF)
-export(component_structure)
 export(cv_sparseSCA)
 export(cv_structuredSCA)
 export(maxLGlasso)
