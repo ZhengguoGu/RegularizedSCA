@@ -160,7 +160,11 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
         Tout3d <- list()
         LOSS <- array()
         for (n in 1:NRSTARTS){
-          VarSelectResult <- CDfriedman(DATArm, Jk, R, LassoSequence[l], GLassoSequence[g], MaxIter)
+          if(method == "datablock"){
+            VarSelectResult <- CDfriedmanV1(DATArm, Jk, R, LassoSequence[l], GLassoSequence[g], MaxIter)
+          }else if (method == "component"){
+            VarSelectResult <- CDfriedmanV2(DATArm, Jk, R, LassoSequence[l], GLassoSequence[g], MaxIter)
+          }
           Pout3d[[n]] <- VarSelectResult$Pmatrix
           Tout3d[[n]] <- VarSelectResult$Tmatrix
           LOSS[n] <- VarSelectResult$Loss
