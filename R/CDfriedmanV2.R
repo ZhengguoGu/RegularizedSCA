@@ -1,6 +1,6 @@
 #'Variable selection with Lasso and Group Lasso
 
-CDfriedman <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
+CDfriedmanV2 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   
   DATA <- data.matrix(DATA)
   I_Data <- dim(DATA)[1]
