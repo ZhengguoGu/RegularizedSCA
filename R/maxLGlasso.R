@@ -1,4 +1,4 @@
-#' An algorithm for determining the maximum value for Lasso and Group Lasso tuning parameters that are worthy of considering.
+#' An algorithm for determining the smallest values for Lasso and Group Lasso tuning parameters that yield all zeros.
 #'
 #' \code{maxLGlasso} identify the minimum value for Lasso and Group Lasso tuning parameters that
 #' lead to an estimated P matrix with all of its elements equal 0. This minimum value is thus the maximum value (the boundary) that users

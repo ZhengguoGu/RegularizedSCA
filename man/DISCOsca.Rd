@@ -2,7 +2,7 @@
 % Please edit documentation in R/DISCOsca.R
 \name{DISCOsca}
 \alias{DISCOsca}
-\title{DISCO-SCA procedure}
+\title{DISCO-SCA rotation.}
 \usage{
 DISCOsca(DATA, R, Jk)
 }

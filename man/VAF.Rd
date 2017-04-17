@@ -2,7 +2,7 @@
 % Please edit documentation in R/VAF.R
 \name{VAF}
 \alias{VAF}
-\title{Proportion of variance accounted for}
+\title{Proportion of variance accounted for (VAF) for each block and each principal component.}
 \usage{
 VAF(DATA, Jk, R)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/maxLGlasso.R
 \name{maxLGlasso}
 \alias{maxLGlasso}
-\title{An algorithm for determining the maximum value for Lasso and Group Lasso tuning parameters that are worthy of considering.}
+\title{An algorithm for determining the smallest values for Lasso and Group Lasso tuning parameters that yield all zeros.}
 \usage{
 maxLGlasso(DATA, Jk, R)
 }

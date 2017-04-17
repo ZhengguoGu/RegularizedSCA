@@ -1,4 +1,4 @@
-#' Proportion of variance accounted for
+#' Proportion of variance accounted for (VAF) for each block and each principal component.
 #'
 #' Proportion of variance accounted for (VAF) is calculated for each block and each column.
 #'

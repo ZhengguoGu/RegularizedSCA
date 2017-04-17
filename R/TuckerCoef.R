@@ -1,4 +1,4 @@
-#' Tucker congruence
+#' Tucker coefficient of congruence.
 #'
 #' \code{TuckerCoef} calculate Tucker's coefficient of congruence between columns but after accounting for permutational freedom and reflections
 #'

@@ -1,4 +1,4 @@
-#'Variable selection with Lasso and Group Lasso with a multi-start procedure 
+#'Variable selection with Lasso and Group Lasso with a multi-start procedure. 
 #'
 #'
 #'Variable selection with Lasso and Group Lasso penalties to identify component and distinctive components. This algorithm incorporates

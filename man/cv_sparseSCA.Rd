@@ -2,7 +2,7 @@
 % Please edit documentation in R/cv_sparseSCA.R
 \name{cv_sparseSCA}
 \alias{cv_sparseSCA}
-\title{A K-fold cross-validation procedure when common/distictive processes are unknown.}
+\title{A K-fold cross-validation procedure when common/distictive processes are unknown with Lasso and Group Lasso panelties.}
 \usage{
 cv_sparseSCA(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence,
   nfolds, method)

@@ -3,7 +3,7 @@
 \name{cv_structuredSCA}
 \alias{cv_structuredSCA}
 \title{A K-fold cross-validation procedure when common/distictive processes are
-known.}
+known, with a Lasso panelty.}
 \usage{
 cv_structuredSCA(DATA, Jk, R, Position, component_structure, MaxIter, NRSTARTS,
   LassoSequence, nfolds)

@@ -1,4 +1,4 @@
-#'A K-fold cross-validation procedure when common/distictive processes are unknown.
+#'A K-fold cross-validation procedure when common/distictive processes are unknown with Lasso and Group Lasso panelties.
 #'
 #'\code{cv_sparseSCA} helps to find a range of Lasso and Group Lasso tuning parameters for the common component so as to generate sparse common component.
 #'

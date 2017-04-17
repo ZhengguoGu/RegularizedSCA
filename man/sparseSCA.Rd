@@ -2,7 +2,7 @@
 % Please edit documentation in R/sparseSCA.R
 \name{sparseSCA}
 \alias{sparseSCA}
-\title{Variable selection with Lasso and Group Lasso with a multi-start procedure}
+\title{Variable selection with Lasso and Group Lasso with a multi-start procedure.}
 \usage{
 sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS, method)
 }

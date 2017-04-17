@@ -1,5 +1,5 @@
 #'A K-fold cross-validation procedure when common/distictive processes are
-#'known.
+#'known, with a Lasso panelty.
 #'
 #'\code{cv_structuredSCA} helps to find a range of lasso tuning parameters for the
 #'common component so as to generate sparse common component.

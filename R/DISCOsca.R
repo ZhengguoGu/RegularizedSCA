@@ -1,4 +1,4 @@
-#' DISCO-SCA procedure
+#' DISCO-SCA rotation.
 #'
 #' A DISCO-SCA procedure for identifying common and distinctive components.
 #'

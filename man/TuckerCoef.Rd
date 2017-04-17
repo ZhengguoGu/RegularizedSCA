@@ -2,7 +2,7 @@
 % Please edit documentation in R/TuckerCoef.R
 \name{TuckerCoef}
 \alias{TuckerCoef}
-\title{Tucker congruence}
+\title{Tucker coefficient of congruence.}
 \usage{
 TuckerCoef(MatrixA, MatrixB)
 }

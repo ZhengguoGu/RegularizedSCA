@@ -1,4 +1,4 @@
-#' 44 experienced psychiatrists' rating on 17 symptoms shown in two psychiatric groups
+#' 44 experienced psychiatrists' ratings on 17 symptoms for archetypical patients in two psychiatric groups
 #' 
 #' This dataset contains 44 experienced psychiatrists' rating on 17 symptoms shown in two psychiatric groups. Each psychiatrist rated to what extent the 17 sypmtoms matched certain archetypcal psychiatric patients in a grouped classified as "manic-depressed" and patients in a group classified as "schizophrenic".
 #' 

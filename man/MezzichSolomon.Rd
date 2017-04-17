@@ -3,7 +3,7 @@
 \docType{data}
 \name{MezzichSolomon}
 \alias{MezzichSolomon}
-\title{44 experienced psychiatrists' rating on 17 symptoms shown in two psychiatric groups}
+\title{44 experienced psychiatrists' ratings on 17 symptoms for archetypical patients in two psychiatric groups}
 \format{The dataset contains the following list:
 \describe{
  \item{depressed}{A 44x17 matrix of psychiatrists x symptoms for the "manic-depressed" group.}
