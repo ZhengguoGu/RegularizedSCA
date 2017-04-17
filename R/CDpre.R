@@ -2,6 +2,8 @@
 
 CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
 
+  #note: CommPosition can be obtained from GroupStructure as well. 
+  
   DATA <- data.matrix(DATA)
   DistPosition <- setdiff(1:R, CommPosition)
   I_Data <- dim(DATA)[1]
