@@ -4,7 +4,7 @@
 \alias{structuredSCA}
 \title{Variable selection algorithm with a predefined component loading structure}
 \usage{
-structuredSCA(DATA, Jk, R, target, LASSO, MaxIter, NRSTARTS)
+structuredSCA(DATA, Jk, R, Target, LASSO, MaxIter, NRSTARTS)
 }
 \arguments{
 \item{DATA}{A matrix, which contains the concatenated data with the same subjects from multiple blocks.}
@@ -13,7 +13,7 @@ structuredSCA(DATA, Jk, R, target, LASSO, MaxIter, NRSTARTS)
 
 \item{R}{Number of components.}
 
-\item{target}{A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in}
+\item{Target}{A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in}
 
 \item{LASSO}{A Lasso tuning parameter for the common component. If Lasso=0, then the common component
 will not be sparse.}
@@ -39,7 +39,7 @@ DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are wi
 DATA <- cbind(DATA1, DATA2)
 Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 R <- 5 # assume that for some reason, we want to have 5 components in the concatenated P matrix.
-target <- matrix(c(1,1,1,0,1,0,0,1,0,1), 2, 5) 
+Target <- matrix(c(1,1,1,0,1,0,0,1,0,1), 2, 5) 
 Position <- 1 # assume that we let the variables in the first column to be selected by LASSO in concatenated P matrix.
 GroupStructure <- component_structure(Jk, R, target) # we can either use the function component_structure() or to specify by ourselves
                                                     # here we use the component_structure() function.

@@ -1,4 +1,4 @@
-#'A K-fold cross-validation procedure when common/distictive processes are unknown with Lasso and Group Lasso panelties.
+#'A K-fold cross-validation procedure when common/distinctive processes are unknown with Lasso and Group Lasso panelties.
 #'
 #'\code{cv_sparseSCA} helps to find a range of Lasso and Group Lasso tuning parameters for the common component so as to generate sparse common component.
 #'
@@ -10,10 +10,10 @@
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default value is 1.
 #'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
-#'to the smallest Lasso tuning parameter value that can make all the components to be zeros. Note that by default the 20 numbers are equally spaced on the log scale. 
-#'Note that if \code{GLassoSequence} contains only one number, then by default \code{LassoSequence} is a sequence of 50 values.
+#'to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 20 numbers are equally spaced on the log scale. 
+#'Furthermore, if \code{GLassoSequence} contains only one number, then by default \code{LassoSequence} is a sequence of 50 values.
 #'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 10 numbers from 0.00000001
-#'to the smallest Group Lasso tuning parameter value that can make all the components to be zeros. Note that by default the 5 numbers are equally spaced (but not on the log scale). 
+#'to the smallest Group Lasso tuning parameter value that makes all the components equal to zero. Note that by default the 10 numbers are equally spaced (but not on the log scale). 
 #'Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
 #'@param method "datablock" or "component". If \code{method="component"}, the algorithm treats each component across all blocks independently, and thus sparse Group Lasso 
@@ -67,7 +67,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
         LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 50))
         plotlog <- 1
     } else if(missing(GLassoSequence) & (length(LassoSequence) == 1)){
-        GLassoSequence <- exp(seq(from = log(0.00000001), to = log(GLassomax), length.out = 50))
+        GLassoSequence <- seq(from = 0.00000001, to = GLassomax, length.out = 50)
         plotlog <- 1
     }
     
