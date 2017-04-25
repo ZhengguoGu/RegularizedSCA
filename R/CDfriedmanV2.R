@@ -80,7 +80,7 @@ CDfriedmanV2 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
             S_2Vec_Lambda <- soft_th(2 * matrix_R %*% Tmat[,r], LASSO)
             S_2Vec_Lambda_norm <- sqrt(sum(S_2Vec_Lambda^2))
             
-            s_l2 <- 0.5 - GROUPLASSO * sqrt(Jk[i])/S_2Vec_Lambda_norm
+            s_l2 <- 0.5 - 0.5 * GROUPLASSO * sqrt(Jk[i])/S_2Vec_Lambda_norm
             
             if(s_l2 <= 0){
               Pt[r ,c(L:U)] <- 0
