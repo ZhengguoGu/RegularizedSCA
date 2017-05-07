@@ -83,7 +83,7 @@ CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
         
             Pt[ ,c(L:U)] <- 0
           
-          } else if(s_l2 > 0)
+          } else if(s_l2 > 0){
             Pt[ ,c(L:U)] <- s_l2 * S_2Vec_Lambda
           }
          }
