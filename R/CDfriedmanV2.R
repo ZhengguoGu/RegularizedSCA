@@ -82,9 +82,9 @@ CDfriedmanV2 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
             
             s_l2 <- 0.5 - 0.5 * GROUPLASSO * sqrt(Jk[i])/S_2Vec_Lambda_norm
             
-            if(s_l2 <= 0){
+            if(s_l2 <= 0 | S_2Vec_Lambda_norm == 0){
               Pt[r ,c(L:U)] <- 0
-            } else{
+            } else if(s_l2 > 0)
               Pt[r ,c(L:U)] <- s_l2 * c(S_2Vec_Lambda)
             }
           }
