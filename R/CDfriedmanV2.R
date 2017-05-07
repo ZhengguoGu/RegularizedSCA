@@ -1,4 +1,4 @@
-#Variable selection with Lasso and Group Lasso
+#Variable selection with Lasso and Group Lasso (component-wise)
 
 CDfriedmanV2 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   
