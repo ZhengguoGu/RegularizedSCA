@@ -4,13 +4,13 @@
 #'
 #' @param DATA A matrix, which contains the concatenated data with the same subjects from multiple blocks.
 #' Note that each row represents a subject.
-#' @param Jk A vector containing number of variables in the concatinated data matrix.
+#' @param Jk A vector containing number of variables in the concatenated data matrix.
 #' @param R Number of components
 #'
 #' @return
 #' \item{Trot_best}{Estimated component score matrix (i.e., T)}
 #' \item{Prot_best}{Estimated component loading matrix (i.e., P)}
-#' \item{comdist}{A matrix represending common distinctive components. 0 in the matrix indicating that the corresponding
+#' \item{comdist}{A matrix representing common distinctive components. (Rows are data blocks and columns are components.) 0 in the matrix indicating that the corresponding
 #' component of that block is estimated to be zeros, and 1 indicates that (at least one component loading in) the corresponding component of that block is not zero.
 #' Thus, if a column in the \code{comdist} matrix contains only 1's, then this column is a common component, otherwise distinctive component.}
 #' \item{propExp_component}{Proportion of variance per component.}
@@ -81,30 +81,32 @@ DISCOsca <- function(DATA, R, Jk){
 
       posit_indicator <- matrix(0, num_block, R)
       posit_indicator[combinations[,j]] <- 1
-      cat(sprintf("Now checking the following component structure:\n"))
-      print(posit_indicator)
+      
       if (min(rowSums(posit_indicator))!=0 & min(colSums(posit_indicator))!=0){
         # if function is to remove cases where an entire column/block is 0
 
+        cat(sprintf("Now checking the following component structure:\n"))
+        print(posit_indicator)
+        
         Posit_indicatorList <- c(Posit_indicatorList, list(posit_indicator))
-        W <- matrix(0, sum(Jk), R)
+        Target <- matrix(0, sum(Jk), R)
 
         L <- 1
         for (k in 1:num_block){
 
           U <- L + Jk[k] - 1
-          W_part <- W[L:U, ]
-          W_part[, (posit_indicator[k, ]==1)] <- 1
-          W[L:U, ] <- W_part
+          Target_part <- Target[L:U, ]
+          Target_part[, (posit_indicator[k, ]==1)] <- 1
+          Target[L:U, ] <- Target_part
           L <- U + 1
 
         }
 
-        Target <- 1 - W
+        W <- 1 - Target
         TARGET_list <- c(TARGET_list,list(Target))
 
         maxiter <- 5000;
-        convergence <- 0.000000001;
+        convergence <- 0.0001;
         nrstarts <- 2  #default was 5 in fact, but its too slow. 
 
         LOSS <- array()
