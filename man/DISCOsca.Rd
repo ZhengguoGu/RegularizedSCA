@@ -12,12 +12,12 @@ Note that each row represents a subject.}
 
 \item{R}{Number of components}
 
-\item{Jk}{A vector containing number of variables in the concatinated data matrix.}
+\item{Jk}{A vector containing number of variables in the concatenated data matrix.}
 }
 \value{
 \item{Trot_best}{Estimated component score matrix (i.e., T)}
 \item{Prot_best}{Estimated component loading matrix (i.e., P)}
-\item{comdist}{A matrix represending common distinctive components. 0 in the matrix indicating that the corresponding
+\item{comdist}{A matrix representing common distinctive components. (Rows are data blocks and columns are components.) 0 in the matrix indicating that the corresponding
 component of that block is estimated to be zeros, and 1 indicates that (at least one component loading in) the corresponding component of that block is not zero.
 Thus, if a column in the \code{comdist} matrix contains only 1's, then this column is a common component, otherwise distinctive component.}
 \item{propExp_component}{Proportion of variance per component.}
