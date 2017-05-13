@@ -234,7 +234,7 @@ DISCOsca <- function(DATA, R, Jk){
   #results$propExp_pre_component <- VAF_results_component
   #results$propExp_pre_block <- VAF_results_block
   #results$propExp_Rotblock <- propExp_Rblock
-  results$propExp_component <- propExp_Rcomponent
+  results$propExp_component <- propExp_Rcomponent[k]
   #results$Target_matrix <- TARGET_list
   #results$Postion_indicator <- Posit_indicatorList
   #results$Tmatrix <- Tmat
