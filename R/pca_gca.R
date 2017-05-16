@@ -1,6 +1,6 @@
-#' PCA-GCA method
+#' PCA-GCA method for selecting the number of common and distinctive components.
 #'
-#' Use PCA-GCA method to identify common and distictive components.
+#' Use PCA-GCA method to identify the number of common and distictive components.
 #'
 #' @param DATA A concatinated data matrix with the same number of rows.
 #' @param Jk A vector containing number of variables  in the concatinated data matrix. Please see the example below.

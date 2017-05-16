@@ -1,29 +1,30 @@
-#'A K-fold cross-validation procedure when common/distinctive processes are unknown with Lasso and Group Lasso panelties.
+#'A K-fold cross-validation procedure when common/distinctive processes are unknown with Lasso and Group Lasso penalties.
 #'
 #'\code{cv_sparseSCA} helps to find a range of Lasso and Group Lasso tuning parameters for the common component so as to generate sparse common component.
 #'
-#'This function search through a range of Lasso and Group Lasso tuning parameters for identifying common and distinctive components
+#'This function searches through a range of Lasso and Group Lasso tuning parameters for identifying common and distinctive components
 #'
-#'@param DATA The concatenated data block, with rows represending subjects.
+#'@param DATA The concatenated data block, with rows representing subjects.
 #'@param Jk A vector. Each element of this vector is the number of columns of a data block.
 #'@param R The number of components.
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
-#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 1.
+#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 5.
 #'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
 #'to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 20 numbers are equally spaced on the log scale. 
 #'Furthermore, if \code{GLassoSequence} contains only one number, then by default \code{LassoSequence} is a sequence of 50 values.
 #'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 10 numbers from 0.00000001
-#'to the smallest Group Lasso tuning parameter value that makes all the components equal to zero. Note that by default the 10 numbers are equally spaced (but not on the log scale). 
+#'to the smallest Group Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 10 numbers are equally spaced (but not on the log scale). 
 #'Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
-#'@param method "datablock" or "component". If \code{method="component"}, the algorithm treats each component across all blocks independently, and thus sparse Group Lasso 
-#'is applied per component. If \code{method="datablock"}, the algorithm applies sparse Group Lasso on the entire concatenated data block altogether.
-#'If \code{method} is missing, then the \code{"component"} method is used. 
+#'@param method "datablock" or "component". These are two options with respect to the grouping of the loadings as used in the Group Lasso penalty. 
+#'If \code{method="component"}, the block-grouping of the coefficients is applied per component separately. If \code{method = "datablock"}, the grouping
+#'is applied on the concatenated data block, with loadings of all components together. If \code{method} is missing, then the "component" method is used 
+#'by default.  
 #'
 #'@return
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
 #'\item{Press1SE}{The lowest PRESS + 1SE.}
-#'\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis (bottom) are 
+#'\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis (abscissa) are 
 #'Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
 #'G1, for example, indicates the first value in the \code{GLassoSequence}.
 #'In case both the Lasso sequence and the Group Lasso sequence contain more than 2 elements, there will be an extra plot, which is 
@@ -73,6 +74,10 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     
   }
 
+  if(length(Jk) <= 1){
+    stop("This is an algorithm for data integration! There should be at least 2 data blocks!")
+  }
+  
   if (min(GLassoSequence) < 0) {
     stop("Group Lasso tuning parameter must be non-negative!")
   }
@@ -85,7 +90,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   }
 
   if(missing(NRSTARTS)){
-    NRSTARTS <- 1
+    NRSTARTS <- 5
   }
 
   if(missing(nfolds)){

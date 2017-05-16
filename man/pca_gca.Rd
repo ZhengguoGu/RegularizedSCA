@@ -2,7 +2,7 @@
 % Please edit documentation in R/pca_gca.R
 \name{pca_gca}
 \alias{pca_gca}
-\title{PCA-GCA method}
+\title{PCA-GCA method for selecting the number of common and distinctive components.}
 \usage{
 pca_gca(DATA, Jk, cor_min, return_scores)
 }
@@ -20,7 +20,7 @@ between the two component is at least .9, then these two components are regarded
 It prints out the number of components of each block and the number of common components. It also returns the component scores for each block for further analysis, if \code{return_scores = TRUE}.
 }
 \description{
-Use PCA-GCA method to identify common and distictive components.
+Use PCA-GCA method to identify the number of common and distictive components.
 }
 \note{
 Please be ware of the interactive input: The function first performs PCA on each data block and then displays the eigenvalues (and a scree plot).

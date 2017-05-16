@@ -2,13 +2,13 @@
 % Please edit documentation in R/cv_sparseSCA.R
 \name{cv_sparseSCA}
 \alias{cv_sparseSCA}
-\title{A K-fold cross-validation procedure when common/distinctive processes are unknown with Lasso and Group Lasso panelties.}
+\title{A K-fold cross-validation procedure when common/distinctive processes are unknown with Lasso and Group Lasso penalties.}
 \usage{
 cv_sparseSCA(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence,
   nfolds, method)
 }
 \arguments{
-\item{DATA}{The concatenated data block, with rows represending subjects.}
+\item{DATA}{The concatenated data block, with rows representing subjects.}
 
 \item{Jk}{A vector. Each element of this vector is the number of columns of a data block.}
 
@@ -16,26 +16,27 @@ cv_sparseSCA(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence,
 
 \item{MaxIter}{Maximum number of iterations for this algorithm. The default value is 400.}
 
-\item{NRSTARTS}{The number of multistarts for this algorithm. The default value is 1.}
+\item{NRSTARTS}{The number of multistarts for this algorithm. The default value is 5.}
 
 \item{LassoSequence}{The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
 to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 20 numbers are equally spaced on the log scale. 
 Furthermore, if \code{GLassoSequence} contains only one number, then by default \code{LassoSequence} is a sequence of 50 values.}
 
 \item{GLassoSequence}{The range of Group Lasso tuning parameters. The default value is a sequence of 10 numbers from 0.00000001
-to the smallest Group Lasso tuning parameter value that makes all the components equal to zero. Note that by default the 10 numbers are equally spaced (but not on the log scale). 
+to the smallest Group Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 10 numbers are equally spaced (but not on the log scale). 
 Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.}
 
 \item{nfolds}{Number of folds. If missing, then 10 fold cross-validation will be performed.}
 
-\item{method}{"datablock" or "component". If \code{method="component"}, the algorithm treats each component across all blocks independently, and thus sparse Group Lasso 
-is applied per component. If \code{method="datablock"}, the algorithm applies sparse Group Lasso on the entire concatenated data block altogether.
-If \code{method} is missing, then the \code{"component"} method is used.}
+\item{method}{"datablock" or "component". These are two options with respect to the grouping of the loadings as used in the Group Lasso penalty. 
+If \code{method="component"}, the block-grouping of the coefficients is applied per component separately. If \code{method = "datablock"}, the grouping
+is applied on the concatenated data block, with loadings of all components together. If \code{method} is missing, then the "component" method is used 
+by default.}
 }
 \value{
 \item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
 \item{Press1SE}{The lowest PRESS + 1SE.}
-\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis (bottom) are 
+\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis (abscissa) are 
 Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
 G1, for example, indicates the first value in the \code{GLassoSequence}.
 In case both the Lasso sequence and the Group Lasso sequence contain more than 2 elements, there will be an extra plot, which is 
@@ -50,7 +51,7 @@ for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \
 \code{cv_sparseSCA} helps to find a range of Lasso and Group Lasso tuning parameters for the common component so as to generate sparse common component.
 }
 \details{
-This function search through a range of Lasso and Group Lasso tuning parameters for identifying common and distinctive components
+This function searches through a range of Lasso and Group Lasso tuning parameters for identifying common and distinctive components
 }
 \examples{
 \dontrun{

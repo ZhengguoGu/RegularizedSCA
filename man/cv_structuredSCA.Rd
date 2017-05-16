@@ -2,24 +2,20 @@
 % Please edit documentation in R/cv_structuredSCA.R
 \name{cv_structuredSCA}
 \alias{cv_structuredSCA}
-\title{A K-fold cross-validation procedure when common/distictive processes are
-known, with a Lasso panelty.}
+\title{A K-fold cross-validation procedure when common/distinctive processes are
+known, with a Lasso penalty.}
 \usage{
-cv_structuredSCA(DATA, Jk, R, Position, component_structure, MaxIter, NRSTARTS,
-  LassoSequence, nfolds)
+cv_structuredSCA(DATA, Jk, R, Target, MaxIter, NRSTARTS, LassoSequence, nfolds)
 }
 \arguments{
-\item{DATA}{The concatenated data block, with rows represending subjects.}
+\item{DATA}{The concatenated data block, with rows representing subjects.}
 
 \item{Jk}{A vector. Each element of this vector is the number of columns of a
 data block.}
 
 \item{R}{The number of components.}
 
-\item{Position}{A scaler or a vector indicating the column(s) of which the variables will be selected by LASSO in the component loading matrix (P).}
-
-\item{component_structure}{A matrix specifing which elements in the component
-matrix should be fixed at zeros. see \code{component_structure}.}
+\item{Target}{A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in}
 
 \item{MaxIter}{Maximum number of iterations for this algorithm. The default
 value is 400.}
@@ -37,8 +33,8 @@ be performed.}
 \value{
 \item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameter values.}
 \item{Press1SE}{The lowest PRESS + 1SE.}
-\item{LassoSeqence}{The sequence of Lasso tuning parameters used in cross-validation.}
-\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted agains a log scale of lumbda if \code{LassoSequence} is not defined by users. }
+\item{LassoSequence}{The sequence of Lasso tuning parameters used in cross-validation.}
+\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted against a log scale of lambda if \code{LassoSequence} is not defined by users. }
 \item{LassoRegion}{A region where the suitable lambda can be found, according to the "1 SE rule". }
 }
 \description{
@@ -46,10 +42,10 @@ be performed.}
 common component so as to generate sparse common component.
 }
 \details{
-This function search through a range of lasso tuning parameters for the common
+This function searches through a range of lasso tuning parameters for the common
 component, while keeping distinctive components fixed (- that is, the zeros in
-the distinctive components are fixed). This function may be of help if user
-wants to obtain some sparsness in the common component.
+the distinctive components are fixed). This function may be of help if a user
+wants to obtain some sparseness in the common component.
 }
 \examples{
 \dontrun{
@@ -58,10 +54,8 @@ DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are wi
 DATA <- cbind(DATA1, DATA2)
 Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 R <- 4 # assume we want to have 4 components in P matrix.
-Position <- 1 # assume that we let the variables in the first column to be selected by LASSO in concatenated P matrix.
-com_str <- component_structure(Jk, R, target) # we can either use the function component_structure() or to specify by ourselves
-                                                    # here we use the component_structure() function.
-cv_structuredSCA(DATA, Jk, R, Position, component_structure=com_str, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
+Target <- matrix(c(1,1,1,0,1,0,0,1), 2, 4) 
+cv_structuredSCA(DATA, Jk, R, Target, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
 # note that since we do now specify nfolds in cv_CDpreKf(), nfolds is set to be 10.
 }
 }
