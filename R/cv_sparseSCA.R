@@ -444,14 +444,10 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   bestTunning[, 1] <- LassoSequence[indexTuning[1]]
   bestTunning[, 2] <- GLassoSequence[indexTuning[2]]
   
-  if(plotlog == 1){
-    #in this case lregion is on log scale and has to be converted. 
-    LassoSequence <- exp(LassoSequence)
-    GLassoSequence <- exp(GLassoSequence)
-    lambdaregion <- exp(lambdaregion)
-  }
+  colnames(bestTunning) <- c("Lasso", "Group Lasso")
   
   colnames(lambdaregion) <- c("lower bound", "upper bound")
+  
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$Press1SE <- lowestplus1SE
