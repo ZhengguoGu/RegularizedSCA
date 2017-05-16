@@ -46,6 +46,7 @@ To find their corresponding values, please make use of \code{lasso_index} and \c
 \item{Glasso_values}{The sequence of Group Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
 for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}
 \item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
+\item{RecommendedLambda}{A pair (or sometimes a few pairs) of Lasso and Group Lasso tuning parameters that lead to a model with PRESS closest to the lowest PRESS + 1SE.}
 }
 \description{
 \code{cv_sparseSCA} helps to find a range of Lasso and Group Lasso tuning parameters for the common component so as to generate sparse common component.

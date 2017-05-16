@@ -34,6 +34,7 @@
 #'\item{Glasso_values}{The sequence of Group Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
 #'for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}
 #'\item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
+#'\item{RecommendedLambda}{A pair (or sometimes a few pairs) of Lasso and Group Lasso tuning parameters that lead to a model with PRESS closest to the lowest PRESS + 1SE.}
 #'@examples
 #'\dontrun{
 #'DATA1 <- matrix(rnorm(50), nrow=5)
@@ -438,6 +439,18 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     
   }
 
+  indexTuning <- which(abs(PRESS - lowestplus1SE)==min(abs(PRESS - lowestplus1SE)), arr.ind = T)
+  bestTunning <- matrix(NA, dim(indexTuning)[1], 2)
+  bestTunning[, 1] <- LassoSequence[indexTuning[1]]
+  bestTunning[, 2] <- GLassoSequence[indexTuning[2]]
+  
+  if(plotlog == 1){
+    #in this case lregion is on log scale and has to be converted. 
+    LassoSequence <- exp(LassoSequence)
+    GLassoSequence <- exp(GLassoSequence)
+    lambdaregion <- exp(lambdaregion)
+  }
+  
   colnames(lambdaregion) <- c("lower bound", "upper bound")
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
@@ -446,6 +459,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   return_crossvali$Lasso_values <- LassoSequence
   return_crossvali$Glasso_values <- GLassoSequence
   return_crossvali$Lambdaregion <- lambdaregion
+  return_crossvali$RecommendedLambda <- bestTunning
   return(return_crossvali)
 
 }
