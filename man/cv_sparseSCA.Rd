@@ -36,12 +36,14 @@ by default.}
 \value{
 \item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
 \item{Press1SE}{The lowest PRESS + 1SE.}
-\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters. Note that on the x axis (abscissa) are 
-Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
+\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters, with the vertical dotted black line indicating the lowest
+PRESS+1SE. Note that on the x axis (abscissa) are Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
 G1, for example, indicates the first value in the \code{GLassoSequence}.
 In case both the Lasso sequence and the Group Lasso sequence contain more than 2 elements, there will be an extra plot, which is 
 the number of variables selected against Lasso and Group Lasso tuning parameters. In this case \code{plot} is a list of two plots.
-To find their corresponding values, please make use of \code{lasso_index} and \code{Glasso_index}}
+To find their corresponding values, please make use of \code{Lasso_values} and \code{Glasso_values}. The vertical red dashed lines indicate a proper region for Lasso tuning parameters
+given a certain Group Lasso tuning parameter. When there is only one vertical red dashed line, a proper region for Lasso tuning parameters is not available: the red dashed line indicates 
+the Lasso tuning parameter leading to the PRESS that is closest to the smallest PRESS+1SE.} 
 \item{Lasso_values}{The sequence of Lasso tuning parameters used for cross-validation. Users may also consult \code{Lambdaregion} (explained below).}
 \item{Glasso_values}{The sequence of Group Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
 for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}
