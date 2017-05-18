@@ -52,7 +52,7 @@ structuredSCA <- function(DATA, Jk, R, Target, LASSO, MaxIter, NRSTARTS){
   LOSSvec <- list()
   
   GroupStructure <- component_structure(Jk, R, Target)
-  position <- which(colSums(target) == nrow(target))
+  position <- which(colSums(Target) == nrow(Target))
   
   
   for (n in 1:NRSTARTS){
