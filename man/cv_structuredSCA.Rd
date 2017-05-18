@@ -5,7 +5,8 @@
 \title{A K-fold cross-validation procedure when common/distinctive processes are
 known, with a Lasso penalty.}
 \usage{
-cv_structuredSCA(DATA, Jk, R, Target, MaxIter, NRSTARTS, LassoSequence, nfolds)
+cv_structuredSCA(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS,
+  LassoSequence, nfolds)
 }
 \arguments{
 \item{DATA}{The concatenated data block, with rows representing subjects.}
@@ -16,6 +17,9 @@ data block.}
 \item{R}{The number of components.}
 
 \item{Target}{A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in}
+
+\item{Position}{Indicate on which component(s) the Lasso Penalty is imposed. If unspecified, the algorithm assume that the 
+Lasso penalty is imposed on the common component(s) only.}
 
 \item{MaxIter}{Maximum number of iterations for this algorithm. The default
 value is 400.}
@@ -56,7 +60,6 @@ Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 R <- 4 # assume we want to have 4 components in P matrix.
 Target <- matrix(c(1,1,1,0,1,0,0,1), 2, 4) 
 cv_structuredSCA(DATA, Jk, R, Target, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
-# note that since we do now specify nfolds in cv_CDpreKf(), nfolds is set to be 10.
 }
 }
 \references{

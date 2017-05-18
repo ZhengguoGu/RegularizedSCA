@@ -15,6 +15,8 @@
 #'@param R The number of components.
 #'@param Target A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in
 #the first row and first column is 1, then it means that the component belonging to the first block and the first component is selected; if it is 0, then the component is fixed at zeros.
+#'@param Position Indicate on which component(s) the Lasso Penalty is imposed. If unspecified, the algorithm assume that the 
+#'Lasso penalty is imposed on the common component(s) only. 
 #'@param MaxIter Maximum number of iterations for this algorithm. The default
 #'  value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default
@@ -39,12 +41,11 @@
 #'R <- 4 # assume we want to have 4 components in P matrix.
 #'Target <- matrix(c(1,1,1,0,1,0,0,1), 2, 4) 
 #'cv_structuredSCA(DATA, Jk, R, Target, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
-#'# note that since we do now specify nfolds in cv_CDpreKf(), nfolds is set to be 10.
 #'}
 #'@references Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.
 #'@references Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, \emph{158}, 187-199.
 #'@export
-cv_structuredSCA <- function(DATA, Jk, R, Target, MaxIter, NRSTARTS, LassoSequence, nfolds){
+cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, LassoSequence, nfolds){
 
   DATA <- data.matrix(DATA)
   #this cross-validation function makes use of the CDpre.R.
@@ -54,7 +55,9 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, MaxIter, NRSTARTS, LassoSequen
   }
 
   GroupStructure <- component_structure(Jk, R, Target)
-  Position <- which(colSums(Target) == nrow(Target))
+  if(missing(Position)){
+    Position <- which(colSums(Target) == nrow(Target))
+  }
   
   plotlog <- 0 # this is to tell whether the plot is against the log scale of lasso
   if(missing(LassoSequence)){
