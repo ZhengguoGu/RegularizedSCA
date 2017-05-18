@@ -1,4 +1,7 @@
 # Variable selection algorithm with a predefined component loading structure
+# Note that the parameters CommPosition and GroupStructure seem to be redundant in the sense that 
+# CommPosition indicates which columns in the GroupStructure are regarded as common components. 
+# This is indeed a bit redundant. I keep it this way because it is copied from my paper Gu & Van Deun 2016. 
 
 CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
 
