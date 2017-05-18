@@ -16,7 +16,7 @@
 #'@param Target A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in
 #the first row and first column is 1, then it means that the component belonging to the first block and the first component is selected; if it is 0, then the component is fixed at zeros.
 #'@param Position Indicate on which component(s) the Lasso Penalty is imposed. If unspecified, the algorithm assume that the 
-#'Lasso penalty is imposed on the common component(s) only. 
+#'Lasso penalty is imposed on the common component(s) only. If there is no common component, then Lasso penalty is applied to all components.
 #'@param MaxIter Maximum number of iterations for this algorithm. The default
 #'  value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default
@@ -57,6 +57,11 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
   GroupStructure <- component_structure(Jk, R, Target)
   if(missing(Position)){
     Position <- which(colSums(Target) == nrow(Target))
+    
+    if(length(Position)==0){
+      # no common component
+      Position <- 1:R
+    }
   }
   
   plotlog <- 0 # this is to tell whether the plot is against the log scale of lasso

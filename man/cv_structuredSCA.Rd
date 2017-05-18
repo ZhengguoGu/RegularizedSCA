@@ -19,7 +19,7 @@ data block.}
 \item{Target}{A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in}
 
 \item{Position}{Indicate on which component(s) the Lasso Penalty is imposed. If unspecified, the algorithm assume that the 
-Lasso penalty is imposed on the common component(s) only.}
+Lasso penalty is imposed on the common component(s) only. If there is no common component, then Lasso penalty is applied to all components.}
 
 \item{MaxIter}{Maximum number of iterations for this algorithm. The default
 value is 400.}

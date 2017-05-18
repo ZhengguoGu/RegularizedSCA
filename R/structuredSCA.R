@@ -10,7 +10,7 @@
 #'@param Target A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in
 #the first row and first column is 1, then it means that the component belonging to the first block and the first component is selected; if it is 0, then the component is fixed at zeros.
 #'@param Position Indicate on which component(s) the Lasso Penalty is imposed. If unspecified, the algorithm assume that the 
-#'Lasso penalty is imposed on the common component(s) only. 
+#'Lasso penalty is imposed on the common component(s) only. If there is no common component, then Lasso penalty is applied to all components.
 #'@param LASSO A Lasso tuning parameter.  
 #'@param MaxIter The maximum rounds of iterations. It should be a positive integer. The default value is 400.
 #'@param NRSTARTS Multi-start procedure: The number of multi-starts. The default value is 20.
@@ -52,6 +52,11 @@ structuredSCA <- function(DATA, Jk, R, Target, Position, LASSO, MaxIter, NRSTART
   
   if(missing(Position)){
     Position <- which(colSums(Target) == nrow(Target))
+    
+    if(length(Position)==0){
+      # no common component
+      Position <- 1:R
+    }
   }
   
   for (n in 1:NRSTARTS){
