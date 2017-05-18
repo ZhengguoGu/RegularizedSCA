@@ -32,7 +32,7 @@ DISCOsca <- function(DATA, R, Jk){
   DATA <- data.matrix(DATA)
   num_block <- length(Jk)
 
-  if (R < min(dim(DATA))){
+  if (R >= min(dim(DATA))){
     stop("# of components must be smaller than # of subjects (i.e., # of rows of the concatenated data) and # of variables (i.e., # of columns of the concatenated data")
   }
   pre_results <- svd(DATA, R, R)
