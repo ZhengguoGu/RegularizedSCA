@@ -9,8 +9,9 @@
 #'@param R Number of components.
 #'@param Target A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in
 #the first row and first column is 1, then it means that the component belonging to the first block and the first component is selected; if it is 0, then the component is fixed at zeros.
-#'@param LASSO A Lasso tuning parameter for the common component. If Lasso=0, then the common component
-#'will not be sparse. 
+#'@param Position Indicate on which component(s) the Lasso Penalty is imposed. If unspecified, the algorithm assume that the 
+#'Lasso penalty is imposed on the common component(s) only. 
+#'@param LASSO A Lasso tuning parameter.  
 #'@param MaxIter The maximum rounds of iterations. It should be a positive integer. The default value is 400.
 #'@param NRSTARTS Multi-start procedure: The number of multi-starts. The default value is 20.
 #'
@@ -27,20 +28,16 @@
 #'Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 #'R <- 5 # assume that for some reason, we want to have 5 components in the concatenated P matrix.
 #'Target <- matrix(c(1,1,1,0,1,0,0,1,0,1), 2, 5) 
-#'Position <- 1 # assume that we let the variables in the first column to be selected by LASSO in concatenated P matrix.
-#'GroupStructure <- component_structure(Jk, R, target) # we can either use the function component_structure() or to specify by ourselves
-#'                                                     # here we use the component_structure() function.
-#'LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value. Note that the Lasso here is with respect to the common component.
-#'             # the result will be a sparse common component.
+#'LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value. 
 #'MaxIter <- 400
 #'NRSTARTS <- 5
-#'structuredSCA(DATA, Jk, R, GroupStructure, LASSO, MaxIter, NRSTARTS)
+#'structuredSCA(DATA, Jk, R, Target, LASSO = LASSO)
 #'}
 #'@references
 #'Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.
 #'@export
 
-structuredSCA <- function(DATA, Jk, R, Target, LASSO, MaxIter, NRSTARTS){
+structuredSCA <- function(DATA, Jk, R, Target, Position, LASSO, MaxIter, NRSTARTS){
   
   if(missing(NRSTARTS)){
     NRSTARTS <- 20
@@ -52,12 +49,14 @@ structuredSCA <- function(DATA, Jk, R, Target, LASSO, MaxIter, NRSTARTS){
   LOSSvec <- list()
   
   GroupStructure <- component_structure(Jk, R, Target)
-  position <- which(colSums(Target) == nrow(Target))
   
+  if(missing(Position)){
+    Position <- which(colSums(Target) == nrow(Target))
+  }
   
   for (n in 1:NRSTARTS){
     
-    VarSelectResult <- CDpre(DATA, Jk, R, position, GroupStructure, LASSO, MaxIter)
+    VarSelectResult <- CDpre(DATA, Jk, R, Position, GroupStructure, LASSO, MaxIter)
     Pout3d[[n]] <- VarSelectResult$Pmatrix
     Tout3d[[n]] <- VarSelectResult$Tmatrix
     LOSS[n] <- VarSelectResult$Loss

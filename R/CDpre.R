@@ -1,14 +1,12 @@
 # Variable selection algorithm with a predefined component loading structure
-# Note that the parameters CommPosition and GroupStructure seem to be redundant in the sense that 
-# CommPosition indicates which columns in the GroupStructure are regarded as common components. 
-# This is indeed a bit redundant. I keep it this way because it is copied from my paper Gu & Van Deun 2016. 
+# Note that parameter "Posit" indicate which components need a Lasso penalty.   
 
-CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
+CDpre <- function(DATA, Jk, R, Posit, GroupStructure, LASSO, MaxIter){
 
-  #note: CommPosition can be obtained from GroupStructure as well. 
+  #note: Posit can be obtained from GroupStructure as well. 
   
   DATA <- data.matrix(DATA)
-  DistPosition <- setdiff(1:R, CommPosition)
+  DistPosition <- setdiff(1:R, Posit)
   I_Data <- dim(DATA)[1]
   sumJk <- dim(DATA)[2]
   eps <- 10^(-12)
@@ -23,13 +21,13 @@ CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
   Pt <- t(P)
 
   PIndexforLasso <- Pt
-  PIndexforLasso[CommPosition, ] <- 1
+  PIndexforLasso[Posit, ] <- 1
   PIndexforLasso[DistPosition, ] <- 0
   PIndexforGLasso <- Pt #note that the distinctive structure is predefined.
-  PIndexforGLasso[CommPosition, ] <- 0
+  PIndexforGLasso[Posit, ] <- 0
   PIndexforGLasso[DistPosition, ] <- 1
 
-  pen1 <- LASSO*sum(abs(P[, CommPosition]))
+  pen1 <- LASSO*sum(abs(P[, Posit]))
   sqP <- P^2
   L <- 1
 
@@ -65,7 +63,7 @@ CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
     else{
 
       for (r in 1:R){
-        if (r %in% CommPosition) {
+        if (r %in% Posit) {
           for (j in 1:sumJk){
             ols <- t(DATA[, j]) %*% Tmat[, r]
             Lambda <- 0.5 * LASSO
@@ -92,7 +90,7 @@ CDpre <- function(DATA, Jk, R, CommPosition, GroupStructure, LASSO, MaxIter){
     Pt <- t(P)
 
     #absP <- abs(P)
-    pen1 <- LASSO*sum(abs(P[, CommPosition]))
+    pen1 <- LASSO*sum(abs(P[, Posit]))
     sqP <- P^2
 
     L <- 1
