@@ -4,7 +4,7 @@
 #' lead to an estimated P matrix with all of its elements equal 0. This minimum value is thus the maximum value (the boundary) that users
 #' should consider for Lasso and Group Lasso.
 #'
-#' @param DATA The concatenated data block, with rows represending subjects
+#' @param DATA The concatenated data block, with rows representing subjects.
 #' @param Jk A vector. Each element of this vector is the number of columns of a data block.
 #' @param R The number of components.
 #'

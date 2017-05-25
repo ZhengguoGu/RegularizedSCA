@@ -7,7 +7,7 @@
 maxLGlasso(DATA, Jk, R)
 }
 \arguments{
-\item{DATA}{The concatenated data block, with rows represending subjects}
+\item{DATA}{The concatenated data block, with rows representing subjects.}
 
 \item{Jk}{A vector. Each element of this vector is the number of columns of a data block.}
 
