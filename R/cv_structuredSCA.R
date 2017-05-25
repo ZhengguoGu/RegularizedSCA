@@ -32,6 +32,7 @@
 #'\item{LassoSequence}{The sequence of Lasso tuning parameters used in cross-validation.}
 #'\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted against a log scale of lambda if \code{LassoSequence} is not defined by users. }
 #'\item{LassoRegion}{A region where the suitable lambda can be found, according to the "1 SE rule". }
+#'\item{RecommendedLasso}{A Lasso tuning parameter that leads to a model with PRESS closest to the lowest PRESS + 1SE.}
 #'@examples
 #'\dontrun{
 #'DATA1 <- matrix(rnorm(50), nrow=5)
@@ -236,6 +237,10 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
     #in this case lregion is on log scale and has to be converted. 
     lregion <- exp(lregion)
   }
+  
+  indexTuning <- which(abs(PRESS - lowestplus1SE)==min(abs(PRESS - lowestplus1SE)))
+  bestTunning <- LassoSequence[indexTuning]
+
 
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
@@ -243,6 +248,7 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
   return_crossvali$LassoSequence <- LassoSequence
   return_crossvali$plot <- p
   return_crossvali$LassoRegion <- lregion
+  return_crossvali$RecommendedLasso <- bestTunning
   
   return(return_crossvali)
 
