@@ -1,4 +1,4 @@
-#RSCA v0.4.1- regularized SCA 
+#RSCA v0.4.2- regularized SCA 
 
 Current stage of this package
 
