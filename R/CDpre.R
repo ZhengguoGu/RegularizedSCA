@@ -84,10 +84,10 @@ CDpre <- function(DATA, Jk, R, Posit, GroupStructure, LASSO, MaxIter){
           }
         }
       }
+      P[GroupStructure == 0] <- 0
+      Pt <- t(P)
     }
 
-    P[GroupStructure == 0] <- 0
-    Pt <- t(P)
 
     #absP <- abs(P)
     pen1 <- LASSO*sum(abs(P[, Posit]))
