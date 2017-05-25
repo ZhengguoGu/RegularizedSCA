@@ -25,8 +25,8 @@ undoShrinkage <- function(DATA, R, Phat, MAXITER){
   sumJk <- dim(DATA)[2]
   eps <- 10^(-12)
   
-  if(missing(MaxIter)){
-    MaxIter <- 400
+  if(missing(MAXITER)){
+    MAXITER <- 400
   }
   
   #initialize P, Lossc
