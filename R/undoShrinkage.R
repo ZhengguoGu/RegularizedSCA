@@ -66,7 +66,7 @@ undoShrinkage <- function(DATA, R, Phat, MAXITER){
       P[abs(P) <= 2 * eps] <- 0
       conv <- 1
     }
-    else if (iter > MaxIter){
+    else if (iter > MAXITER){
       Loss <- Lossu
       residual <- residual
       P[abs(P) <= 2 * eps] <- 0
