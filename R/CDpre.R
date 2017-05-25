@@ -29,7 +29,6 @@ CDpre <- function(DATA, Jk, R, Posit, GroupStructure, LASSO, MaxIter){
 
   pen1 <- LASSO*sum(abs(P[, Posit]))
   sqP <- P^2
-  L <- 1
 
   residual <- sum(DATA^2)
   Lossc <- residual + pen1
@@ -92,8 +91,6 @@ CDpre <- function(DATA, Jk, R, Posit, GroupStructure, LASSO, MaxIter){
     #absP <- abs(P)
     pen1 <- LASSO*sum(abs(P[, Posit]))
     sqP <- P^2
-
-    L <- 1
 
     residual <- sum((DATA - Tmat %*% Pt)^2)
     Lossu2 <- residual + pen1
