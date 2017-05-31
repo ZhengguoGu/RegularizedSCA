@@ -5,7 +5,7 @@
 #' @param DATA A matrix, which contains the concatenated data with the same subjects from multiple blocks.
 #' Note that each row represents a subject.
 #' @param Jk A vector containing number of variables in the concatinated data matrix.
-#' @param R Number of components.
+#' @param R Number of components (R>=2).
 #' @return
 #' \item{block}{Proportion of VAF for each block.}
 #' \item{component}{Proportion of VAF for each component of each block.}

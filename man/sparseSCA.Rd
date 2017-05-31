@@ -11,7 +11,7 @@ sparseSCA(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS, method)
 
 \item{Jk}{A vector containing number of variables in the concatinated data matrix.}
 
-\item{R}{Number of components.}
+\item{R}{Number of components (R>=2).}
 
 \item{LASSO}{A Lasso tuning parameter.}
 

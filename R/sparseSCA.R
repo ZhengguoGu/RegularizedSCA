@@ -6,7 +6,7 @@
 #'
 #'@param DATA A matrix, which contains the concatenated data with the same subjects from multiple blocks.
 #'@param Jk A vector containing number of variables in the concatinated data matrix.
-#'@param R Number of components.
+#'@param R Number of components (R>=2).
 #'@param LASSO A Lasso tuning parameter.
 #'@param GROUPLASSO A group Lasso tuning parameter.
 #'@param MaxIter The maximum rounds of iterations. It should be a positive integer. The default value is 400.
@@ -51,6 +51,11 @@ sparseSCA <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS, method)
   if(missing(method)){
     method <- "component"
   }
+  
+  if(R == 1){
+    stop("Parameter R = 1 is not allowed.")
+  }
+  
   Pout3d <- list()
   Tout3d <- list()
   LOSS <- array()

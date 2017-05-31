@@ -10,7 +10,7 @@ DISCOsca(DATA, R, Jk)
 \item{DATA}{A matrix, which contains the concatenated data with the same subjects from multiple blocks.
 Note that each row represents a subject.}
 
-\item{R}{Number of components}
+\item{R}{Number of components (R>=2).}
 
 \item{Jk}{A vector containing number of variables in the concatenated data matrix.}
 }

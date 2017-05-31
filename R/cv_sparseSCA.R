@@ -6,7 +6,7 @@
 #'
 #'@param DATA The concatenated data block, with rows representing subjects.
 #'@param Jk A vector. Each element of this vector is the number of columns of a data block.
-#'@param R The number of components.
+#'@param R The number of components (R>=2).
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default value is 5.
 #'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
@@ -57,6 +57,10 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   DATA <- data.matrix(DATA)
   plotlog <- 0
 
+  if(R == 1){
+    stop("Parameter R = 1 is not allowed.")
+  }
+  
   if(missing(LassoSequence) | missing(GLassoSequence)){
 
       results <- maxLGlasso(DATA, Jk, R)

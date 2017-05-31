@@ -14,7 +14,7 @@ cv_structuredSCA(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS,
 \item{Jk}{A vector. Each element of this vector is the number of columns of a
 data block.}
 
-\item{R}{The number of components.}
+\item{R}{The number of components (R>=2).}
 
 \item{Target}{A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in}
 

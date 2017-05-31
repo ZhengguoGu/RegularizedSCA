@@ -12,7 +12,7 @@
 #'@param DATA The concatenated data block, with rows representing subjects.
 #'@param Jk A vector. Each element of this vector is the number of columns of a
 #'  data block.
-#'@param R The number of components.
+#'@param R The number of components (R>=2).
 #'@param Target A matrix containing 0's and 1's. Its number of columns equals to R, and its number of rows equals to the number of blocks to be integrated. Thus, if the element in
 #the first row and first column is 1, then it means that the component belonging to the first block and the first component is selected; if it is 0, then the component is fixed at zeros.
 #'@param Position Indicate on which component(s) the Lasso Penalty is imposed. If unspecified, the algorithm assume that the 
@@ -55,6 +55,10 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
     MaxIter <- 400
   }
 
+  if(R == 1){
+    stop("Parameter R = 1 is not allowed.")
+  }
+  
   GroupStructure <- component_structure(Jk, R, Target)
   if(missing(Position)){
     Position <- which(colSums(Target) == nrow(Target))

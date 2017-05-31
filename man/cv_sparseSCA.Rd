@@ -12,7 +12,7 @@ cv_sparseSCA(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence,
 
 \item{Jk}{A vector. Each element of this vector is the number of columns of a data block.}
 
-\item{R}{The number of components.}
+\item{R}{The number of components (R>=2).}
 
 \item{MaxIter}{Maximum number of iterations for this algorithm. The default value is 400.}
 

@@ -12,7 +12,7 @@ Note that each row represents a subject.}
 
 \item{Jk}{A vector containing number of variables in the concatinated data matrix.}
 
-\item{R}{Number of components.}
+\item{R}{Number of components (R>=2).}
 }
 \value{
 \item{block}{Proportion of VAF for each block.}

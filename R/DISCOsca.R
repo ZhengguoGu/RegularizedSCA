@@ -5,7 +5,7 @@
 #' @param DATA A matrix, which contains the concatenated data with the same subjects from multiple blocks.
 #' Note that each row represents a subject.
 #' @param Jk A vector containing number of variables in the concatenated data matrix.
-#' @param R Number of components
+#' @param R Number of components (R>=2).
 #'
 #' @return
 #' \item{Trot_best}{Estimated component score matrix (i.e., T)}
@@ -32,6 +32,10 @@ DISCOsca <- function(DATA, R, Jk){
   DATA <- data.matrix(DATA)
   num_block <- length(Jk)
 
+  if(R == 1){
+    stop("Parameter R = 1 is not allowed.")
+  }
+  
   if (R >= min(dim(DATA))){
     stop("# of components must be smaller than # of subjects (i.e., # of rows of the concatenated data) and # of variables (i.e., # of columns of the concatenated data")
   }
