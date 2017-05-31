@@ -26,10 +26,16 @@
 #'@export
 VAF <- function(DATA, Jk, R){
 
+  if(R == 1){
+    stop("Parameter R = 1 is not recommended. 
+          Please enter an integer higher than 1.")
+  }
+  
   DATA <- data.matrix(DATA)
   SVD_DATA <- svd(DATA, R, R)
   Tmat <- SVD_DATA$u
   Pmat <- SVD_DATA$v %*% diag(SVD_DATA$d[1:R])
+  
 
   VAF_results_block <- array(NA, length(Jk))
   VAF_results_component <- matrix(NA, length(Jk), R)
