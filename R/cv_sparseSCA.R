@@ -8,7 +8,7 @@
 #'@param Jk A vector. Each element of this vector is the number of columns of a data block.
 #'@param R The number of components (R>=2).
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
-#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 5.
+#'@param NRSTARTS The number of multistarts for this algorithm. The default value is 1.
 #'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
 #'to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 20 numbers are equally spaced on the log scale. 
 #'Furthermore, if \code{GLassoSequence} contains only one number, then by default \code{LassoSequence} is a sequence of 50 values.
@@ -103,7 +103,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   }
 
   if(missing(NRSTARTS)){
-    NRSTARTS <- 5
+    NRSTARTS <- 1
   }
 
   if(missing(nfolds)){
