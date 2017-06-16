@@ -1,5 +1,5 @@
 #' Herring data 
-#'
+#' 
 #' This dataset contains data from ripening experiments of herring regarding the physical/chemical changes observed 
 #' in the herrings and quantitative descriptive sensory evaluation on the same herrings.
 #' @format The dataset contains the following list:
