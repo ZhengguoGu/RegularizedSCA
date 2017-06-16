@@ -16,4 +16,4 @@
 #' Torstein Skåra, A Phenomenological Study of Ripening of Salted Herring. Assessing homogeneity of data from different countries and laboratories; J. Chemom., 16:81-88, 2002
 #' and 2) Nielsen HH, Bro R, Stefansson G, Skåra T, Salting and ripening of herring - collection and analysis of research results and industrial experience within the Nordic countries, 
 #' TemaNord 1999:578, ISBN 92-893-0371-9, Nordic Council of Ministers, 1999.
-"HerringData"
+"Herring"
