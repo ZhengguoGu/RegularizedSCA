@@ -1,0 +1,29 @@
+#' RSCA: A package for regularized simultaneous component analysis (SCA) for data integration.
+#'
+#' The RSCA provides the following functions for performing regularized SCA.
+#' 
+#' @section DISCOsca:
+#' A DISCO-SCA procedure for identifying common and distinctive components.
+#' @section TuckerCoef:
+#' Tucker's coefficient of congruence between columns but after accounting for permutational freedom and reflections.
+#' @section VAF:
+#' Proportion of variance accounted for (VAF) for each block and each principal component.
+#' @section cv_sparseSCA:
+#' A K-fold cross-validation procedure when common/distinctive processes are unknown with Lasso and Group Lasso penalties.
+#' @section cv_structuredSCA:
+#' A K-fold cross-validation procedure when common/distinctive processes are known, with a Lasso penalty.
+#' @section maxLGlasso:
+#' An algorithm for determining the smallest values for Lasso and Group Lasso tuning parameters that yield all zeros.
+#' @section mySTD:
+#' Standardize the given data matrix per column, over the rows.
+#' @section pca_gca:
+#' PCA-GCA method for selecting the number of common and distinctive components.
+#' @section sparseSCA:
+#' Variable selection with Lasso and Group Lasso with a multi-start procedure. 
+#' @section structuredSCA:
+#' Variable selection algorithm with a predefined component loading structure.
+#' @section undoShrinkage:
+#' Undo shrinkage (on estimated component loading matrix).
+#' @docType package
+#' @name RSCA
+NULL
