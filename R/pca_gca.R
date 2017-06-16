@@ -5,7 +5,7 @@
 #' @param DATA A concatinated data matrix with the same number of rows.
 #' @param Jk A vector containing number of variables  in the concatinated data matrix. Please see the example below.
 #' @param cor_min The minimum corelation bewtween two components. The default value is .9; thus, it means that if the correlation
-#' between the two component is at least .9, then these two components are regarded as forming a single common component.
+#' between the two component is at least .7, then these two components are regarded as forming a single common component.
 #' @param return_scores If TRUE, then the function will return the component scores for each block for further analysis.
 #' @return It prints out the number of components of each block and the number of common components. It also returns the component scores for each block for further analysis, if \code{return_scores = TRUE}.
 #' @examples
@@ -30,7 +30,7 @@ pca_gca <- function(DATA, Jk, cor_min, return_scores){
   }
   DATA <- data.matrix(DATA)
   if(missing(cor_min)){
-    cor_min <- .9
+    cor_min <- .7
   }
 
   num_block <- length(Jk)
