@@ -2,7 +2,7 @@
 % Please edit documentation in R/undoShrinkage.R
 \name{undoShrinkage}
 \alias{undoShrinkage}
-\title{Undo shrinkage}
+\title{Undo shrinkage.}
 \usage{
 undoShrinkage(DATA, R, Phat, MAXITER)
 }

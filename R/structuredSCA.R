@@ -1,4 +1,4 @@
-#' Variable selection algorithm with a predefined component loading structure
+#' Variable selection algorithm with a predefined component loading structure.
 #'
 #' Variable selection algorithm when the common/distinctive structure is known a priori.
 #' The common component can also be sparse, which is to be estimated by Lasso.

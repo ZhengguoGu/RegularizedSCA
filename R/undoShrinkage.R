@@ -1,4 +1,4 @@
-#' Undo shrinkage 
+#' Undo shrinkage. 
 #' 
 #' \code{undoShrinkage} re-estimates the component loading matrix (P) while keeping the 0 loadings fixed 
 #' so as to removie the shrinkage due to Lasso and Group Lasso. 

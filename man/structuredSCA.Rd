@@ -2,7 +2,7 @@
 % Please edit documentation in R/structuredSCA.R
 \name{structuredSCA}
 \alias{structuredSCA}
-\title{Variable selection algorithm with a predefined component loading structure}
+\title{Variable selection algorithm with a predefined component loading structure.}
 \usage{
 structuredSCA(DATA, Jk, R, Target, Position, LASSO, MaxIter, NRSTARTS)
 }
