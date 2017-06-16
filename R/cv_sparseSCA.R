@@ -76,6 +76,10 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
         plotlog <- 1
     } else if(missing(GLassoSequence) & (length(LassoSequence) == 1)){
         GLassoSequence <- seq(from = 0.00000001, to = GLassomax, length.out = 50)
+    } else if (!missing(LassoSequence) & missing(GLassoSequence)){
+        GLassoSequence <- seq(from = 0.00000001, to = GLassomax, length.out = 10)
+    } else if (!missing(GLassoSequence) & missing(LassoSequence)){
+        LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 20))
         plotlog <- 1
     }
     
