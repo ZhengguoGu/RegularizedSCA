@@ -25,7 +25,7 @@ Lasso penalty is imposed on the common component(s) only. If there is no common 
 value is 400.}
 
 \item{NRSTARTS}{The number of multistarts for this algorithm. The default
-value is 1.}
+value is 5.}
 
 \item{LassoSequence}{The range of lasso tuning parameters. The default value
 is a sequence of 50 numbers from 0.00000001 to the smallest Lasso tuning parameter

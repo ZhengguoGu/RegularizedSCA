@@ -20,7 +20,7 @@
 #'@param MaxIter Maximum number of iterations for this algorithm. The default
 #'  value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default
-#'  value is 1.
+#'  value is 5.
 #'@param LassoSequence The range of lasso tuning parameters. The default value
 #'  is a sequence of 50 numbers from 0.00000001 to the smallest Lasso tuning parameter
 #'  that can make the entire common component(s) to be zeros. Note that by default the 50 numbers are equally spaced on the log scale.
@@ -92,7 +92,7 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
     stop("Lasso tuning parameter must be non-negative!")
   }
   if(missing(NRSTARTS)){
-    NRSTARTS <- 1
+    NRSTARTS <- 5  #since P is structured a priori, it is better to have a multistart procedure to make the results stable.
   }
 
   if(missing(nfolds)){
