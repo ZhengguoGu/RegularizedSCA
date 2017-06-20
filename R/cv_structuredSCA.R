@@ -193,7 +193,7 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
         linetype = "longdash", col = "red") +
       ggplot2::geom_vline(xintercept = lasso2, 
         linetype = "longdash", col = "red") 
-    p <- p + ggplot2::labs(x = "Lasso (log scale)", y="Predicted Mean Squared Errors +/- 1SE")
+    p <- p + ggplot2::labs(x = "Lasso (log scale)", y="Prediction Mean Squared Errors +/- 1SE")
   } else{
     
     df <- data.frame( LassoI = LassoSequence, Press = PRESS, Upper = upper, Lower = lower)
@@ -233,7 +233,7 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
         linetype = "longdash", col = "red") +
       ggplot2::geom_vline(xintercept = lasso2, 
         linetype = "longdash", col = "red") 
-    p <- p + ggplot2::labs(x = "Lasso", y="Predicted Mean Squared Errors +/- 1SE")
+    p <- p + ggplot2::labs(x = "Lasso", y="Prediction Mean Squared Errors +/- 1SE")
   }
   
 

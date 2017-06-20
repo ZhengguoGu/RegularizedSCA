@@ -298,7 +298,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
          ggplot2::geom_vline(data = subset(df, !is.na(l1s)), ggplot2::aes(xintercept = l1s), linetype = "longdash", col = "red" ) +
          ggplot2::geom_vline(data = subset(df, !is.na(l2s)), ggplot2::aes(xintercept = l2s), linetype = "longdash", col = "red" )      
     
-    p1 <- p1 + ggplot2::labs(x = xtag, y="Predicted Mean Squared Errors +/- 1SE")
+    p1 <- p1 + ggplot2::labs(x = xtag, y="Prediction Mean Squared Errors +/- 1SE")
 
     p2 <- ggplot2::ggplot(df2, ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) +
           ggplot2::facet_grid(.~GLassoI)+
@@ -366,7 +366,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
           linetype = "longdash", col = "red") +
         ggplot2::geom_vline(xintercept = log(lasso2), 
           linetype = "longdash", col = "red") 
-      p <- p + ggplot2::labs(x = "Lasso (on log scale)", y="Predicted Mean Squared Errors +/- 1SE")
+      p <- p + ggplot2::labs(x = "Lasso (on log scale)", y="Prediction Mean Squared Errors +/- 1SE")
     } else{
       p <- ggplot2::ggplot(df, ggplot2::aes(x=LassoI,y=Press)) +
         ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
@@ -377,7 +377,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
           linetype = "longdash", col = "red") +
         ggplot2::geom_vline(xintercept = lasso2, 
           linetype = "longdash", col = "red") 
-      p <- p + ggplot2::labs(x = "Lasso", y="Predicted Mean Squared Errors +/- 1SE")
+      p <- p + ggplot2::labs(x = "Lasso", y="Prediction Mean Squared Errors +/- 1SE")
     }
   } else if(length(LassoSequence)==1 & length(GLassoSequence)>= 2){####CASE 3: Multiple glasso, one lasso
      
@@ -435,7 +435,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
           linetype = "longdash", col = "red") +
         ggplot2::geom_vline(xintercept = log(glasso2), 
           linetype = "longdash", col = "red") 
-        p <- p + ggplot2::labs(x = "Group Lasso (on log scale)", y="Predicted Mean Squared Errors +/- 1SE")
+        p <- p + ggplot2::labs(x = "Group Lasso (on log scale)", y="Prediction Mean Squared Errors +/- 1SE")
       } else{
         p <- ggplot2::ggplot(df, ggplot2::aes(x=GLassoI,y=Press)) +
           ggplot2::geom_errorbar(ggplot2::aes(ymin=Lower,ymax=Upper), width=.1) +
@@ -446,7 +446,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
             linetype = "longdash", col = "red") +
           ggplot2::geom_vline(xintercept = glasso2, 
             linetype = "longdash", col = "red") 
-        p <- p + ggplot2::labs(x = "Group Lasso", y="Predicted Mean Squared Errors +/- 1SE")
+        p <- p + ggplot2::labs(x = "Group Lasso", y="Prediction Mean Squared Errors +/- 1SE")
       }
     
   }
