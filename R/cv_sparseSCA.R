@@ -28,7 +28,7 @@
 #'PRESS+1SE. Note that on the x axis (abscissa) are Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
 #'G1, for example, indicates the first value in the \code{GLassoSequence}.
 #'In case both the Lasso sequence and the Group Lasso sequence contain more than 2 elements, there will be an extra plot, which is 
-#'the number of variables selected against Lasso and Group Lasso tuning parameters. In this case \code{plot} is a list of two plots.
+#'the number of non-zero component loadings against Lasso and Group Lasso tuning parameters. In this case \code{plot} is a list of two plots.
 #'To find their corresponding values, please make use of \code{Lasso_values} and \code{Glasso_values}. The vertical red dashed lines indicate a proper region for Lasso tuning parameters
 #'given a certain Group Lasso tuning parameter. When there is only one vertical red dashed line, a proper region for Lasso tuning parameters is not available: the red dashed line indicates 
 #'the Lasso tuning parameter leading to the PRESS that is closest to the smallest PRESS+1SE.} 
@@ -305,7 +305,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
           ggplot2::geom_point(ggplot2::aes(x=LassoI,y=vec_varsel,group=GLassoI)) +
           ggplot2::geom_vline(data = subset(df, !is.na(l1s)), ggplot2::aes(xintercept = l1s), linetype = "longdash", col = "red" ) +
           ggplot2::geom_vline(data = subset(df, !is.na(l2s)), ggplot2::aes(xintercept = l2s), linetype = "longdash", col = "red" )  
-    p2 <- p2 + ggplot2::labs(x = xtag, y="Variables selected in P matrix")
+    p2 <- p2 + ggplot2::labs(x = xtag, y="# of non-zero component loadings selected in P matrix")
     
     p <- list()
     p[[1]] <- p1
