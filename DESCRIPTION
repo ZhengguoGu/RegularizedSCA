@@ -6,7 +6,7 @@ Version: 0.4.2
 Author: Zhengguo Gu, Katrijn Van Deun
 Maintainer: Zhengguo Gu <z.gu@tilburguniversity.edu>
 Description: This package performs regularized simultaneous component based data
-    integration for multiblock data
+    integration for multiblock data.
 Depends: R (>= 2.10)
 License: GPL (>= 2)
 LazyData: TRUE
@@ -19,5 +19,8 @@ Imports:
     gtools,
     psych,
     RGCCA,
-    ggplot2
+    ggplot2,
+    stats,
+    utils, 
+    graphics
 VignetteBuilder: knitr

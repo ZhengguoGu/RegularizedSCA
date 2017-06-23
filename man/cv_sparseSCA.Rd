@@ -59,10 +59,12 @@ This function searches through a range of Lasso and Group Lasso tuning parameter
 \examples{
 \dontrun{
 DATA1 <- matrix(rnorm(50), nrow=5)
-DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are with respect to the same 5 subjects here.
+DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 
+are with respect to the same 5 subjects here.
 DATA <- cbind(DATA1, DATA2)
-Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
-# assume that we do not know which values to choose for the Lasso/Group Lasso tuning parameter, then no need to specify them.
+Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 has 20 columsn. 
+               #Assume that we do not know which values to choose for the 
+               #Lasso/Group Lasso tuning parameter, then no need to specify them.
 cv_sparseSCA(DATA, Jk, R=5, MaxIter = 100, NRSTARTS = 40, nfolds=10)
 }
 }
