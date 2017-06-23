@@ -3,7 +3,9 @@
 #' @param DATA A data matrix
 #' @return a standardized matrix
 #' @examples
+#' \dontrun{
 #' mySTD(matrix(1:12, nrow = 3, ncol = 4))
+#' }
 #' @note
 #' More details regarding data pre-processing, please see:
 #'

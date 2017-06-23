@@ -20,9 +20,11 @@ TuckerCoef(MatrixA, MatrixB)
 \code{TuckerCoef} calculate Tucker's coefficient of congruence between columns but after accounting for permutational freedom and reflections
 }
 \examples{
+\dontrun{
 maxtrix1 <- matrix(rnorm(50), nrow=5)
 maxtrix2 <- matrix(rnorm(50), nrow=5)
 TuckerCoef(maxtrix1, maxtrix2)
+}
 }
 \references{
 Lorenzo-Seva, U., & Ten Berge, J. M. (2006). Tucker's congruence coefficient as a meaningful index of factor similarity. \emph{Methodology}, \emph{2}(2), 57-64.
