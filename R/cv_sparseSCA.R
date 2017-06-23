@@ -281,7 +281,11 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     l1matrix <- t(cbind(lasso1, matrix(NA, length(lasso1), length(LassoSequence)-1)))
     l2matrix <- t(cbind(lasso2, matrix(NA, length(lasso2), length(LassoSequence)-1)))
   
+    l1s <- NA #It seems that a variable must be defined first, otherwise R CMD check generates a Note
+    l2s <- NA
+    
     if(plotlog == 1){
+      
       df <- data.frame(GLassoI = Glasso_index0, LassoI = log(lasso_index0), Press = vec_PRESS, Upper = upper, Lower = lower, l1s = c(log(l1matrix)), l2s = c(log(l2matrix)))
       df2 <- data.frame(GLassoI = Glasso_index0, LassoI = log(lasso_index0),  Var = vec_varsel, l1s = c(log(l1matrix)), l2s = c(log(l2matrix)))
       xtag <- "log(Lasso)"

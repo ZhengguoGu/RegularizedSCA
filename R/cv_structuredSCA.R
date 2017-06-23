@@ -158,6 +158,11 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
   upper <- PRESS + sd_MSE
   lower <- PRESS - sd_MSE
   
+  LassoI <- NA
+  Press <- NA
+  Lower <- NA
+  Upper <- NA
+  
   if(plotlog == 1){
     df <- data.frame( LassoI = log(LassoSequence), Press = PRESS, Upper = upper, Lower = lower)
     lowestPress <- min(PRESS)
