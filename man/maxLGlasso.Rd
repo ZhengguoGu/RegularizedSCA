@@ -15,7 +15,7 @@ maxLGlasso(DATA, Jk, R)
 }
 \value{
 \item{Glasso}{The maximum value for Group Lasso tuning parameter.}
-\item{Lasso}{The maximum value for Lasso tunign parameter.}
+\item{Lasso}{The maximum value for Lasso tuning parameter.}
 }
 \description{
 \code{maxLGlasso} identify the minimum value for Lasso and Group Lasso tuning parameters that

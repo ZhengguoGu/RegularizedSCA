@@ -1,7 +1,7 @@
 #' Undo shrinkage. 
 #' 
 #' \code{undoShrinkage} re-estimates the component loading matrix (P) while keeping the 0 loadings fixed 
-#' so as to removie the shrinkage due to Lasso and Group Lasso. 
+#' so as to remove the shrinkage due to Lasso and Group Lasso. 
 #' 
 #' @param DATA The concatenated data block, with rows representing subjects
 #' @param R The number of components.

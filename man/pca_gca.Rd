@@ -7,11 +7,11 @@
 pca_gca(DATA, Jk, cor_min, return_scores)
 }
 \arguments{
-\item{DATA}{A concatinated data matrix with the same number of rows.}
+\item{DATA}{A concatenated data matrix with the same number of rows.}
 
 \item{Jk}{A vector containing number of variables  in the concatinated data matrix. Please see the example below.}
 
-\item{cor_min}{The minimum corelation bewtween two components. The default value is .9; thus, it means that if the correlation
+\item{cor_min}{The minimum correlation between two components. The default value is .9; thus, it means that if the correlation
 between the two component is at least .7, then these two components are regarded as forming a single common component.}
 
 \item{return_scores}{If TRUE, then the function will return the component scores for each block for further analysis.}
@@ -20,7 +20,7 @@ between the two component is at least .7, then these two components are regarded
 It prints out the number of components of each block and the number of common components. It also returns the component scores for each block for further analysis, if \code{return_scores = TRUE}.
 }
 \description{
-Use PCA-GCA method to identify the number of common and distictive components.
+Use PCA-GCA method to identify the number of common and distinctive components.
 }
 \note{
 Please be ware of the interactive input: The function first performs PCA on each data block and then displays the eigenvalues (and a scree plot).

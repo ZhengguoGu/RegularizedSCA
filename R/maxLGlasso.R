@@ -10,7 +10,7 @@
 #'
 #' @return
 #' \item{Glasso}{The maximum value for Group Lasso tuning parameter.}
-#' \item{Lasso}{The maximum value for Lasso tunign parameter.}
+#' \item{Lasso}{The maximum value for Lasso tuning parameter.}
 #'
 #' @examples
 #' \dontrun{
