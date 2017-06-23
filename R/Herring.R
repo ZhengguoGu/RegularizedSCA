@@ -4,8 +4,8 @@
 #' in the herrings and quantitative descriptive sensory evaluation on the same herrings.
 #' @format The dataset contains the following list:
 #' \describe{
-#'  \item{Herring_ChemPhy}{A 7x10 matrix of observation x physical/chemical changes of herrings.}
-#'  \item{Herring_Sensory}{A 7x10 matrix of observation x sensary data of herrings}
+#'  \item{ChemPhy}{A 7x10 matrix of observation x physical/chemical changes of herrings.}
+#'  \item{Sensory}{A 7x10 matrix of observation x sensary data of herrings}
 #' }
 #' 
 #' @note 
