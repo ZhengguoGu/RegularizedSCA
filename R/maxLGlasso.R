@@ -13,16 +13,15 @@
 #' \item{Lasso}{The maximum value for Lasso tunign parameter.}
 #'
 #' @examples
+#' \dontrun{
 #' DATA1 <- matrix(rnorm(50), nrow=5)
-#' DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that 
-#'                                     #DATA1 and DATA2 are with 
-#'                                     #respect to the same 5 subjects here.
+#' DATA2 <- matrix(rnorm(100), nrow=5)
 #' DATA <- cbind(DATA1, DATA2)
-#' Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
+#' Jk <- c(10, 20) 
 #' results <- maxLGlasso(DATA, Jk, R=5)
 #' maxGLasso <- results$Glasso
 #' maxLasso <- results$Lasso
-#' 
+#' }
 #' @references 
 #' Hastie, T., Tibshirani, R., & Wainwright, M. (2015). \emph{Statistical learning with sparsity}. CRC press.
 #' @note The description of how to obtain the maximum value for Lasso tuning parameter can be found in page 17 of Hastie, Tibshirani, and Wainwright (2015). We are not aware of 

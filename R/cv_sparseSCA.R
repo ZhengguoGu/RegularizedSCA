@@ -40,12 +40,9 @@
 #'@examples
 #'\dontrun{
 #'DATA1 <- matrix(rnorm(50), nrow=5)
-#'DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 
-#'are with respect to the same 5 subjects here.
+#'DATA2 <- matrix(rnorm(100), nrow=5)  
 #'DATA <- cbind(DATA1, DATA2)
-#'Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 has 20 columsn. 
-#'                #Assume that we do not know which values to choose for the 
-#'                #Lasso/Group Lasso tuning parameter, then no need to specify them.
+#'Jk <- c(10, 20) 
 #'cv_sparseSCA(DATA, Jk, R=5, MaxIter = 100, NRSTARTS = 40, nfolds=10)
 #'}
 #'@references Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.

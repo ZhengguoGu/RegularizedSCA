@@ -37,14 +37,12 @@ The distinctive components are not sparse in the sense that the entire variables
 \examples{
 \dontrun{
 DATA1 <- matrix(rnorm(50), nrow=5)
-DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and 
-                                   #DATA2 are with respect to the same 
-                                   #5 subjects here.
+DATA2 <- matrix(rnorm(100), nrow=5) 
 DATA <- cbind(DATA1, DATA2)
-Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
-R <- 5 # assume that for some reason, we want to have 5 components in the concatenated P matrix.
+Jk <- c(10, 20) 
+R <- 5 
 Target <- matrix(c(1,1,1,0,1,0,0,1,0,1), 2, 5) 
-LASSO <- 0.2 # assume that we know LASSO=0.2 is a suitable value. 
+LASSO <- 0.2 
 MaxIter <- 400
 NRSTARTS <- 5
 structuredSCA(DATA, Jk, R, Target, LASSO = LASSO)

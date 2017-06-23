@@ -24,10 +24,9 @@ Proportion of variance accounted for (VAF) is calculated for each block and each
 \examples{
 \dontrun{
 DATA1 <- matrix(rnorm(50), nrow=5)
-DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are 
-                                    #with respect to the same 5 subjects here.
+DATA2 <- matrix(rnorm(100), nrow=5) 
 DATA <- cbind(DATA1, DATA2)
-Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
+Jk <- c(10, 20) 
 R <- 5
 VAF(DATA, Jk, R)
 }
