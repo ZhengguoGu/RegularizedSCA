@@ -1,7 +1,7 @@
 Package: RSCA
 Type: Package
-Title: An R package for regularized simultaneous component based data
-    integration
+Title: Regularized Simultaneous Component Based Data
+    Integration
 Version: 0.4.2
 Authors@R: c(person(given = "Gu", family = "Zhengguo", role = c("aut", "cre"), 
     email = "z.gu@uvt.nl"), 
