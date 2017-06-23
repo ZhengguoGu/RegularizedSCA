@@ -6,7 +6,7 @@ Version: 0.4.2
 Authors@R: c(person(given = "Gu", family = "Zhengguo", role = c("aut", "cre"), 
     email = "z.gu@uvt.nl"), 
     person(given = "Van Deun", family = "Katrijn", role = "aut"))
-Description: This package performs regularized simultaneous component based data
+Description: It performs regularized simultaneous component based data
     integration for multiblock data.
 Depends: R (>= 2.10)
 License: GPL (>= 2)
