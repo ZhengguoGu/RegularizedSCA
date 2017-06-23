@@ -1,9 +1,7 @@
-#RSCA v0.4.2- regularized SCA 
+#RSCA v0.4.2- An R package for regularized simultaneous component based data integration
 
-Current stage of this package
+The package performs a true integrated analysis of multiple data blocks from multiple sources. The methods included in this package combine simultaneous component analysis methods (SCA) with regularization (such as Lasso and Group Lasso). 
 
-All the planned functions have been finished. Now testing before submitting to CRAN. 
+To use the package, please read the vignette. An article regarding this paper has been submitted. We hope that the paper will be accepted and incorporated directly in this package. 
 
-For future important updates, we have the following in mind:
-1. Reduce the running time --> parallel computing. 
-2. Introduce more model selection methods --> More research needs to be done. 
+For the latest version of RSCA, please go to https://github.com/ZhengguoGu/RSCA/.
