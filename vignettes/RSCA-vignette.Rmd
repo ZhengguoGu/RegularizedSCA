@@ -11,11 +11,12 @@ vignette: >
 ---
 ## Introduction
 
-This R package is a collection of functions for performing multi-block data integration. Specifically, the functions in this package deal with concatenated data blocks that share the same rows (e.g. subjects). For example, genomic data, denoted $\mathbf{X}_{I \times J}$, and behavioral data, $\mathbf{X}_{I \times K}$, with respect to the same persons can be concatenated $\mathbf{X}_C=[\mathbf{X}_{I \times J}\; \mathbf{X}_{I \times K}]$, and thus be jointly analyzed. 
+This R package is a collection of functions for performing multi-block data integration. Specifically, the functions in this package deal with concatenated data blocks that share the same observation units (i.e., rows; such as, subjects). For example, genomic data, denoted $\mathbf{X}_{I \times J}$, and behavioral data, $\mathbf{X}_{I \times K}$, with respect to the same persons can be concatenated $\mathbf{X}_C=[\mathbf{X}_{I \times J}\; \mathbf{X}_{I \times K}]$, and thus be jointly analyzed. 
 
 Notice that the common and distinctive processes (also refered to as common and distinctive components) are with respect to the estimated component loading matrix $\mathbf{P}$. As for the technical details, we refer to:
 
 - Van Deun, K., Wilderjans, T.F., Van Den Berg, R.A., Antoniadis, A., & Van Mechelen, I. (2011). A flexible framework for sparse simultaneous component based data integration. BMC Bioinformatics. 12(1), 448.
+- Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.
 
 ## Data pre-processing
 Raw data must be standardized (i.e., pre-processed) before analysis, and thus we provide a function `mySTD()`. The following paper provides a nice overview of how and why raw data should be pre-processed:
@@ -29,16 +30,16 @@ When no prior information is available, users may first try the function `VAF()`
  - Schouteden, M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Performing DISCO-SCA to search for distinctive and common information in linked data. Behavior research methods, 46(2), 576-587.
  - Schouteden, M., Van Deun, K., Pattyn, S., & Van Mechelen, I. (2013). SCA with rotation to distinguish common and distinctive information in linked data. Behavior research methods, 45(3), 822-833.
 
-`DISCOsca()` tries all possible combinations of common and distinctive patterns in $\mathbf{P}$ matrix. Note that this algorithm utilizes a specific rule to determine common and distinctive processes: To put it simply, for each component across the entire data block, the algorithm calculates the distance among the sum of squares of the loadings per block (weighted by total variance of the block) to determine whether it is a common/distinctive component. Thus, this rule may not work well when, for example, common components are also very sparse. For technical details, see
+`DISCOsca()` tries all possible combinations of common and distinctive patterns in $\mathbf{P}$ matrix. Note that this algorithm utilizes a specific rule to determine common and distinctive processes: To put it simply, for each component across the entire data block, the algorithm calculates the distance among the sum of squares of the loadings per block (weighted by total variance of the block) to determine whether it is a common/distinctive component. For technical details, see
 
 - Schouteden, M., Van Deun, K., Wilderjans, T. F., & Van Mechelen, I. (2014). Performing DISCO-SCA to search for distinctive and common information in linked data. Behavior research methods, 46(2), 576-587.
 
-`pca_gca()` identifies common and distinctive components in a two stage procedure: First perform principal component analysis on each data block, and then perform a canonical correlation analysis on the component loadings across all the data blocks. In case of more than 2 data blocks, users may need to repeatedly apply the function to see, for example, whether some of the blocks (but not all) share common components. See
+`pca_gca()` identifies common and distinctive components in a two-stage procedure: First perform principal component analysis on each data block, and then perform a canonical correlation analysis on the component loadings across all the data blocks. In case of more than 2 data blocks, users may need to repeatedly apply the function to see, for example, whether some of the blocks (but not all) share common components. For technical details, see
 
 - Tenenhaus, A., & Tenenhaus, M. (2011). Regularized generalized canonical correlation analysis. Psychometrika, 76(2), 257-284.
 - Smilde, A.K., Mage, I., Naes, T., Hankemeier, T., Lips, M.A., Kiers, H.A., Acar, E., & Bro, R. (2016). Common and distinct components in data fusion. arXiv preprint arXiv:1607.02328.
 
-`structuredSCA()` is an algorithm for sparse SCA - that is, a Lasso penalty and a Group Lasso penalty are added to the SCA model. The algorithm can identify common and distinctive components as long as the proper tuning parameters for Lasso and Group Lasso are chosen. Uers may use `cv_sparseSCA()` to find suitable values for the Lasso and Group Lasso tuning parameters. `maxLGlasso()` helps to identy the max values for the Lasso and Group Lasso tuning parameters. Also noted that, `structuredSCA()` incorporates a multi-start procedure to deal with the local minima problem. For technical details, see
+`sparseSCA()` is an algorithm for SCA models with a Lasso penalty and a Group Lasso penalty. The algorithm can identify common and distinctive components as long as the proper tuning parameters for Lasso and Group Lasso are chosen. Uers may use `cv_sparseSCA()` to find suitable values for the Lasso and Group Lasso tuning parameters. `maxLGlasso()` helps to identy the max values for the Lasso and Group Lasso tuning parameters (that is, the smallest value for Lasso and Group Lasso penalties that generate $\mathbf{P}=\mathbf{0}$. Also noted that, `sparseSCA()` incorporates a multi-start procedure to deal with the local minima problem. For technical details, see
 
 - Gu, Z., & Van Deun, K. RSCA: Regularized simultaneous component analysis for data integration in R. (under review)
 - Friedman, J., Hastie, T., & Tibshirani, R. (2010). A note on the group lasso and a sparse group lasso. arXiv preprint arXiv:1001.0736.
@@ -51,6 +52,3 @@ To this end, users may want to use the function `structuredSCA()` or `cv_structu
 
 - Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, 158, 187-199.
  
-
- 
-
