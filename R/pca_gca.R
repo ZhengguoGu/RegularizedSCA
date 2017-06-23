@@ -11,7 +11,9 @@
 #' @examples
 #' \dontrun{
 #' DATA1 <- matrix(rnorm(50), nrow=5)
-#' DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are with respect to the same 5 subjects here.
+#' DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and 
+#'                                     #DATA2 are with respect to the 
+#'                                     #same 5 subjects here.
 #' DATA <- cbind(DATA1, DATA2)
 #' R <- 5
 #' Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
@@ -51,7 +53,7 @@ pca_gca <- function(DATA, Jk, cor_min, return_scores){
     print(svdblock$d)
     y <- readline("Show the scree plot for the eigenvalues. 1: YES; 0: NO.    ")
     if (y == 1){
-      plot(as.vector(svdblock$d), type='b', ylab = "Eigenvalue", xlab = 'Component Number')
+      graphics::plot(as.vector(svdblock$d), type='b', ylab = "Eigenvalue", xlab = 'Component Number')
     } else if (y!=1 & y!=0){
       stop("Please enter 1 or 0!")
     }

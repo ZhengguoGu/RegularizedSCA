@@ -55,12 +55,16 @@ wants to obtain some sparseness in the common component.
 \examples{
 \dontrun{
 DATA1 <- matrix(rnorm(50), nrow=5)
-DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are with respect to the same 5 subjects here.
+DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 
+                                   #and DATA2 are with respect to 
+                                   #the same 5 subjects here.
 DATA <- cbind(DATA1, DATA2)
 Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 R <- 4 # assume we want to have 4 components in P matrix.
 Target <- matrix(c(1,1,1,0,1,0,0,1), 2, 4) 
-cv_structuredSCA(DATA, Jk, R, Target, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
+cv_structuredSCA(DATA, Jk, R, Target, MaxIter = 100, NRSTARTS = 40, 
+                LassoSequence = seq(from= 0.002, to=0.1, 
+                length.out = 10))
 }
 }
 \references{

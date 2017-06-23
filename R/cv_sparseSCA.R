@@ -128,7 +128,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   ii <- 0
   while(ii != 1){ #this procedure is to make sure that the training sample do not have an entire row/column of NA's
 
-    randmat <- matrix(runif(nrow(DATA) * ncol(DATA)), ncol = ncol(DATA))
+    randmat <- matrix(stats::runif(nrow(DATA) * ncol(DATA)), ncol = ncol(DATA))
     jj <- 0
     for (i in 1:nfolds){
       ToRemove <- ((i - 1) * percentRemove < randmat) & (randmat < i * percentRemove) # this idea is from PMA package
@@ -204,7 +204,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
 
 
       PRESS[l,g] <- sum(error_x)/nfolds
-      se_MSE[l,g] <- sd(error_x)/sqrt(nfolds)
+      se_MSE[l,g] <- stats::sd(error_x)/sqrt(nfolds)
     }
   }
 

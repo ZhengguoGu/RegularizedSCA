@@ -3,8 +3,9 @@ Type: Package
 Title: An R package for regularized simultaneous component based data
     integration
 Version: 0.4.2
-Author: Zhengguo Gu, Katrijn Van Deun
-Maintainer: Zhengguo Gu <z.gu@tilburguniversity.edu>
+Authors@R: c(person(given = "Gu", family = "Zhengguo", role = c("aut", "cre"), 
+    email = "z.gu@uvt.nl"), 
+    person(given = "Van Deun", family = "Katrijn", role = "aut"))
 Description: This package performs regularized simultaneous component based data
     integration for multiblock data.
 Depends: R (>= 2.10)

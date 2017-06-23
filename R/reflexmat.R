@@ -10,7 +10,7 @@ reflexmat <- function(m){
 
   for(i in 1:(m-1)){
 
-    B <- combn(1:m, i)
+    B <- utils::combn(1:m, i)
 
       for(j in 1:dim(B)[2]){
 

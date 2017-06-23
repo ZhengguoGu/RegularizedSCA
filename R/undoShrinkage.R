@@ -30,7 +30,7 @@ undoShrinkage <- function(DATA, R, Phat, MAXITER){
   }
   
   #initialize P, Lossc
-  P <- matrix(rnorm(sumJk * R), nrow = sumJk, ncol = R)
+  P <- matrix(stats::rnorm(sumJk * R), nrow = sumJk, ncol = R)
   P[Phat == 0]<-0
   Pt <- t(P)
   

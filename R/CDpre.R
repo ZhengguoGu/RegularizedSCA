@@ -16,7 +16,7 @@ CDpre <- function(DATA, Jk, R, Posit, GroupStructure, LASSO, MaxIter){
   }
 
   #initialize P, Lossc
-  P <- matrix(rnorm(sumJk * R), nrow = sumJk, ncol = R)
+  P <- matrix(stats::rnorm(sumJk * R), nrow = sumJk, ncol = R)
   P[GroupStructure == 0]<-0
   Pt <- t(P)
 

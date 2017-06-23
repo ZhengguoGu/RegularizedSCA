@@ -14,7 +14,7 @@ CDfriedmanV1 <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter){
   }
 
   #initialize P
-  P <- matrix(rnorm(sumJk * R), nrow = sumJk, ncol = R)
+  P <- matrix(stats::rnorm(sumJk * R), nrow = sumJk, ncol = R)
   Pt <- t(P)
 
   absP <- abs(P)

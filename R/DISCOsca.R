@@ -85,7 +85,7 @@ DISCOsca <- function(DATA, R, Jk){
 
   for(i in max(num_block, R): ((R*num_block)-1)){
 
-    combinations <- combn(matrix(1:(R*num_block), num_block, R), i)
+    combinations <- utils::combn(matrix(1:(R*num_block), num_block, R), i)
 
     for(j in 1:dim(combinations)[2]){
 
@@ -201,7 +201,7 @@ DISCOsca <- function(DATA, R, Jk){
 
           if(sum(posit_indicator[, r])==num_block){
             #if(true), we have a common component
-            combi <- combn(1:num_block, 2) #when there are more than 2 blocks, combi is useful
+            combi <- utils::combn(1:num_block, 2) #when there are more than 2 blocks, combi is useful
 
             distance_combi <- array(NA, dim(combi)[2])
             for (c in 1:dim(combi)[2]){

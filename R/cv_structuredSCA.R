@@ -36,12 +36,16 @@
 #'@examples
 #'\dontrun{
 #'DATA1 <- matrix(rnorm(50), nrow=5)
-#'DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 and DATA2 are with respect to the same 5 subjects here.
+#'DATA2 <- matrix(rnorm(100), nrow=5) #thus, we assume that DATA1 
+#'                                    #and DATA2 are with respect to 
+#'                                    #the same 5 subjects here.
 #'DATA <- cbind(DATA1, DATA2)
 #'Jk <- c(10, 20) #DATA1 has 10 columns, DATA2 20.
 #'R <- 4 # assume we want to have 4 components in P matrix.
 #'Target <- matrix(c(1,1,1,0,1,0,0,1), 2, 4) 
-#'cv_structuredSCA(DATA, Jk, R, Target, MaxIter = 100, NRSTARTS = 40, LassoSequence = seq(from= 0.002, to=0.1, length.out = 10))
+#'cv_structuredSCA(DATA, Jk, R, Target, MaxIter = 100, NRSTARTS = 40, 
+#'                 LassoSequence = seq(from= 0.002, to=0.1, 
+#'                 length.out = 10))
 #'}
 #'@references Witten, D.M., Tibshirani, R., & Hastie, T. (2009), A penalized matrix decomposition, with applications to sparse principal components and canonical correlation analysis. \emph{Biostatistics}, \emph{10}(3), 515-534.
 #'@references Gu, Z., & Van Deun, K. (2016). A variable selection method for simultaneous component based data integration. \emph{Chemometrics and Intelligent Laboratory Systems}, \emph{158}, 187-199.
@@ -104,7 +108,7 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
   PRESS <- array()
   sd_MSE <- array()  #note that this is standard error (not standard deviation, although it's called sd)
   percentRemove <- 1/nfolds
-  randmat <- matrix(runif(nrow(DATA) * ncol(DATA)), ncol = ncol(DATA))
+  randmat <- matrix(stats::runif(nrow(DATA) * ncol(DATA)), ncol = ncol(DATA))
 
   for (l in 1:length(LassoSequence)){
     
@@ -146,7 +150,7 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
     }
 
     PRESS[l] <- sum(error_x)/nfolds
-    sd_MSE[l] <- sd(error_x)/sqrt(nfolds)
+    sd_MSE[l] <- stats::sd(error_x)/sqrt(nfolds)
 
   }
 
@@ -161,23 +165,23 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
                                                                             #where according to the 1SE rule the lasso should be in that region. 
                                                                             #min() is used in case there are multiple PRESS==lowestPress
     pressindex <- which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))
-    lasso1 <- df$LassoI[tail(pressindex)] #in case multiple Lasso values are available, choose the most sparse one. 
+    lasso1 <- df$LassoI[utils::tail(pressindex)] #in case multiple Lasso values are available, choose the most sparse one. 
     
-    if(PRESS[tail(pressindex)] - lowestplus1SE > 0 ){
-      if(df$LassoI[tail(pressindex)] == df$LassoI[1]){
+    if(PRESS[utils::tail(pressindex)] - lowestplus1SE > 0 ){
+      if(df$LassoI[utils::tail(pressindex)] == df$LassoI[1]){
         #this is the first value of the vector
         lregion <- c(lasso1, lasso1)
       } else{
-        lasso2 <- df$LassoI[tail(pressindex) - 1]
+        lasso2 <- df$LassoI[utils::tail(pressindex) - 1]
         lregion <- c(lasso2, lasso1)
       }
       
-    } else if (PRESS[tail(pressindex)] - lowestplus1SE < 0 ){
-      if(df$LassoI[tail(pressindex)] == df$LassoI[length(df$LassoI)]){
+    } else if (PRESS[utils::tail(pressindex)] - lowestplus1SE < 0 ){
+      if(df$LassoI[utils::tail(pressindex)] == df$LassoI[length(df$LassoI)]){
         #this is the last value of the vector
         lregion <- c(lasso1, lasso1)
       } else{
-        lasso2 <- df$LassoI[tail(pressindex) + 1]
+        lasso2 <- df$LassoI[utils::tail(pressindex) + 1]
         lregion <- c(lasso1, lasso2)
       }
       
@@ -202,22 +206,22 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
     lowestplus1SE <- lowestPress + min(sd_MSE[which(PRESS == lowestPress)]) #plot 1SE rule region the idea is to fine the region of lasso where according to the 1SE rule the lasso should be in that region. 
     
     pressindex <- which(abs(PRESS-lowestplus1SE)==min(abs(PRESS-lowestplus1SE)))
-    lasso1 <- df$LassoI[tail(pressindex)] #in case multiple lasso values available
+    lasso1 <- df$LassoI[utils::tail(pressindex)] #in case multiple lasso values available
     
-    if(PRESS[tail(pressindex)] - lowestplus1SE > 0 ){
-      if(df$LassoI[tail(pressindex)] == df$LassoI[1]){
+    if(PRESS[utils::tail(pressindex)] - lowestplus1SE > 0 ){
+      if(df$LassoI[utils::tail(pressindex)] == df$LassoI[1]){
         # this is the first element of the vector
         lregion <- c(lasso1, lasso1)
       } else{
-        lasso2 <- df$LassoI[tail(pressindex) - 1]
+        lasso2 <- df$LassoI[utils::tail(pressindex) - 1]
         lregion <- c(lasso2, lasso1)
       }
       
-    } else if (PRESS[tail(pressindex)] - lowestplus1SE < 0 ){
-        if(df$LassoI[tail(pressindex)] == length(LassoSequence)){
+    } else if (PRESS[utils::tail(pressindex)] - lowestplus1SE < 0 ){
+        if(df$LassoI[utils::tail(pressindex)] == length(LassoSequence)){
           lasso2 <- lasso1
         } else{
-          lasso2 <- df$LassoI[tail(pressindex) + 1]
+          lasso2 <- df$LassoI[utils::tail(pressindex) + 1]
         }
       lregion <- c(lasso1, lasso2)
     } else {
