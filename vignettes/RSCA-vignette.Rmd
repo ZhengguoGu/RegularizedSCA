@@ -1,5 +1,5 @@
 ---
-title: "RSCA - an R package for regularized simultaneous component based data integration"
+title: "RegularizedSCA - an R package for regularized simultaneous component based data integration"
 author: "Zhengguo Gu and Katrijn Van Deun"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -41,7 +41,6 @@ When no prior information is available, users may first try the function `VAF()`
 
 `sparseSCA()` is an algorithm for SCA models with a Lasso penalty and a Group Lasso penalty. The algorithm can identify common and distinctive components as long as the proper tuning parameters for Lasso and Group Lasso are chosen. Uers may use `cv_sparseSCA()` to find suitable values for the Lasso and Group Lasso tuning parameters. `maxLGlasso()` helps to identy the max values for the Lasso and Group Lasso tuning parameters (that is, the smallest value for Lasso and Group Lasso penalties that generate $\mathbf{P}=\mathbf{0}$. Also noted that, `sparseSCA()` incorporates a multi-start procedure to deal with the local minima problem. For technical details, see
 
-- Gu, Z., & Van Deun, K. RSCA: Regularized simultaneous component analysis for data integration in R. (under review)
 - Friedman, J., Hastie, T., & Tibshirani, R. (2010). A note on the group lasso and a sparse group lasso. arXiv preprint arXiv:1001.0736.
 - Yuan, M., & Lin, Y. (2006). Model selection and estimation in regression with grouped variables. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 68(1), 49-67.
 

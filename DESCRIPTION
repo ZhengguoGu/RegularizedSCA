@@ -1,4 +1,4 @@
-Package: RSCA
+Package: RegularizedSCA
 Type: Package
 Title: Regularized Simultaneous Component Based Data
     Integration
