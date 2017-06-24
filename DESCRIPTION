@@ -3,9 +3,9 @@ Type: Package
 Title: Regularized Simultaneous Component Based Data
     Integration
 Version: 0.4.2
-Authors@R: c(person(given = "Gu", family = "Zhengguo", role = c("aut", "cre"), 
+Authors@R: c(person(given = "Zhengguo", family = "Gu", role = c("aut", "cre"), 
     email = "z.gu@uvt.nl"), 
-    person(given = "Van Deun", family = "Katrijn", role = "aut"))
+    person(given = "Katrijn", family = "Van Deun", role = "aut"))
 Description: It performs regularized simultaneous component based data
     integration for multiblock data.
 Depends: R (>= 2.10)
