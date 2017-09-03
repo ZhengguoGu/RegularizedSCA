@@ -23,7 +23,9 @@
 #'
 #'@return
 #'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
+#'\item{SE_MSE}{A matrix of standard errors for \code{PRESS}.}
 #'\item{Press1SE}{The lowest PRESS + 1SE.}
+#'\item{VarSelected}{A matrix of number of variables selected for the sequences of Lasso and Group Lasso tuning parameters.}
 #'\item{plot}{A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters, with the vertical dotted black line indicating the lowest
 #'PRESS+1SE. Note that on the x axis (abscissa) are Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
 #'G1, for example, indicates the first value in the \code{GLassoSequence}.
@@ -37,6 +39,7 @@
 #'for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}
 #'\item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
 #'\item{RecommendedLambda}{A pair (or sometimes a few pairs) of Lasso and Group Lasso tuning parameters that lead to a model with PRESS closest to the lowest PRESS + 1SE.}
+#'\item{plotlog}{An index number for function \code{plot()}, which is not useful for users.}
 #'@examples
 #'\dontrun{
 #'DATA1 <- matrix(rnorm(50), nrow=5)
@@ -465,12 +468,16 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
+  return_crossvali$SE_MSE <- se_MSE
   return_crossvali$Press1SE <- lowestplus1SE
+  return_crossvali$VarSelected <- varselected
   return_crossvali$plot <- p
   return_crossvali$Lasso_values <- LassoSequence
   return_crossvali$Glasso_values <- GLassoSequence
   return_crossvali$Lambdaregion <- lambdaregion
   return_crossvali$RecommendedLambda <- bestTunning
+  return_crossvali$plotlog <- plotlog
+  attr(return_crossvali, "class") <- "sparseSCA"
   return(return_crossvali)
 
 }
