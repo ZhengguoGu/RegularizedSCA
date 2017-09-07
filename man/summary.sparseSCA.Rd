@@ -7,10 +7,14 @@
 \method{summary}{sparseSCA}(obj_sSCA, disp)
 }
 \arguments{
-\item{disp}{The default is \code{simple}; in this case, the recommended tuning parameter values will be displayed. 
-If \code{full}, then information is displayed regarding 1) the recommended tuning parameter values, 2) the proper region 
-for Lasso tuning parameter values, given a Group Lasso tuning parameter value, 3) # of variable selected,
-4) Predicted residual sum of squares (PRESS), 5) standard errors for PRESS, 6) Lasso and Group Lasso tuning 
+\item{disp}{The default is \code{simple}; in this case, the recommended tuning 
+parameter values will be displayed. 
+If \code{full}, then information is displayed regarding 1) the 
+recommended tuning parameter values, 2) the proper region 
+for Lasso tuning parameter values, given a Group Lasso tuning 
+parameter value, 3) # of variable selected,
+4) Predicted residual sum of squares (PRESS), 
+5) standard errors for PRESS, 6) Lasso and Group Lasso tuning 
 parameter values that have been evaluated.}
 
 \item{object}{Object of class inheriting from 'sparseSCA'.}
