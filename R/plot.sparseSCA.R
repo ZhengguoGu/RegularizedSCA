@@ -1,3 +1,23 @@
+#'Ploting Cross-validation results
+#'
+#'A plot of PRESS +/- 1 standard error against Lasso and Group Lasso tuning parameters, with the vertical dotted black line indicating the lowest
+#'PRESS+1SE. Note that on the x axis (abscissa) are Lasso tuning parameter values. The Group Lasso tuning parameter values are shown on the top of the graph, and the values shown are index numbers:
+#'G1, for example, indicates the first value in the \code{GLassoSequence}.
+#'In case both the Lasso sequence and the Group Lasso sequence contain more than 2 elements, there will be an extra plot, which is 
+#'the number of non-zero component loadings against Lasso and Group Lasso tuning parameters. In this case \code{plot} is a list of two plots.
+#'To find their corresponding values, please make use of \code{Lasso_values} and \code{Glasso_values}. The vertical red dashed lines indicate a proper region for Lasso tuning parameters
+#'given a certain Group Lasso tuning parameter. When there is only one vertical red dashed line, a proper region for Lasso tuning parameters is not available: the red dashed line indicates 
+#'the Lasso tuning parameter leading to the PRESS that is closest to the smallest PRESS+1SE.
+#'
+#'@param object Object of class inheriting from 'sparseSCA'.
+#'
+#'@examples
+#'\dontrun{
+#'## S3 method for class 'sparseSCA'
+#'plot(object)
+#'}
+#'
+#'@export
 plot.sparseSCA <- function(obj_sSCA){
   
   LassoSequence <- obj_sSCA$Lasso_values

@@ -281,41 +281,6 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     l1matrix <- t(cbind(lasso1, matrix(NA, length(lasso1), length(LassoSequence)-1)))
     l2matrix <- t(cbind(lasso2, matrix(NA, length(lasso2), length(LassoSequence)-1)))
   
-    l1s <- NA #It seems that a variable must be defined first, otherwise R CMD check generates a Note
-    l2s <- NA
-    
-    if(plotlog == 1){
-      
-      df <- data.frame(GLassoI = Glasso_index0, LassoI = log(lasso_index0), Press = vec_PRESS, Upper = upper, Lower = lower, l1s = c(log(l1matrix)), l2s = c(log(l2matrix)))
-      df2 <- data.frame(GLassoI = Glasso_index0, LassoI = log(lasso_index0),  Var = vec_varsel, l1s = c(log(l1matrix)), l2s = c(log(l2matrix)))
-      xtag <- "log(Lasso)"
-    } else{
-      df <- data.frame(GLassoI = Glasso_index0, LassoI = lasso_index0, Press = vec_PRESS, Upper = upper, Lower = lower, l1s = c(l1matrix), l2s = c(l2matrix))
-      df2 <- data.frame(GLassoI = Glasso_index0, LassoI = lasso_index0,  Var = vec_varsel, l1s = c(l1matrix), l2s = c(l2matrix))
-      xtag <- "Lasso"
-    }
-    
-    
-    p1 <- ggplot2::ggplot(df, ggplot2::aes_string(x='LassoI',y='Press',group='GLassoI')) +
-         ggplot2::facet_grid(.~GLassoI)+
-         ggplot2::geom_errorbar(ggplot2::aes_string(ymin='Lower',ymax='Upper', group='GLassoI'), width=.1) +
-         ggplot2::geom_point(ggplot2::aes_string(x='LassoI',y='Press',group='GLassoI')) +
-         ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3) +
-         ggplot2::geom_vline(data = subset(df, !is.na(l1s)), ggplot2::aes_string(xintercept = 'l1s'), linetype = "longdash", col = "red" ) +
-         ggplot2::geom_vline(data = subset(df, !is.na(l2s)), ggplot2::aes_string(xintercept = 'l2s'), linetype = "longdash", col = "red" )      
-    
-    p1 <- p1 + ggplot2::labs(x = xtag, y="Prediction Mean Squared Errors +/- 1SE")
-
-    p2 <- ggplot2::ggplot(df2, ggplot2::aes_string(x='LassoI',y='vec_varsel',group='GLassoI')) +
-          ggplot2::facet_grid(.~GLassoI)+
-          ggplot2::geom_point(ggplot2::aes_string(x='LassoI',y='vec_varsel',group='GLassoI')) +
-          ggplot2::geom_vline(data = subset(df, !is.na(l1s)), ggplot2::aes_string(xintercept = 'l1s'), linetype = "longdash", col = "red" ) +
-          ggplot2::geom_vline(data = subset(df, !is.na(l2s)), ggplot2::aes_string(xintercept = 'l2s'), linetype = "longdash", col = "red" )  
-    p2 <- p2 + ggplot2::labs(x = xtag, y="# of non-zero component loadings selected in P matrix")
-    
-    p <- list()
-    p[[1]] <- p1
-    p[[2]] <- p2
     
   } else if(length(LassoSequence)>=2 & length(GLassoSequence)==1){ #### CASE2: multiple lasso, one glasso
     
@@ -361,30 +326,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
       lambdaregion <- lasso1
     }
     
-    if (plotlog == 1){
-      df$LassoI = log(LassoSequence)
-      p <- ggplot2::ggplot(df, ggplot2::aes_string(x='LassoI',y='Press')) +
-        ggplot2::geom_errorbar(ggplot2::aes_string(ymin='Lower',ymax='Upper'), width=.1) +
-        ggplot2::geom_point(ggplot2::aes_string(x='LassoI',y='Press'))+
-        ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3)+
-        #ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)]) +
-        ggplot2::geom_vline(xintercept = log(lasso1), 
-          linetype = "longdash", col = "red") +
-        ggplot2::geom_vline(xintercept = log(lasso2), 
-          linetype = "longdash", col = "red") 
-      p <- p + ggplot2::labs(x = "Lasso (on log scale)", y="Prediction Mean Squared Errors +/- 1SE")
-    } else{
-      p <- ggplot2::ggplot(df, ggplot2::aes_string(x='LassoI',y='Press')) +
-        ggplot2::geom_errorbar(ggplot2::aes_string(ymin='Lower',ymax='Upper'), width=.1) +
-        ggplot2::geom_point(ggplot2::aes_string(x='LassoI',y='Press'))+
-        ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3)+
-        #ggplot2::scale_x_discrete(limits=lasso_index[1:length(LassoSequence)]) +
-        ggplot2::geom_vline(xintercept = lasso1, 
-          linetype = "longdash", col = "red") +
-        ggplot2::geom_vline(xintercept = lasso2, 
-          linetype = "longdash", col = "red") 
-      p <- p + ggplot2::labs(x = "Lasso", y="Prediction Mean Squared Errors +/- 1SE")
-    }
+    
   } else if(length(LassoSequence)==1 & length(GLassoSequence)>= 2){####CASE 3: Multiple glasso, one lasso
      
       df <- data.frame(GLassoI = GLassoSequence, Press = vec_PRESS, Upper = upper, Lower = lower)
@@ -428,31 +370,6 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
       } else { #this is when a PRESS value lies exactly on the 1SE dotted line 
         glasso2 <- glasso1
         lambdaregion <- glasso1
-      }
-    
-      if (plotlog == 1){
-        df$GLassoI = log(GLassoSequence)
-        p <- ggplot2::ggplot(df, ggplot2::aes_string(x='GLassoI',y='Press')) +
-        ggplot2::geom_errorbar(ggplot2::aes_string(ymin='Lower',ymax='Upper'), width=.1) +
-        ggplot2::geom_point(ggplot2::aes_string(x='GLassoI',y='Press'))+
-        ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3) +
-        #ggplot2::scale_x_discrete(limits=Glasso_index[1:length(GLassoSequence)])
-        ggplot2::geom_vline(xintercept = log(glasso1), 
-          linetype = "longdash", col = "red") +
-        ggplot2::geom_vline(xintercept = log(glasso2), 
-          linetype = "longdash", col = "red") 
-        p <- p + ggplot2::labs(x = "Group Lasso (on log scale)", y="Prediction Mean Squared Errors +/- 1SE")
-      } else{
-        p <- ggplot2::ggplot(df, ggplot2::aes_string(x='GLassoI',y='Press')) +
-          ggplot2::geom_errorbar(ggplot2::aes_string(ymin='Lower',ymax='Upper'), width=.1) +
-          ggplot2::geom_point(ggplot2::aes_string(x='GLassoI',y='Press'))+
-          ggplot2::geom_hline(yintercept = upper[which(vec_PRESS == min(vec_PRESS))], linetype = 3) +
-          #ggplot2::scale_x_discrete(limits=Glasso_index[1:length(GLassoSequence)])
-          ggplot2::geom_vline(xintercept = glasso1, 
-            linetype = "longdash", col = "red") +
-          ggplot2::geom_vline(xintercept = glasso2, 
-            linetype = "longdash", col = "red") 
-        p <- p + ggplot2::labs(x = "Group Lasso", y="Prediction Mean Squared Errors +/- 1SE")
       }
     
   }
