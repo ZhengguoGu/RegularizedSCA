@@ -4,10 +4,10 @@
 \alias{plot.sparseSCA}
 \title{Ploting Cross-validation results}
 \usage{
-\method{plot}{sparseSCA}(obj_sSCA)
+\method{plot}{sparseSCA}(x, ...)
 }
 \arguments{
-\item{object}{Object of class inheriting from 'sparseSCA'.}
+\item{x}{A object for plot.}
 }
 \description{
 A plot of PRESS +/- 1 standard error against Lasso and Group 
@@ -35,7 +35,7 @@ closest to the smallest PRESS+1SE.
 \examples{
 \dontrun{
 ## S3 method for class 'sparseSCA'
-plot(object)
+plot(x)
 }
 
 }

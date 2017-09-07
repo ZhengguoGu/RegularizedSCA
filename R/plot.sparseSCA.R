@@ -22,29 +22,29 @@
 #'the Lasso tuning parameter leading to the PRESS that is 
 #'closest to the smallest PRESS+1SE.
 #'
-#'@param object Object of class inheriting from 'sparseSCA'.
+#'@param x A object for plot.
 #'
 #'@examples
 #'\dontrun{
 #'## S3 method for class 'sparseSCA'
-#'plot(object)
+#'plot(x)
 #'}
 #'
 #'@export
-plot.sparseSCA <- function(object){
+plot.sparseSCA <- function(x, ...){
   
-  LassoSequence <- object$Lasso_values
-  GLassoSequence <- object$Glasso_values
-  PRESS <- object$PRESS
+  LassoSequence <- x$Lasso_values
+  GLassoSequence <- x$Glasso_values
+  PRESS <- x$PRESS
   vec_PRESS <- c(PRESS)
-  se_MSE <- object$SE_MSE
+  se_MSE <- x$SE_MSE
   vec_se <- c(se_MSE)
   
   upper <- vec_PRESS + vec_se
   lower <- vec_PRESS - vec_se 
-  vec_varsel <- c(object$VarSelected)
+  vec_varsel <- c(x$VarSelected)
   
-  plotlog <- object$plotlog
+  plotlog <- x$plotlog
   
 
   if (length(LassoSequence)>=2 & length(GLassoSequence)>=2){ #### CASE1: multiple lasso and glasso

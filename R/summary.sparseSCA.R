@@ -17,7 +17,7 @@
 #'}
 #'
 #'@export
-summary.sparseSCA <- function(object, disp){
+summary.sparseSCA <- function(object, disp, ...){
   
   PRESS <- object$PRESS
   SE_MSE <- object$SE_MSE

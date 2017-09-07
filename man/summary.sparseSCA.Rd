@@ -4,9 +4,11 @@
 \alias{summary.sparseSCA}
 \title{Display a summary of the results of Cross-validation of \code{sparseSCA()}.}
 \usage{
-\method{summary}{sparseSCA}(obj_sSCA, disp)
+\method{summary}{sparseSCA}(object, disp, ...)
 }
 \arguments{
+\item{object}{Object of class inheriting from 'sparseSCA'.}
+
 \item{disp}{The default is \code{simple}; in this case, the recommended tuning 
 parameter values will be displayed. 
 If \code{full}, then information is displayed regarding 1) the 
@@ -16,8 +18,6 @@ parameter value, 3) # of variable selected,
 4) Predicted residual sum of squares (PRESS), 
 5) standard errors for PRESS, 6) Lasso and Group Lasso tuning 
 parameter values that have been evaluated.}
-
-\item{object}{Object of class inheriting from 'sparseSCA'.}
 }
 \description{
 Display a summary of the results of Cross-validation of \code{sparseSCA()}.
