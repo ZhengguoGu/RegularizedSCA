@@ -33,30 +33,30 @@ summary.sparseSCA <- function(obj_sSCA, disp){
   
   if(disp == "simple"){
     
-    print("Recommended tuning parameter values are:")
+    cat(sprintf("\nRecommended tuning parameter values are:\n"))
     print(RecommendedLambda)
     
   }else if(disp == "full"){
     
-    print("Recommended tuning parameter values are:")
+    cat(sprintf("\nRecommended tuning parameter values are:\n"))
     print(RecommendedLambda)
     
-    print("Given each value for Group Lasso tuning parameters, the proper region for Lasso tuning parameter values are:")
+    cat(sprintf("\nGiven each value for Group Lasso tuning parameters, the proper region for Lasso tuning parameter values are:\n"))
     print(Lambdaregion)
     
-    print("# of variable selected:")
+    cat(sprintf("\n# of variable selected:\n"))
     print(VarSelected)
     
-    print("Predicted residual sum of squares (PRESS):")
+    cat(sprintf("\nPredicted residual sum of squares (PRESS):\n"))
     print(PRESS)
     
-    print("standard errors for PRESS:")
+    cat(sprintf("\nstandard errors for PRESS:\n"))
     print(SE_MSE)
     
-    print("Lasso tuning parameter values that have been evaluated:")
+    cat(sprintf("\nLasso tuning parameter values that have been evaluated:\n"))
     print(Lasso_values)
     
-    print("Group Lasso tuning parameter values that have been evaluated:")
+    cat(sprintf("\nGroup Lasso tuning parameter values that have been evaluated:\n"))
     print(Glasso_values)
   
   }else{
