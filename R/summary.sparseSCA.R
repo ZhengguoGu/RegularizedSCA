@@ -60,6 +60,4 @@ summary.sparseSCA <- function(obj_sSCA, disp){
   }
   
   
-  
-  print()
 }
