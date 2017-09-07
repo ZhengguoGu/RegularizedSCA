@@ -17,15 +17,15 @@
 #'}
 #'
 #'@export
-summary.sparseSCA <- function(obj_sSCA, disp){
+summary.sparseSCA <- function(object, disp){
   
-  PRESS <- obj_sSCA$PRESS
-  SE_MSE <- obj_sSCA$SE_MSE
-  VarSelected <- obj_sSCA$VarSelected
-  Lasso_values <- obj_sSCA$Lasso_values
-  Glasso_values <- obj_sSCA$Glasso_values
-  Lambdaregion <- obj_sSCA$Lambdaregion
-  RecommendedLambda <- obj_sSCA$RecommendedLambda
+  PRESS <- object$PRESS
+  SE_MSE <- object$SE_MSE
+  VarSelected <- object$VarSelected
+  Lasso_values <- object$Lasso_values
+  Glasso_values <- object$Glasso_values
+  Lambdaregion <- object$Lambdaregion
+  RecommendedLambda <- object$RecommendedLambda
   
   if(missing(disp)){
     disp <- "simple"

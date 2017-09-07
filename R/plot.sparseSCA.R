@@ -31,20 +31,20 @@
 #'}
 #'
 #'@export
-plot.sparseSCA <- function(obj_sSCA){
+plot.sparseSCA <- function(object){
   
-  LassoSequence <- obj_sSCA$Lasso_values
-  GLassoSequence <- obj_sSCA$Glasso_values
-  PRESS <- obj_sSCA$PRESS
+  LassoSequence <- object$Lasso_values
+  GLassoSequence <- object$Glasso_values
+  PRESS <- object$PRESS
   vec_PRESS <- c(PRESS)
-  se_MSE <- obj_sSCA$SE_MSE
+  se_MSE <- object$SE_MSE
   vec_se <- c(se_MSE)
   
   upper <- vec_PRESS + vec_se
   lower <- vec_PRESS - vec_se 
-  vec_varsel <- c(obj_sSCA$VarSelected)
+  vec_varsel <- c(object$VarSelected)
   
-  plotlog <- obj_sSCA$plotlog
+  plotlog <- object$plotlog
   
 
   if (length(LassoSequence)>=2 & length(GLassoSequence)>=2){ #### CASE1: multiple lasso and glasso
