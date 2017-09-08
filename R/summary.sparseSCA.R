@@ -10,6 +10,7 @@
 #'            4) Predicted residual sum of squares (PRESS), 
 #'            5) standard errors for PRESS, 6) Lasso and Group Lasso tuning 
 #'            parameter values that have been evaluated.
+#'@param ...  Argument to be passed to or from other methods. 
 #'@examples
 #'\dontrun{
 #'## S3 method for class 'sparseSCA'

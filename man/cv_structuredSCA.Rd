@@ -37,10 +37,12 @@ be performed.}
 \value{
 \item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameter values.}
 \item{Press1SE}{The lowest PRESS + 1SE.}
+\item{Standard_Error}{Standard errors.}
 \item{LassoSequence}{The sequence of Lasso tuning parameters used in cross-validation.}
 \item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted against a log scale of lambda if \code{LassoSequence} is not defined by users. }
 \item{LassoRegion}{A region where the suitable lambda can be found, according to the "1 SE rule". }
 \item{RecommendedLasso}{A Lasso tuning parameter that leads to a model with PRESS closest to the lowest PRESS + 1SE.}
+\item{plotlog}{An index number for function \code{plot()}, which is not useful for users.}
 }
 \description{
 \code{cv_structuredSCA} helps to find a range of lasso tuning parameters for the

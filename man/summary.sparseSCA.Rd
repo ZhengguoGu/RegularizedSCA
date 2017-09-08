@@ -18,6 +18,8 @@ parameter value, 3) # of variable selected,
 4) Predicted residual sum of squares (PRESS), 
 5) standard errors for PRESS, 6) Lasso and Group Lasso tuning 
 parameter values that have been evaluated.}
+
+\item{...}{Argument to be passed to or from other methods.}
 }
 \description{
 Display a summary of the results of Cross-validation of \code{sparseSCA()}.

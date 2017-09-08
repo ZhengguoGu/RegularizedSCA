@@ -23,6 +23,7 @@
 #'closest to the smallest PRESS+1SE.
 #'
 #'@param x A object for plot.
+#'@param ...  Argument to be passed to or from other methods. 
 #'
 #'@examples
 #'\dontrun{

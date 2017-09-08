@@ -29,10 +29,12 @@
 #'@return
 #'\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameter values.}
 #'\item{Press1SE}{The lowest PRESS + 1SE.}
+#'\item{Standard_Error}{Standard errors.}
 #'\item{LassoSequence}{The sequence of Lasso tuning parameters used in cross-validation.}
 #'\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted against a log scale of lambda if \code{LassoSequence} is not defined by users. }
 #'\item{LassoRegion}{A region where the suitable lambda can be found, according to the "1 SE rule". }
 #'\item{RecommendedLasso}{A Lasso tuning parameter that leads to a model with PRESS closest to the lowest PRESS + 1SE.}
+#'\item{plotlog}{An index number for function \code{plot()}, which is not useful for users.}
 #'@examples
 #'\dontrun{
 #'DATA1 <- matrix(rnorm(50), nrow=5)
@@ -256,11 +258,13 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$Press1SE <- lowestplus1SE
+  return_crossvali$Standard_Error <- sd_MSE
   return_crossvali$LassoSequence <- LassoSequence
   return_crossvali$plot <- p
   return_crossvali$LassoRegion <- lregion
   return_crossvali$RecommendedLasso <- bestTunning
-  
+  return_crossvali$plotlog <- plotlog
+  attr(return_crossvali, "class") <- "structuredSCA"
   return(return_crossvali)
 
 }

@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{A object for plot.}
+
+\item{...}{Argument to be passed to or from other methods.}
 }
 \description{
 A plot of PRESS +/- 1 standard error against Lasso and Group 
