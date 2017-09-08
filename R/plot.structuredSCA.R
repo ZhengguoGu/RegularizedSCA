@@ -116,5 +116,5 @@ plot.structuredSCA <- function(x, ...){
     #in this case lregion is on log scale and has to be converted. 
     lregion <- exp(lregion)
   }
-  
+  return(p)
 }
