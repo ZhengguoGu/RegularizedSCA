@@ -1,4 +1,5 @@
-#' Standardize the given data matrix per column, over the rows.
+#' Standardize the given data matrix per column, over the rows. (This function will no longer be exported
+#' and it will eventually removed from the package.)
 #'
 #' @param DATA A data matrix
 #' @return a standardized matrix
@@ -10,7 +11,7 @@
 #' More details regarding data pre-processing, please see:
 #'
 #' Van Deun, K., Smilde, A.K., van der Werf, M.J., Kiers, H.A.L., & Mechelen, I.V. (2009). A structured overview of simultaneous component based data integration. \emph{BMC Bioinformatics}, 10:246.
-#'@export
+
 mySTD <- function(DATA) {
   
   DATA <- data.matrix(DATA)
