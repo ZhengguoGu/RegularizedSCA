@@ -9,7 +9,7 @@
 #'}
 #'
 #'@export
-summary.sparseSCA <- function(object, disp, ...){
+summary.sparseSCA <- function(object, ...){
   
   cat(sprintf("\nThe estimated P matrix is\n"))
   print(object$Pmatrix)
