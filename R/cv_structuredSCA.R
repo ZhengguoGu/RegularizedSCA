@@ -264,7 +264,7 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
   return_crossvali$LassoRegion <- lregion
   return_crossvali$RecommendedLasso <- bestTunning
   return_crossvali$plotlog <- plotlog
-  attr(return_crossvali, "class") <- "structuredSCA"
+  attr(return_crossvali, "class") <- "CVstructuredSCA"
   return(return_crossvali)
 
 }

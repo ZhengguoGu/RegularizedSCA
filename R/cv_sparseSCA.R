@@ -385,7 +385,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   return_crossvali$Lambdaregion <- lambdaregion
   return_crossvali$RecommendedLambda <- bestTunning
   return_crossvali$plotlog <- plotlog
-  attr(return_crossvali, "class") <- "sparseSCA"
+  attr(return_crossvali, "class") <- "CVsparseSCA"
   return(return_crossvali)
 
 }
