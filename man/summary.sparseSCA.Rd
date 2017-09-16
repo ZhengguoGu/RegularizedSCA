@@ -2,32 +2,22 @@
 % Please edit documentation in R/summary.sparseSCA.R
 \name{summary.sparseSCA}
 \alias{summary.sparseSCA}
-\title{Display a summary of the results of Cross-validation of \code{sparseSCA()}.}
+\title{Display a summary of the results of \code{sparseSCA()}.}
 \usage{
 \method{summary}{sparseSCA}(object, disp, ...)
 }
 \arguments{
 \item{object}{Object of class inheriting from 'sparseSCA'.}
 
-\item{disp}{The default is \code{simple}; in this case, the recommended tuning 
-parameter values will be displayed. 
-If \code{full}, then information is displayed regarding 1) the 
-recommended tuning parameter values, 2) the proper region 
-for Lasso tuning parameter values, given a Group Lasso tuning 
-parameter value, 3) # of variable selected,
-4) Predicted residual sum of squares (PRESS), 
-5) standard errors for PRESS, 6) Lasso and Group Lasso tuning 
-parameter values that have been evaluated.}
-
 \item{...}{Argument to be passed to or from other methods.}
 }
 \description{
-Display a summary of the results of Cross-validation of \code{sparseSCA()}.
+Display a summary of the results of \code{sparseSCA()}.
 }
 \examples{
 \dontrun{
 ## S3 method for class 'sparseSCA'
-summary(object, disp="full")
+summary(object)
 }
 
 }

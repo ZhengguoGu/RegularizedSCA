@@ -86,5 +86,6 @@ sparseSCA <- function(DATA, Jk, R, LASSO, GROUPLASSO, MaxIter, NRSTARTS, method)
   return_varselect$Pmatrix <- Pout3d[[k]]
   return_varselect$Tmatrix <- Tout3d[[k]]
   return_varselect$Lossvec <- LOSSvec
+  attr(return_varselect, "class") <- "sparseSCA"
   return(return_varselect)
 }

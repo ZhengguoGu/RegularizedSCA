@@ -27,12 +27,12 @@
 #'
 #'@examples
 #'\dontrun{
-#'## S3 method for class 'sparseSCA'
+#'## S3 method for class 'CVsparseSCA'
 #'plot(x)
 #'}
 #'
 #'@export
-plot.sparseSCA <- function(x, ...){
+plot.CVsparseSCA <- function(x, ...){
   
   LassoSequence <- x$Lasso_values
   GLassoSequence <- x$Glasso_values

@@ -9,12 +9,12 @@
 #'
 #'@examples
 #'\dontrun{
-#'## S3 method for class 'structuredSCA'
+#'## S3 method for class 'CVstructuredSCA'
 #'plot(x)
 #'}
 #'
 #'@export
-plot.structuredSCA <- function(x, ...){
+plot.CVstructuredSCA <- function(x, ...){
   
   LassoSequence <- x$LassoSequence
   PRESS <- x$PRESS

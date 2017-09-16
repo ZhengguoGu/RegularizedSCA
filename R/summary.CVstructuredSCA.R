@@ -1,6 +1,6 @@
 #'Display a summary of the results of \code{cv_structuredSCA()}.
 #'
-#'@param object Object of class inheriting from 'structuredSCA'.
+#'@param object Object of class inheriting from 'CVstructuredSCA'.
 #'@param disp The default is \code{simple}; in this case, the recommended tuning 
 #'            parameter values for Lasso will be displayed. 
 #'            If \code{full}, then information is displayed regarding 1) the 
@@ -11,12 +11,12 @@
 #'@param ...  Argument to be passed to or from other methods. 
 #'@examples
 #'\dontrun{
-#'## S3 method for class 'structuredSCA'
+#'## S3 method for class 'CVstructuredSCA'
 #'summary(object, disp="full")
 #'}
 #'
 #'@export
-summary.structuredSCA <- function(object, disp, ...){
+summary.CVstructuredSCA <- function(object, disp, ...){
   
   PRESS <- object$PRESS
   LassoSequence <- object$LassoSequence

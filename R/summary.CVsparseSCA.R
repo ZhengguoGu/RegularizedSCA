@@ -1,6 +1,6 @@
-#'Display a summary of the results of Cross-validation of \code{sparseSCA()}.
+#'Display a summary of the results of \code{cv_sparseSCA()}.
 #'
-#'@param object Object of class inheriting from 'sparseSCA'.
+#'@param object Object of class inheriting from 'CVsparseSCA'.
 #'@param disp The default is \code{simple}; in this case, the recommended tuning 
 #'            parameter values will be displayed. 
 #'            If \code{full}, then information is displayed regarding 1) the 
@@ -13,12 +13,12 @@
 #'@param ...  Argument to be passed to or from other methods. 
 #'@examples
 #'\dontrun{
-#'## S3 method for class 'sparseSCA'
+#'## S3 method for class 'CVsparseSCA'
 #'summary(object, disp="full")
 #'}
 #'
 #'@export
-summary.sparseSCA <- function(object, disp, ...){
+summary.CVsparseSCA <- function(object, disp, ...){
   
   PRESS <- object$PRESS
   SE_MSE <- object$SE_MSE

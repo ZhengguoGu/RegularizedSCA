@@ -84,5 +84,6 @@ structuredSCA <- function(DATA, Jk, R, Target, Position, LASSO, MaxIter, NRSTART
   return_varselect$Pmatrix <- PoutBest
   return_varselect$Tmatrix <- ToutBest
   return_varselect$Lossvec <- LOSSvec
+  attr(return_varselect, "class") <- "structuredSCA"
   return(return_varselect)
 }

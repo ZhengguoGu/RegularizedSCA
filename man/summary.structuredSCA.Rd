@@ -2,30 +2,22 @@
 % Please edit documentation in R/summary.structuredSCA.R
 \name{summary.structuredSCA}
 \alias{summary.structuredSCA}
-\title{Display a summary of the results of \code{cv_structuredSCA()}.}
+\title{Display a summary of the results of \code{structuredSCA()}.}
 \usage{
-\method{summary}{structuredSCA}(object, disp, ...)
+\method{summary}{structuredSCA}(object, ...)
 }
 \arguments{
 \item{object}{Object of class inheriting from 'structuredSCA'.}
 
-\item{disp}{The default is \code{simple}; in this case, the recommended tuning 
-parameter values for Lasso will be displayed. 
-If \code{full}, then information is displayed regarding 1) the 
-recommended tuning parameter values for Lasso, 2) the proper region 
-for Lasso tuning parameter values, based on the 1SE rule, 3) Predicted 
-residual sum of squares (PRESS), 4) Lasso tuning 
-parameter values that have been evaluated.}
-
 \item{...}{Argument to be passed to or from other methods.}
 }
 \description{
-Display a summary of the results of \code{cv_structuredSCA()}.
+Display a summary of the results of \code{structuredSCA()}.
 }
 \examples{
 \dontrun{
 ## S3 method for class 'structuredSCA'
-summary(object, disp="full")
+summary(object)
 }
 
 }
