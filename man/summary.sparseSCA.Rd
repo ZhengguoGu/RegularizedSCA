@@ -4,7 +4,7 @@
 \alias{summary.sparseSCA}
 \title{Display a summary of the results of \code{sparseSCA()}.}
 \usage{
-\method{summary}{sparseSCA}(object, disp, ...)
+\method{summary}{sparseSCA}(object, ...)
 }
 \arguments{
 \item{object}{Object of class inheriting from 'sparseSCA'.}
