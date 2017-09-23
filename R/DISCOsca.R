@@ -250,6 +250,7 @@ DISCOsca <- function(DATA, R, Jk){
   #results$Pmatrix <- Pmat
   #results$Trot <- TROT_list
   #results$Prot <- PROT_list
+  attr(results, "class") <- "DISCOsca"
   return(results)
 
 }
