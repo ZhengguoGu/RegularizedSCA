@@ -13,7 +13,7 @@
 parameter values for Lasso will be displayed. 
 If \code{full}, then information is displayed regarding 1) the 
 recommended tuning parameter values for Lasso, 2) the proper region 
-for Lasso tuning parameter values, based on the 1SE rule, 3) Predicted 
+for Lasso tuning parameter values, based on the 1SE rule, 3) predicted 
 residual sum of squares (PRESS), 4) Lasso tuning 
 parameter values that have been evaluated.}
 
