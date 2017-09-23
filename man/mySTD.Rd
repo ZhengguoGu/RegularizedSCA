@@ -2,8 +2,7 @@
 % Please edit documentation in R/mySTD.R
 \name{mySTD}
 \alias{mySTD}
-\title{Standardize the given data matrix per column, over the rows. (This function will no longer be exported
-and it will eventually removed from the package.)}
+\title{Standardize the given data matrix per column, over the rows.}
 \usage{
 mySTD(DATA)
 }
@@ -14,8 +13,7 @@ mySTD(DATA)
 a standardized matrix
 }
 \description{
-Standardize the given data matrix per column, over the rows. (This function will no longer be exported
-and it will eventually removed from the package.)
+Standardize the given data matrix per column, over the rows.
 }
 \note{
 More details regarding data pre-processing, please see:
