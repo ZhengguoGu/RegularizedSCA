@@ -16,4 +16,5 @@ summary.undoS <- function(object, ...){
   
   cat(sprintf("\nThe estimated T matrix is\n"))
   print(object$Tmatrix)
+  cat(sprintf("Note: The rows of T matrix represent observational units."))
 }
