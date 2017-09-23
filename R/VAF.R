@@ -63,6 +63,7 @@ VAF <- function(DATA, Jk, R){
   return_VAF <- list()
   return_VAF$block <- VAF_results_block
   return_VAF$component <- VAF_results_component
+  attr(return_VAF, "class") <- "VAF"
 
   return(return_VAF)
 }
