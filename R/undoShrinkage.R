@@ -84,6 +84,7 @@ undoShrinkage <- function(DATA, R, Phat, MAXITER){
   return_undoShrink$Tmatrix <- Tmat
   #return_undoShrink$Loss <- Loss
   return_undoShrink$Lossvec <- Lossvec
+  attr(return_undoShrink, "class") <- "undoS"
   
   return(return_undoShrink)
 }
