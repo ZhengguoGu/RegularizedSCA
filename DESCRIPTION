@@ -2,7 +2,7 @@ Package: RegularizedSCA
 Type: Package
 Title: Regularized Simultaneous Component Based Data
     Integration
-Version: 0.4.2
+Version: 0.5.0
 Authors@R: c(person(given = "Zhengguo", family = "Gu", role = c("aut", "cre"), 
     email = "z.gu@uvt.nl"), 
     person(given = "Katrijn", family = "Van Deun", role = "aut"))
