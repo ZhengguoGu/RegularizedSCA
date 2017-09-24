@@ -12,9 +12,9 @@
 summary.VAF <- function(object, ...){
   
     cat(sprintf("\nProportion of VAF for each block:\n"))
-    print(object$block, digits)
+    print(object$block)
     
     cat(sprintf("\nProportion of VAF for each component of each block:\n"))
-    print(object$component, digits)
+    print(object$component)
     
 }
