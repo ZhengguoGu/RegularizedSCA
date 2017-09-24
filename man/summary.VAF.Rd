@@ -4,12 +4,10 @@
 \alias{summary.VAF}
 \title{Display a summary of the results of \code{VAF()}.}
 \usage{
-\method{summary}{VAF}(object, digits, ...)
+\method{summary}{VAF}(object, ...)
 }
 \arguments{
 \item{object}{Object of class inheriting from 'VAF'.}
-
-\item{digits}{Specify the digits.}
 
 \item{...}{Argument to be passed to or from other methods.}
 }
