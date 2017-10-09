@@ -31,6 +31,8 @@
 #'for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}
 #'\item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
 #'\item{RecommendedLambda}{A pair (or sometimes a few pairs) of Lasso and Group Lasso tuning parameters that lead to a model with PRESS closest to the lowest PRESS + 1SE.}
+#'\item{P_hat}{Estimated component loading matrix, given the recommended tuning parameters.}
+#'\item{T_hat}{Estimated component score matrix, given the recommended tuning parameters.}
 #'\item{plotlog}{An index number for function \code{plot}, which is not useful for users.}
 #'@examples
 #'\dontrun{
@@ -375,6 +377,26 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   
   colnames(lambdaregion) <- c("lower bound", "upper bound")
   
+  ###### re-estimate the model with the recommended tuning parameters
+  if(dim(bestTunning)[1] == 1){
+    Re_est <- sparseSCA(DATA, Jk, R, LASSO = bestTunning[1, 1], GROUPLASSO = bestTunning[1, 2], MaxIter, NRSTARTS, method)
+      p_hat <- Re_est$Pmatrix
+      t_hat <- Re_est$Tmatrix
+    
+  }else if(dim(bestTunning)[1] > 1){
+    # in this case more than one pair of tuning parameters are recommended (although it's highly unlikely)
+    p_hat <- list()
+    t_hat <- list()
+  
+      for(j in 1:dim(bestTunning)[1]){
+        Re_est <- sparseSCA(DATA, Jk, R, LASSO = bestTunning[j, 1], GROUPLASSO = bestTunning[j, 2], MaxIter, NRSTARTS, method)
+        
+        p_hat[[j]] <- Re_est$Pmatrix
+        t_hat[[j]] <- Re_est$Tmatrix
+      }
+  }
+  
+  
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$SE_MSE <- se_MSE
@@ -384,6 +406,8 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   return_crossvali$Glasso_values <- GLassoSequence
   return_crossvali$Lambdaregion <- lambdaregion
   return_crossvali$RecommendedLambda <- bestTunning
+  return_crossvali$P_hat <- p_hat
+  return_crossvali$T_hat <- t_hat
   return_crossvali$plotlog <- plotlog
   attr(return_crossvali, "class") <- "CVsparseSCA"
   return(return_crossvali)

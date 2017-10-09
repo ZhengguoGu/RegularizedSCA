@@ -43,6 +43,8 @@ by default.}
 for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}
 \item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
 \item{RecommendedLambda}{A pair (or sometimes a few pairs) of Lasso and Group Lasso tuning parameters that lead to a model with PRESS closest to the lowest PRESS + 1SE.}
+\item{P_hat}{Estimated component loading matrix, given the recommended tuning parameters.}
+\item{T_hat}{Estimated component score matrix, given the recommended tuning parameters.}
 \item{plotlog}{An index number for function \code{plot}, which is not useful for users.}
 }
 \description{

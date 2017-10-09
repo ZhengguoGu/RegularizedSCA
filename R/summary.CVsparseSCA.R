@@ -2,13 +2,17 @@
 #'
 #'@param object Object of class inheriting from 'CVsparseSCA'.
 #'@param disp The default is \code{simple}; in this case, the recommended tuning 
-#'            parameter values will be displayed. 
+#'            parameter values, and the estimated component loading and estimated
+#'            component score matrices (based on the recommended tuning paramter
+#'            values) are presented. 
 #'            If \code{full}, then information is displayed regarding 1) the 
-#'            recommended tuning parameter values, 2) the proper region 
+#'            recommended tuning parameter values, 2) the estimated component 
+#'            loading and estimated component score matrices (based on the 
+#'            recommended tuning paramter values), 3) the proper region 
 #'            for Lasso tuning parameter values, given a Group Lasso tuning 
-#'            parameter value, 3) # of variable selected,
-#'            4) Predicted residual sum of squares (PRESS), 
-#'            5) standard errors for PRESS, 6) Lasso and Group Lasso tuning 
+#'            parameter value, 4) # of variable selected,
+#'            5) Predicted residual sum of squares (PRESS), 
+#'            6) standard errors for PRESS, 7) Lasso and Group Lasso tuning 
 #'            parameter values that have been evaluated.
 #'@param ...  Argument to be passed to or from other methods. 
 #'@examples
@@ -20,13 +24,6 @@
 #'@export
 summary.CVsparseSCA <- function(object, disp, ...){
   
-  PRESS <- object$PRESS
-  SE_MSE <- object$SE_MSE
-  VarSelected <- object$VarSelected
-  Lasso_values <- object$Lasso_values
-  Glasso_values <- object$Glasso_values
-  Lambdaregion <- object$Lambdaregion
-  RecommendedLambda <- object$RecommendedLambda
   
   if(missing(disp)){
     disp <- "simple"
@@ -35,30 +32,42 @@ summary.CVsparseSCA <- function(object, disp, ...){
   if(disp == "simple"){
     
     cat(sprintf("\nRecommended tuning parameter values are:\n"))
-    print(RecommendedLambda)
+    print(object$RecommendedLambda)
+    
+    cat(sprintf("\nEstimated component loading matrix, given the ecommended tuning parameter values are:\n"))
+    print(object$P_hat)
+    
+    cat(sprintf("\nEstimated component score matrix, given the ecommended tuning parameter values are:\n"))
+    print(object$T_hat)
     
   }else if(disp == "full"){
     
     cat(sprintf("\nRecommended tuning parameter values are:\n"))
-    print(RecommendedLambda)
+    print(object$RecommendedLambda)
+    
+    cat(sprintf("\nEstimated component loading matrix, given the ecommended tuning parameter values are:\n"))
+    print(object$P_hat)
+    
+    cat(sprintf("\nEstimated component score matrix, given the ecommended tuning parameter values are:\n"))
+    print(object$T_hat)
     
     cat(sprintf("\nGiven each value for Group Lasso tuning parameters, the proper region for Lasso tuning parameter values are:\n"))
-    print(Lambdaregion)
+    print(object$Lambdaregion)
     
     cat(sprintf("\n# of variable selected:\n"))
-    print(VarSelected)
+    print(object$VarSelected)
     
     cat(sprintf("\nPredicted residual sum of squares (PRESS):\n"))
-    print(PRESS)
+    print(object$PRESS)
     
     cat(sprintf("\nstandard errors for PRESS:\n"))
-    print(SE_MSE)
+    print(object$SE_MSE)
     
     cat(sprintf("\nLasso tuning parameter values that have been evaluated:\n"))
-    print(Lasso_values)
+    print(object$Lasso_values)
     
     cat(sprintf("\nGroup Lasso tuning parameter values that have been evaluated:\n"))
-    print(Glasso_values)
+    print(object$Glasso_values)
   
   }else{
     stop("either simple or full")
