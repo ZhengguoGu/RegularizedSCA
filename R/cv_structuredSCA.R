@@ -34,6 +34,8 @@
 #'\item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted against a log scale of lambda if \code{LassoSequence} is not defined by users. }
 #'\item{LassoRegion}{A region where the suitable lambda can be found, according to the "1 SE rule". }
 #'\item{RecommendedLasso}{A Lasso tuning parameter that leads to a model with PRESS closest to the lowest PRESS + 1SE.}
+#'\item{P_hat}{Estimated component loading matrix, given the recommended tuning parameter.}
+#'\item{T_hat}{Estimated component score matrix, given the recommended tuning parameter.}
 #'\item{plotlog}{An index number for function \code{plot()}, which is not useful for users.}
 #'@examples
 #'\dontrun{
@@ -254,7 +256,24 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
   indexTuning <- which(abs(PRESS - lowestplus1SE)==min(abs(PRESS - lowestplus1SE)))
   bestTunning <- LassoSequence[indexTuning]
 
-
+  ###### re-estimate the model with the recommended tuning parameters
+  if(length(bestTunning) == 1){
+    Re_est <- structuredSCA(DATA, Jk, R, Target, Position, LASSO = bestTunning, MaxIter, NRSTARTS = 20)
+    p_hat <- Re_est$Pmatrix
+    t_hat <- Re_est$Tmatrix
+  }else if(length(bestTunning) > 1){
+    # in this case more than one pair of tuning parameters are recommended (although it's highly unlikely)
+    p_hat <- list()
+    t_hat <- list()
+    
+    for(j in 1:length(bestTunning)){
+      Re_est <- structuredSCA(DATA, Jk, R, Target, Position, LASSO = bestTunning[j], MaxIter, NRSTARTS = 20)
+      
+      p_hat[[j]] <- Re_est$Pmatrix
+      t_hat[[j]] <- Re_est$Tmatrix
+    }
+  }
+    
   return_crossvali <- list()
   return_crossvali$PRESS <- PRESS
   return_crossvali$Press1SE <- lowestplus1SE
@@ -263,6 +282,8 @@ cv_structuredSCA <- function(DATA, Jk, R, Target, Position, MaxIter, NRSTARTS, L
   return_crossvali$plot <- p
   return_crossvali$LassoRegion <- lregion
   return_crossvali$RecommendedLasso <- bestTunning
+  return_crossvali$P_hat <- p_hat
+  return_crossvali$T_hat <- t_hat
   return_crossvali$plotlog <- plotlog
   attr(return_crossvali, "class") <- "CVstructuredSCA"
   return(return_crossvali)

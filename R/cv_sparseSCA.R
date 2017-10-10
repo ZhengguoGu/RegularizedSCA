@@ -379,7 +379,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   
   ###### re-estimate the model with the recommended tuning parameters
   if(dim(bestTunning)[1] == 1){
-    Re_est <- sparseSCA(DATA, Jk, R, LASSO = bestTunning[1, 1], GROUPLASSO = bestTunning[1, 2], MaxIter, NRSTARTS, method)
+    Re_est <- sparseSCA(DATA, Jk, R, LASSO = bestTunning[1, 1], GROUPLASSO = bestTunning[1, 2], MaxIter, NRSTARTS = 20, method)
       p_hat <- Re_est$Pmatrix
       t_hat <- Re_est$Tmatrix
     
@@ -389,7 +389,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     t_hat <- list()
   
       for(j in 1:dim(bestTunning)[1]){
-        Re_est <- sparseSCA(DATA, Jk, R, LASSO = bestTunning[j, 1], GROUPLASSO = bestTunning[j, 2], MaxIter, NRSTARTS, method)
+        Re_est <- sparseSCA(DATA, Jk, R, LASSO = bestTunning[j, 1], GROUPLASSO = bestTunning[j, 2], MaxIter, NRSTARTS = 20, method)
         
         p_hat[[j]] <- Re_est$Pmatrix
         t_hat[[j]] <- Re_est$Tmatrix

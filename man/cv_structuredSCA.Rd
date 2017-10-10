@@ -42,6 +42,8 @@ be performed.}
 \item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted against a log scale of lambda if \code{LassoSequence} is not defined by users. }
 \item{LassoRegion}{A region where the suitable lambda can be found, according to the "1 SE rule". }
 \item{RecommendedLasso}{A Lasso tuning parameter that leads to a model with PRESS closest to the lowest PRESS + 1SE.}
+\item{P_hat}{Estimated component loading matrix, given the recommended tuning parameter.}
+\item{T_hat}{Estimated component score matrix, given the recommended tuning parameter.}
 \item{plotlog}{An index number for function \code{plot()}, which is not useful for users.}
 }
 \description{

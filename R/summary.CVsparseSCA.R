@@ -34,10 +34,10 @@ summary.CVsparseSCA <- function(object, disp, ...){
     cat(sprintf("\nRecommended tuning parameter values are:\n"))
     print(object$RecommendedLambda)
     
-    cat(sprintf("\nEstimated component loading matrix, given the ecommended tuning parameter values are:\n"))
+    cat(sprintf("\nEstimated component loading matrix, given the recommended tuning parameter values are:\n"))
     print(object$P_hat)
     
-    cat(sprintf("\nEstimated component score matrix, given the ecommended tuning parameter values are:\n"))
+    cat(sprintf("\nEstimated component score matrix, given the recommended tuning parameter values are:\n"))
     print(object$T_hat)
     
   }else if(disp == "full"){
@@ -45,10 +45,10 @@ summary.CVsparseSCA <- function(object, disp, ...){
     cat(sprintf("\nRecommended tuning parameter values are:\n"))
     print(object$RecommendedLambda)
     
-    cat(sprintf("\nEstimated component loading matrix, given the ecommended tuning parameter values are:\n"))
+    cat(sprintf("\nEstimated component loading matrix, given the recommended tuning parameter values are:\n"))
     print(object$P_hat)
     
-    cat(sprintf("\nEstimated component score matrix, given the ecommended tuning parameter values are:\n"))
+    cat(sprintf("\nEstimated component score matrix, given the recommended tuning parameter values are:\n"))
     print(object$T_hat)
     
     cat(sprintf("\nGiven each value for Group Lasso tuning parameters, the proper region for Lasso tuning parameter values are:\n"))
