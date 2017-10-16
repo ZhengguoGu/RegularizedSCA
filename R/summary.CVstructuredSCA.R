@@ -32,14 +32,14 @@ summary.CVstructuredSCA <- function(object, disp, ...){
   
   if(disp == "simple"){
     
-    cat(sprintf("\nRecommended tuning parameter value for Lasso:\n"))
-    print(RecommendedLasso)
-    
     cat(sprintf("\nEstimated component loading matrix, given the recommended Lasso tuning parameter:\n"))
     print(object$P_hat)
     
     cat(sprintf("\nEstimated component score matrix, given the recommended Lasso tuning parameter:\n"))
     print(object$T_hat)
+    
+    cat(sprintf("\nRecommended tuning parameter value for Lasso:\n"))
+    print(RecommendedLasso)
     
   }else if(disp == "full"){
     

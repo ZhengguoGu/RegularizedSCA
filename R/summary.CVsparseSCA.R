@@ -31,14 +31,14 @@ summary.CVsparseSCA <- function(object, disp, ...){
   
   if(disp == "simple"){
     
-    cat(sprintf("\nRecommended tuning parameter values are:\n"))
-    print(object$RecommendedLambda)
-    
     cat(sprintf("\nEstimated component loading matrix, given the recommended tuning parameter values are:\n"))
     print(object$P_hat)
     
     cat(sprintf("\nEstimated component score matrix, given the recommended tuning parameter values are:\n"))
     print(object$T_hat)
+    
+    cat(sprintf("\nRecommended tuning parameter values are:\n"))
+    print(object$RecommendedLambda)
     
   }else if(disp == "full"){
     
