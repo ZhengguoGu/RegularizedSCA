@@ -7,5 +7,3 @@ The package performs a true integrated analysis of multiple data blocks from mul
 To use the package, please read the vignette. An article regarding this package has been submitted. We hope that the paper will be accepted and incorporated directly in this package. 
 
 For the latest version of 'RegularizedSCA', please go to https://github.com/ZhengguoGu/RSCA/.
-
-
