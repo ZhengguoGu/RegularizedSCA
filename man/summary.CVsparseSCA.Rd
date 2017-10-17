@@ -9,11 +9,12 @@
 \arguments{
 \item{object}{Object of class inheriting from 'CVsparseSCA'.}
 
-\item{disp}{The default is \code{simple}; in this case, the recommended tuning 
-parameter values, and the estimated component loading and estimated
+\item{disp}{The default is \code{"tuning"}; in this case, the recommended tuning 
+parameter values are presented. 
+If \code{"estimatedPT"}, then the estimated component loading and estimated
 component score matrices (based on the recommended tuning paramter
-values) are presented. 
-If \code{full}, then information is displayed regarding 1) the 
+values) are presented.
+If \code{"full"}, then information is displayed regarding 1) the 
 recommended tuning parameter values, 2) the estimated component 
 loading and estimated component score matrices (based on the 
 recommended tuning paramter values), 3) the proper region 

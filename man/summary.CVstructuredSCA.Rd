@@ -9,11 +9,12 @@
 \arguments{
 \item{object}{Object of class inheriting from 'CVstructuredSCA'.}
 
-\item{disp}{The default is \code{simple}; in this case, the recommended tuning 
-parameter values for Lasso, and the estimated component loading and
+\item{disp}{The default is \code{"tuning"}; in this case, the recommended tuning 
+parameter values for Lasso is displayed
+If \code{"estimatedPT"}, then the estimated component loading and
 component score matrices (given the recommended tuning parameter)
-will be displayed. 
-If \code{full}, then information is displayed regarding 1) the 
+is displayed. 
+If \code{"full"}, then information is displayed regarding 1) the 
 recommended tuning parameter values for Lasso, 2) the estimated component 
 loading and component score matrices, 3) the proper region 
 for Lasso tuning parameter values, based on the 1SE rule, 4) predicted 

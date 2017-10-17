@@ -1,11 +1,12 @@
 #'Display a summary of the results of \code{cv_sparseSCA()}.
 #'
 #'@param object Object of class inheriting from 'CVsparseSCA'.
-#'@param disp The default is \code{simple}; in this case, the recommended tuning 
-#'            parameter values, and the estimated component loading and estimated
+#'@param disp The default is \code{"tuning"}; in this case, the recommended tuning 
+#'            parameter values are presented. 
+#'            If \code{"estimatedPT"}, then the estimated component loading and estimated
 #'            component score matrices (based on the recommended tuning paramter
-#'            values) are presented. 
-#'            If \code{full}, then information is displayed regarding 1) the 
+#'            values) are presented.
+#'            If \code{"full"}, then information is displayed regarding 1) the 
 #'            recommended tuning parameter values, 2) the estimated component 
 #'            loading and estimated component score matrices (based on the 
 #'            recommended tuning paramter values), 3) the proper region 
@@ -26,19 +27,21 @@ summary.CVsparseSCA <- function(object, disp, ...){
   
   
   if(missing(disp)){
-    disp <- "simple"
+    disp <- "tuning"
   }
   
-  if(disp == "simple"){
+  if(disp == "tuning"){
+    
+    cat(sprintf("\nRecommended tuning parameter values are:\n"))
+    print(object$RecommendedLambda)
+    
+  } else if(disp == "estimatedPT"){
     
     cat(sprintf("\nEstimated component loading matrix, given the recommended tuning parameter values are:\n"))
     print(object$P_hat)
     
     cat(sprintf("\nEstimated component score matrix, given the recommended tuning parameter values are:\n"))
     print(object$T_hat)
-    
-    cat(sprintf("\nRecommended tuning parameter values are:\n"))
-    print(object$RecommendedLambda)
     
   }else if(disp == "full"){
     
