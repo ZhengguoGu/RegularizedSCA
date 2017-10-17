@@ -9,9 +9,9 @@
 \arguments{
 \item{object}{Object of class inheriting from 'DISCOsca'.}
 
-\item{disp}{The default is \code{simple}; in this case, the best-fitted common/distinctive 
+\item{disp}{The default is \code{"simple"}; in this case, the best-fitted common/distinctive 
 structure is displayed. 
-If \code{full}, then information is displayed regarding 1) the best-fitted 
+If \code{"full"}, then information is displayed regarding 1) the best-fitted 
 common/distinctive structure, 2) Estimated component score matrix (i.e., T),
 3) Estimated component loading matrix (i.e., P), and 4) Proportion of variance 
 per component.}
