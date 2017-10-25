@@ -1,4 +1,4 @@
-#RegularizedSCA v0.5.0- An R package for regularized simultaneous component based data integration
+#RegularizedSCA v0.5.1 - An R package for regularized simultaneous component based data integration
 
 Recent update: We rewrote some functions to incorporate the S3 method. 
 
