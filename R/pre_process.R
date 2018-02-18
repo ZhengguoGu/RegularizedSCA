@@ -4,7 +4,7 @@
 #' @return a standardized matrix
 #' @examples
 #' \dontrun{
-#' mySTD(matrix(1:12, nrow = 3, ncol = 4))
+#' pre_process(matrix(1:12, nrow = 3, ncol = 4))
 #' }
 #' @note
 #' More details regarding data pre-processing, please see:
@@ -15,7 +15,7 @@
 #' 
 #' Buuren, S. V., & Groothuis-Oudshoorn, K. (2010). mice: Multivariate imputation by chained equations in R. \emph{Journal of statistical software}, 1-68.
 #'@export
-mySTD <- function(DATA) {
+pre_process <- function(DATA) {
   
   DATA <- data.matrix(DATA)
   if(sum(is.na(DATA))>0){
@@ -31,6 +31,6 @@ mySTD <- function(DATA) {
   DATAc <- DATA - v %*% DATA/nrow_data
   CP <- v %*% (DATAc ^ 2)
   STDDATA <- sqrt(nrow_data-1) * DATAc / (CP ^ 0.5)
-
+  
   return(STDDATA)
 }
