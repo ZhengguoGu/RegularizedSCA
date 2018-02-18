@@ -2,7 +2,7 @@ Package: RegularizedSCA
 Type: Package
 Title: Regularized Simultaneous Component Based Data
     Integration
-Version: 0.5.1
+Version: 0.5.2
 Authors@R: c(person(given = "Zhengguo", family = "Gu", role = c("aut", "cre"), 
     email = "z.gu@uvt.nl"), 
     person(given = "Katrijn", family = "Van Deun", role = "aut"))
@@ -23,5 +23,6 @@ Imports:
     ggplot2,
     stats,
     utils, 
-    graphics
+    graphics,
+    mice
 VignetteBuilder: knitr

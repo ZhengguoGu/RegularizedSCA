@@ -22,7 +22,6 @@ mySTD <- function(DATA) {
     
     print("The data contain missing values, which will be imputed.")
     DATA <- mice::complete(mice::mice(DATA, seed=1, printFlag = F))
-    
     DATA <- data.matrix(DATA)
     
   }
