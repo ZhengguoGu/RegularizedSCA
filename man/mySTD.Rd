@@ -2,7 +2,7 @@
 % Please edit documentation in R/mySTD.R
 \name{mySTD}
 \alias{mySTD}
-\title{Standardize the given data matrix per column, over the rows.}
+\title{Standardize the given data matrix per column, over the rows, with multiple imputation for missing data.}
 \usage{
 mySTD(DATA)
 }
@@ -13,12 +13,16 @@ mySTD(DATA)
 a standardized matrix
 }
 \description{
-Standardize the given data matrix per column, over the rows.
+Standardize the given data matrix per column, over the rows, with multiple imputation for missing data.
 }
 \note{
 More details regarding data pre-processing, please see:
 
 Van Deun, K., Smilde, A.K., van der Werf, M.J., Kiers, H.A.L., & Mechelen, I.V. (2009). A structured overview of simultaneous component based data integration. \emph{BMC Bioinformatics}, 10:246.
+
+The missing values are handled by means of Multivariate Imputation by Chained Equations (MICE). The number of multiple imputation is 5. More details see:
+
+Buuren, S. V., & Groothuis-Oudshoorn, K. (2010). mice: Multivariate imputation by chained equations in R. \emph{Journal of statistical software}, 1-68.
 }
 \examples{
 \dontrun{
