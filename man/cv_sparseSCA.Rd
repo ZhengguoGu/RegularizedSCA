@@ -16,7 +16,7 @@ cv_sparseSCA(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence,
 
 \item{MaxIter}{Maximum number of iterations for this algorithm. The default value is 400.}
 
-\item{NRSTARTS}{The number of multistarts for this algorithm. The default value is 2.}
+\item{NRSTARTS}{The number of multistarts for this algorithm. The default value is 1.}
 
 \item{LassoSequence}{The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
 to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 50 numbers are equally spaced on the log scale.}
