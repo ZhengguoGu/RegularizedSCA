@@ -19,11 +19,10 @@ cv_sparseSCA(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSequence,
 \item{NRSTARTS}{The number of multistarts for this algorithm. The default value is 1.}
 
 \item{LassoSequence}{The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
-to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 20 numbers are equally spaced on the log scale. 
-Furthermore, if \code{GLassoSequence} contains only one number, then by default \code{LassoSequence} is a sequence of 50 values.}
+to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 50 numbers are equally spaced on the log scale.}
 
-\item{GLassoSequence}{The range of Group Lasso tuning parameters. The default value is a sequence of 10 numbers from 0.00000001
-to the smallest Group Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 10 numbers are equally spaced (but not on the log scale). 
+\item{GLassoSequence}{The range of Group Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
+to the smallest Group Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 50 numbers are equally spaced (but not on the log scale). 
 Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.}
 
 \item{nfolds}{Number of folds. If missing, then 10 fold cross-validation will be performed.}
@@ -40,8 +39,7 @@ by default.}
 \item{VarSelected}{A matrix of number of variables selected for the sequences of Lasso and Group Lasso tuning parameters.}
 \item{Lasso_values}{The sequence of Lasso tuning parameters used for cross-validation. Users may also consult \code{Lambdaregion} (explained below).}
 \item{Glasso_values}{The sequence of Group Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
-for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}
-\item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
+for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}#'\item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
 \item{RecommendedLambda}{A pair (or sometimes a few pairs) of Lasso and Group Lasso tuning parameters that lead to a model with PRESS closest to the lowest PRESS + 1SE.}
 \item{P_hat}{Estimated component loading matrix, given the recommended tuning parameters.}
 \item{T_hat}{Estimated component score matrix, given the recommended tuning parameters.}

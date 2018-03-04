@@ -12,7 +12,7 @@
 \item{...}{Argument to be passed to or from other methods.}
 }
 \description{
-A plot of mean square errors +/- 1 standard error against 
+A plot of mean square errors + 1 standard error against 
 Lasso tuning parameters. The plot is plotted against a log 
 scale of lambda if \code{LassoSequence} is not defined by users.
 }
