@@ -10,10 +10,9 @@
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default value is 1.
 #'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
-#'to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 20 numbers are equally spaced on the log scale. 
-#'Furthermore, if \code{GLassoSequence} contains only one number, then by default \code{LassoSequence} is a sequence of 50 values.
-#'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 10 numbers from 0.00000001
-#'to the smallest Group Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 10 numbers are equally spaced (but not on the log scale). 
+#'to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 50 numbers are equally spaced on the log scale. 
+#'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
+#'to the smallest Group Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 50 numbers are equally spaced (but not on the log scale). 
 #'Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
 #'@param method "datablock" or "component". These are two options with respect to the grouping of the loadings as used in the Group Lasso penalty. 
@@ -28,8 +27,7 @@
 #'\item{VarSelected}{A matrix of number of variables selected for the sequences of Lasso and Group Lasso tuning parameters.}
 #'\item{Lasso_values}{The sequence of Lasso tuning parameters used for cross-validation. Users may also consult \code{Lambdaregion} (explained below).}
 #'\item{Glasso_values}{The sequence of Group Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
-#'for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}
-#'\item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
+#'for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}#'\item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
 #'\item{RecommendedLambda}{A pair (or sometimes a few pairs) of Lasso and Group Lasso tuning parameters that lead to a model with PRESS closest to the lowest PRESS + 1SE.}
 #'\item{P_hat}{Estimated component loading matrix, given the recommended tuning parameters.}
 #'\item{T_hat}{Estimated component score matrix, given the recommended tuning parameters.}
@@ -66,7 +64,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
       
     if(missing(LassoSequence) & missing(GLassoSequence)){
       LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 20))
-      GLassoSequence <- seq(from = 0.00000001, to = GLassomax, length.out = 10)  #note that Glasso is not on the log scale, because it is not helpful.
+      GLassoSequence <- seq(from = 0.00000001, to = GLassomax, length.out = 20)  #note that Glasso is not on the log scale, because it is not helpful.
       plotlog <- 1
     } else if(missing(LassoSequence) & (length(GLassoSequence) == 1)){
         LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 50))
@@ -74,7 +72,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
     } else if(missing(GLassoSequence) & (length(LassoSequence) == 1)){
         GLassoSequence <- seq(from = 0.00000001, to = GLassomax, length.out = 50)
     } else if(missing(GLassoSequence) & (length(LassoSequence)>1)){
-        GLassoSequence <- seq(from = 0.00000001, to = GLassomax, length.out = 10)
+        GLassoSequence <- seq(from = 0.00000001, to = GLassomax, length.out = 20)
     } else if(missing(LassoSequence) & (length(GLassoSequence)>1)){
         LassoSequence <- exp(seq(from = log(0.00000001), to = log(Lassomax), length.out = 20))
         plotlog <- 1
@@ -404,7 +402,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   return_crossvali$VarSelected <- varselected
   return_crossvali$Lasso_values <- LassoSequence
   return_crossvali$Glasso_values <- GLassoSequence
-  return_crossvali$Lambdaregion <- lambdaregion
+  #return_crossvali$Lambdaregion <- lambdaregion  # lambdaregion will be removed in the next major update
   return_crossvali$RecommendedLambda <- bestTunning
   return_crossvali$P_hat <- p_hat
   return_crossvali$T_hat <- t_hat
