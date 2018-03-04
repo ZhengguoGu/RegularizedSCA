@@ -1,6 +1,6 @@
 #'Cross-validation plot
 #'
-#'A plot of mean square errors +/- 1 standard error against 
+#'A plot of mean square errors + 1 standard error against 
 #'Lasso tuning parameters. The plot is plotted against a log 
 #'scale of lambda if \code{LassoSequence} is not defined by users. 
 #'
@@ -68,7 +68,7 @@ plot.CVstructuredSCA <- function(x, ...){
                           linetype = "longdash", col = "red") +
       ggplot2::geom_vline(xintercept = lasso2, 
                           linetype = "longdash", col = "red") 
-    p <- p + ggplot2::labs(x = "Lasso (log scale)", y="Prediction Mean Squared Errors +/- 1SE")
+    p <- p + ggplot2::labs(x = "Lasso (log scale)", y="Mean Squared Prediction Errors + 1SE")
   } else{
     
     df <- data.frame( LassoI = LassoSequence, Press = PRESS, Upper = upper, Lower = lower)
@@ -108,7 +108,7 @@ plot.CVstructuredSCA <- function(x, ...){
                           linetype = "longdash", col = "red") +
       ggplot2::geom_vline(xintercept = lasso2, 
                           linetype = "longdash", col = "red") 
-    p <- p + ggplot2::labs(x = "Lasso", y="Prediction Mean Squared Errors +/- 1SE")
+    p <- p + ggplot2::labs(x = "Lasso", y="Mean Squared Prediction Errors + 1SE")
   }
   
   
