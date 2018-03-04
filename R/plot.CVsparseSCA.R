@@ -31,7 +31,7 @@ plot.CVsparseSCA <- function(x, ...){
   colramp <- colorRampPalette(c('red',  'white',  'blue'))
   
   if(plotlog == 1){
-    levelplot(HIGHT~COL*ROW, grid, col.regions = colramp,
+    p <- levelplot(HIGHT~COL*ROW, grid, col.regions = colramp,
               contour=T, labels=T,
               scales = list(x=list(at = c(1, length_glasso), labels=c(round(x$Glasso_values[1], digits = 3), round(x$Glasso_values[length_glasso], digits = 3))),
                             y=list(at = c(1, length_lasso), labels=c(round(x$Lasso_values[1], digits = 3), round(log(x$Lasso_values[length_lasso]), digits = 3)))),
@@ -39,7 +39,7 @@ plot.CVsparseSCA <- function(x, ...){
               ylab = "Lasso tuning parameters (equal spaced on the log scale)",
               main = "Mean squared prediction errors")
   }else{
-    levelplot(HIGHT~COL*ROW, grid, col.regions = colramp,
+    p <- levelplot(HIGHT~COL*ROW, grid, col.regions = colramp,
               contour=T, labels=T,
               scales = list(x=list(at = c(1, length_glasso), labels=c(round(x$Glasso_values[1], digits = 3), round(x$Glasso_values[length_glasso], digits = 3))),
                             y=list(at = c(1, length_lasso), labels=c(round(x$Lasso_values[1], digits = 3), round(x$Lasso_values[length_lasso], digits = 3)))),
