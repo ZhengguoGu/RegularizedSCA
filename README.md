@@ -1,6 +1,5 @@
-#RegularizedSCA v0.5.1 - An R package for regularized simultaneous component based data integration
+#RegularizedSCA v0.5.3 - An R package for regularized simultaneous component based data integration
 
-Recent update: We rewrote some functions to incorporate the S3 method. 
 
 The package performs a true integrated analysis of multiple data blocks from multiple sources. The methods included in this package combine simultaneous component analysis methods (SCA) with regularization (such as Lasso and Group Lasso). 
 
