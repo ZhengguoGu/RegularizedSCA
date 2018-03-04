@@ -17,7 +17,7 @@
 plot.CVstructuredSCA <- function(x, ...){
   
   LassoSequence <- x$LassoSequence
-  PRESS <- x$PRESS
+  PRESS <- x$MSPE
   sd_MSE <- x$Standard_Error
   plotlog <- x$plotlog
   

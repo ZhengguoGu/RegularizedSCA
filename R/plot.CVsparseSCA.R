@@ -26,7 +26,7 @@ plot.CVsparseSCA <- function(x, ...){
   glasso <- 1:length_glasso
   
   grid <- expand.grid(ROW=lasso, COL=glasso)
-  grid$HIGHT <- c(x$PRESS)
+  grid$HIGHT <- c(x$MSPE)
   Acol.regions <- colorspace::diverge_hsv(n=50)
   colramp <- grDevices::colorRampPalette(c('red',  'white',  'blue'))
   
