@@ -35,8 +35,8 @@ that can make the entire common component(s) to be zeros. Note that by default t
 be performed.}
 }
 \value{
-\item{PRESS}{A vector of predicted residual sum of squares (PRESS) for the sequence of Lasso tuning parameter values.}
-\item{Press1SE}{The lowest PRESS + 1SE.}
+\item{MSPE}{A vector of mean squared prediction error (MSPE) for the sequence of Lasso tuning parameter values.}
+\item{MSPE1SE}{The lowest MSPE + 1SE.}
 \item{Standard_Error}{Standard errors.}
 \item{LassoSequence}{The sequence of Lasso tuning parameters used in cross-validation.}
 \item{plot}{A plot of mean square errors +/- 1 standard error against Lasso tuning parameters. The plot is plotted against a log scale of lambda if \code{LassoSequence} is not defined by users. }

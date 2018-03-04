@@ -21,14 +21,14 @@
 #'by default.  
 #'
 #'@return
-#'\item{PRESS}{A matrix of predicted residual sum of squares (PRESS) for the sequences of Lasso and Group Lasso tuning parameters.}
-#'\item{SE_MSE}{A matrix of standard errors for \code{PRESS}.}
-#'\item{Press1SE}{The lowest PRESS + 1SE.}
+#'\item{MSPE}{A matrix of mean squared predition error (MSPE) for the sequences of Lasso and Group Lasso tuning parameters.}
+#'\item{SE_MSE}{A matrix of standard errors for \code{MSPE}.}
+#'\item{MSPE1SE}{The lowest MSPE + 1SE.}
 #'\item{VarSelected}{A matrix of number of variables selected for the sequences of Lasso and Group Lasso tuning parameters.}
 #'\item{Lasso_values}{The sequence of Lasso tuning parameters used for cross-validation. Users may also consult \code{Lambdaregion} (explained below).}
 #'\item{Glasso_values}{The sequence of Group Lasso tuning parameters used for cross-validation. For example, suppose from the plot we found that the index number
 #'for Group Lasso is \code{6}, its corresponding Group Lasso tuning parameter is \code{Glasso_values[6]}.}#'\item{Lambdaregion}{A region of proper tuning parameter values for Lasso, given a certain value for Group Lasso. This means that, for example, if 5 Group Lasso tuning parameter values have been considered, \code{Lambdaregion} is a 5 by 2 matrix.}
-#'\item{RecommendedLambda}{A pair (or sometimes a few pairs) of Lasso and Group Lasso tuning parameters that lead to a model with PRESS closest to the lowest PRESS + 1SE.}
+#'\item{RecommendedLambda}{A pair (or sometimes a few pairs) of Lasso and Group Lasso tuning parameters that lead to a model with MSPE closest to the lowest MSPE + 1SE.}
 #'\item{P_hat}{Estimated component loading matrix, given the recommended tuning parameters.}
 #'\item{T_hat}{Estimated component score matrix, given the recommended tuning parameters.}
 #'\item{plotlog}{An index number for function \code{plot}, which is not useful for users.}
@@ -396,9 +396,9 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   
   
   return_crossvali <- list()
-  return_crossvali$PRESS <- PRESS
+  return_crossvali$MSPE <- PRESS
   return_crossvali$SE_MSE <- se_MSE
-  return_crossvali$Press1SE <- lowestplus1SE
+  return_crossvali$MSPE1SE <- lowestplus1SE
   return_crossvali$VarSelected <- varselected
   return_crossvali$Lasso_values <- LassoSequence
   return_crossvali$Glasso_values <- GLassoSequence

@@ -10,8 +10,8 @@
 #'            recommended tuning parameter values, 2) the estimated component 
 #'            loading and estimated component score matrices (based on the 
 #'            recommended tuning paramter values), 3) # of variable selected,
-#'            4) Predicted residual sum of squares (PRESS), 
-#'            5) standard errors for PRESS, 6) Lasso and Group Lasso tuning 
+#'            4) Mean squared prediction error (MSPE), 
+#'            5) standard errors for MSPE, 6) Lasso and Group Lasso tuning 
 #'            parameter values that have been evaluated.
 #'@param ...  Argument to be passed to or from other methods. 
 #'@examples
@@ -58,10 +58,10 @@ summary.CVsparseSCA <- function(object, disp, ...){
     cat(sprintf("\n# of variable selected:\n"))
     print(object$VarSelected)
     
-    cat(sprintf("\nPredicted residual sum of squares (PRESS):\n"))
-    print(object$PRESS)
+    cat(sprintf("\nMean squared prediction error (MSPE):\n"))
+    print(object$MSPE)
     
-    cat(sprintf("\nstandard errors for PRESS:\n"))
+    cat(sprintf("\nstandard errors for MSPE:\n"))
     print(object$SE_MSE)
     
     cat(sprintf("\nLasso tuning parameter values that have been evaluated:\n"))

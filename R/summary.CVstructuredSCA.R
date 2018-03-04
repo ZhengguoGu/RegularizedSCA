@@ -9,8 +9,8 @@
 #'            If \code{"full"}, then information is displayed regarding 1) the 
 #'            recommended tuning parameter values for Lasso, 2) the estimated component 
 #'            loading and component score matrices, 3) the proper region 
-#'            for Lasso tuning parameter values, based on the 1SE rule, 4) predicted 
-#'            residual sum of squares (PRESS), 5) Lasso tuning 
+#'            for Lasso tuning parameter values, based on the 1SE rule, 4) mean squared
+#'            prediction error (MSPE), 5) Lasso tuning 
 #'            parameter values that have been evaluated.
 #'@param ...  Argument to be passed to or from other methods. 
 #'@examples
@@ -22,7 +22,7 @@
 #'@export
 summary.CVstructuredSCA <- function(object, disp, ...){
   
-  PRESS <- object$PRESS
+  PRESS <- object$MSPE
   LassoSequence <- object$LassoSequence
   LassoRegion <- object$LassoRegion
   RecommendedLasso <- object$RecommendedLasso 
@@ -59,7 +59,7 @@ summary.CVstructuredSCA <- function(object, disp, ...){
     print(LassoRegion)
     
     
-    cat(sprintf("\nPredicted residual sum of squares (PRESS):\n"))
+    cat(sprintf("\nMean squared prediction error (MSPE):\n"))
     print(PRESS)
     
     
