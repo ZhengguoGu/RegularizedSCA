@@ -28,7 +28,7 @@ plot.CVsparseSCA <- function(x, ...){
   grid <- expand.grid(ROW=lasso, COL=glasso)
   grid$HIGHT <- c(x$MSPE)
   Acol.regions <- colorspace::diverge_hsv(n=50)
-  colramp <- grDevices::colorRampPalette(c('red',  'white',  'blue'))
+  colramp <- grDevices::colorRampPalette(c('yellow',  'green',  'blue'))
   
   if(plotlog == 1){
     p <- lattice::levelplot(HIGHT~COL*ROW, grid, col.regions = colramp,
