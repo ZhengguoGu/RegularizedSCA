@@ -4,10 +4,12 @@
 \alias{pre_process}
 \title{Standardize the given data matrix per column, over the rows, with multiple imputation for missing data.}
 \usage{
-pre_process(DATA)
+pre_process(DATA, weight)
 }
 \arguments{
 \item{DATA}{A data matrix}
+
+\item{weight}{Whether the data matrix is weighted. \code{weight = TRUE} indicates that the data is weighted. Default is \code{weight = FALSE}.}
 }
 \value{
 a standardized matrix
@@ -16,6 +18,8 @@ a standardized matrix
 Standardize the given data matrix per column, over the rows, with multiple imputation for missing data.
 }
 \note{
+Weighting a data matrix (i.e., \code{weight = TRUE}) is performed as follows. Each cell in the data is devided by the sqaure root of the number of variables. 
+
 More details regarding data pre-processing, please see:
 
 Van Deun, K., Smilde, A.K., van der Werf, M.J., Kiers, H.A.L., & Mechelen, I.V. (2009). A structured overview of simultaneous component based data integration. \emph{BMC Bioinformatics}, 10:246.
