@@ -34,7 +34,7 @@ pre_process <- function(DATA, weight) {
   nrow_data <- dim(DATA)[1]
   ncol_data <- dim(DATA)[2]
   
-  if(weight == TRUE){
+  if(isTRUE(weight)){
     DATA <- DATA/sqrt(ncol_data)
   }
   
