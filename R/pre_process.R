@@ -40,7 +40,7 @@ pre_process <- function(DATA, weight) {
   STDDATA <- sqrt(nrow_data-1) * DATAc / (CP ^ 0.5)
   
   if(isTRUE(weight)){
-    DATA <- DATA/sqrt(ncol_data)
+    STDDATA <- STDDATA/sqrt(ncol_data)
   }
   
   return(STDDATA)
