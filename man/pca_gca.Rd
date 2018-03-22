@@ -11,7 +11,7 @@ pca_gca(DATA, Jk, cor_min, return_scores)
 
 \item{Jk}{A vector containing number of variables  in the concatinated data matrix. Please see the example below.}
 
-\item{cor_min}{The minimum correlation between two components. The default value is .9; thus, it means that if the correlation
+\item{cor_min}{The minimum correlation between two components. The default value is .7; thus, it means that if the correlation
 between the two component is at least .7, then these two components are regarded as forming a single common component.}
 
 \item{return_scores}{If TRUE, then the function will return the component scores for each block for further analysis.}

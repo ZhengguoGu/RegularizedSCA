@@ -4,7 +4,7 @@
 #'
 #' @param DATA A concatenated data matrix with the same number of rows.
 #' @param Jk A vector containing number of variables  in the concatinated data matrix. Please see the example below.
-#' @param cor_min The minimum correlation between two components. The default value is .9; thus, it means that if the correlation
+#' @param cor_min The minimum correlation between two components. The default value is .7; thus, it means that if the correlation
 #' between the two component is at least .7, then these two components are regarded as forming a single common component.
 #' @param return_scores If TRUE, then the function will return the component scores for each block for further analysis.
 #' @return It prints out the number of components of each block and the number of common components. It also returns the component scores for each block for further analysis, if \code{return_scores = TRUE}.
