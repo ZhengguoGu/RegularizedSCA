@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.CVsparseSCA.R
 \name{plot.CVsparseSCA}
 \alias{plot.CVsparseSCA}
-\title{A heatmap of the cross-validation result}
+\title{Ploting Cross-validation results}
 \usage{
 \method{plot}{CVsparseSCA}(x, ...)
 }
@@ -12,10 +12,15 @@
 \item{...}{Argument to be passed to or from other methods.}
 }
 \description{
-A heatmap of mean squared prediction errors (MSPE) against Lasso and Group 
-Lasso tuning parameters. Note that on the x-axis 
-are Group Lasso tuning parameter values, and the on the y-axis 
-are the Lasso tuning parameter values.
+A plot of PRESS +/- 1 standard error against Lasso OR Group 
+Lasso tuning parameters, with the vertical dotted black line 
+indicating the lowest PRESS+1SE.
+}
+\details{
+In case both the Lasso sequence and the Group Lasso sequence 
+contain more than 2 elements, the cross-validation plot is replaced with 
+a heatmap of mean squared prediction errors (MSPE) against Lasso and Group 
+Lasso tuning parameters (x-axis: the Group Lasso; y-axis: the Lasso)
 }
 \examples{
 \dontrun{

@@ -14,7 +14,7 @@
 #'
 #'@examples
 #'\dontrun{
-#'## S3 method for class 'sparseSCA'
+#'## S3 method for class 'CVsparseSCA'
 #'plot(x)
 #'}
 #'
