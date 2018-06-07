@@ -20,7 +20,7 @@ maxLGlasso(DATA, Jk, R)
 \description{
 \code{maxLGlasso} identify the minimum value for Lasso and Group Lasso tuning parameters that
 lead to an estimated P matrix with all of its elements equal 0. This minimum value is thus the maximum value (the boundary) that users
-should consider for Lasso and Group Lasso.
+should consider for Lasso and Group Lasso. Note that the algorithm is based on the "component" method; see sparseSCA.R
 }
 \note{
 The description of how to obtain the maximum value for Lasso tuning parameter can be found in page 17 of Hastie, Tibshirani, and Wainwright (2015). We are not aware of 
