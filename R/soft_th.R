@@ -2,7 +2,7 @@
 
 soft_th <- function(X, lambda){
   
-  # assume X is a matrix
+  # assume X is a vector
   result <- X
   index1 <- which(X > lambda)
   result[index1] <- X[index1] - lambda
