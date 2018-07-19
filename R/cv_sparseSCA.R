@@ -373,7 +373,13 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
   
   colnames(bestTunning) <- c("Lasso", "Group Lasso")
   
-  colnames(lambdaregion) <- c("lower bound", "upper bound")
+  if(dim(lambdaregion)[2]==2){
+    colnames(lambdaregion) <- c("lower bound", "upper bound")
+  }else if(dim(lambdaregion)[2]==1){
+    colnames(lambdaregion) <- c("(no region available)")
+  }
+  
+  
   
   ###### re-estimate the model with the recommended tuning parameters
   if(dim(bestTunning)[1] == 1){
