@@ -1,3 +1,13 @@
+# For the next update (i.e., v0.5.5) the following issues will be fixed:
+1. The algorithm of the internal function CDpre will be improved. 
+
+# For the next update (i.e., v0.5.5) the following function will be added:
+1. variable selection using index of sparseness.
+2. variable selection using repeated double cross-validation.
+3. variable selection using BIC. 
+4. variable selection using BoLasso. 
+
+
 #RegularizedSCA v0.5.4 - An R package for regularized simultaneous component based data integration
 
 
