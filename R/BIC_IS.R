@@ -103,9 +103,9 @@ BIC_IS <- function(DATA, Jk, R, NRSTARTS, MaxIter, LassoSequence, GLassoSequence
   BIC_IS_list$BIC <- BIC_Croux
   BIC_IS_list$IS <- IS
   BIC_IS_list$BIC_tuning <- c(Lasso_croux, GLasso_croux)
-  colnames(BIC_IS_list$BIC_tuning) <- c("Lasso", "Group Lasso")
+  names(BIC_IS_list$BIC_tuning) <- c("Lasso", "Group Lasso")
   BIC_IS_list$IS_tuning <- c(Lasso_IS, Glasso_IS)
-  colnames(BIC_IS_list$IS_tuning) <- c("Lasso", "Group Lasso")
+  names(BIC_IS_list$IS_tuning) <- c("Lasso", "Group Lasso")
   attr(BIC_IS_list, "class") <- "BIC_IS"
   return(BIC_IS_list)
 }
