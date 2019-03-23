@@ -10,9 +10,9 @@
 #'@param MaxIter Maximum number of iterations for this algorithm. The default value is 400.
 #'@param NRSTARTS The number of multistarts for this algorithm. The default value is 1.
 #'@param LassoSequence The range of Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
-#'to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 50 numbers are equally spaced on the log scale. 
+#'to the smallest Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 20 numbers are equally spaced on the log scale. 
 #'@param GLassoSequence The range of Group Lasso tuning parameters. The default value is a sequence of 20 numbers from 0.00000001
-#'to the smallest Group Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 50 numbers are equally spaced (but not on the log scale). 
+#'to the smallest Group Lasso tuning parameter value that makes all the component loadings equal to zero. Note that by default the 20 numbers are equally spaced (but not on the log scale). 
 #'Note that if \code{LassoSequence} contains only one number, then by default \code{GLassoSequence} is a sequence of 50 values.
 #'@param nfolds Number of folds. If missing, then 10 fold cross-validation will be performed.
 #'@param method "datablock" or "component". These are two options with respect to the grouping of the loadings as used in the Group Lasso penalty. 
