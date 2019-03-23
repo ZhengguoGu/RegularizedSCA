@@ -2,7 +2,7 @@ Package: RegularizedSCA
 Type: Package
 Title: Regularized Simultaneous Component Based Data
     Integration
-Version: 0.5.4
+Version: 0.5.5
 Authors@R: c(person(given = "Zhengguo", family = "Gu", role = c("aut", "cre"), 
     email = "z.gu@uvt.nl"), 
     person(given = "Katrijn", family = "Van Deun", role = "aut"))
@@ -11,7 +11,8 @@ Description: It performs regularized simultaneous component based data
 Depends: R (>= 2.10)
 License: GPL (>= 2)
 LazyData: TRUE
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
+Encoding: UTF-8
 Suggests:
     testthat,
     knitr,
