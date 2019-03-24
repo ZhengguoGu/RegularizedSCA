@@ -292,7 +292,7 @@ cv_sparseSCA <- function(DATA, Jk, R, MaxIter, NRSTARTS, LassoSequence, GLassoSe
           (df$LassoI[which(abs(vec_PRESS-lowestplus1SE)==min(abs(vec_PRESS-lowestplus1SE)))] != df$LassoI[1])){
         lasso2 <- lasso1
         cat("\nWarning! The region for proper tuning parameter values is not available. A possible value is ", lasso1)
-        lambdaregion <- glasso1
+        lambdaregion <- lasso1
       } else{
         lambdaregion <- c(lasso2, lasso1)
       }
