@@ -9,7 +9,7 @@
 #'            If \code{"full"}, then information is displayed regarding 1) the 
 #'            recommended tuning parameter values, 2) the estimated component 
 #'            loading and estimated component score matrices (based on the 
-#'            recommended tuning paramter values), 3) # of variable selected,
+#'            recommended tuning parameter values), 3) # of variable selected,
 #'            4) Mean squared prediction error (MSPE), 
 #'            5) standard errors for MSPE, 6) Lasso and Group Lasso tuning 
 #'            parameter values that have been evaluated.

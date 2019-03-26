@@ -8,7 +8,7 @@
 #' pre_process(matrix(1:12, nrow = 3, ncol = 4))
 #' }
 #' @note
-#' Weighting a data matrix (i.e., \code{weight = TRUE}) is performed as follows. Each cell in the data is devided by the sqaure root of the number of variables. 
+#' Weighting a data matrix (i.e., \code{weight = TRUE}) is performed as follows. Each cell in the data is divided by the square root of the number of variables. 
 #' 
 #' More details regarding data pre-processing, please see:
 #'

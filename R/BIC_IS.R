@@ -1,6 +1,6 @@
 #'Variable selection for regularized SCA using BIC and Index of Sparseness.
 #'
-#'\code{BIC_IS} is used to find the proper conbination of Lasso and Group Lasso tuning parameters for regularized SCA based on BIC and Index of Sparseness.
+#'\code{BIC_IS} is used to find the proper combination of Lasso and Group Lasso tuning parameters for regularized SCA based on BIC and Index of Sparseness.
 #'
 #'
 #'@param DATA The concatenated data block, with rows representing subjects.
