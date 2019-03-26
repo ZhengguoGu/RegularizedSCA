@@ -36,7 +36,7 @@ by default.}
 \item{IS_tuning}{Recommended tuning parameters for Lasso and Group Lasso based on IS}
 }
 \description{
-\code{BIC_IS} is used to find the proper conbination of Lasso and Group Lasso tuning parameters for regularized SCA based on BIC and Index of Sparseness.
+\code{BIC_IS} is used to find the proper combination of Lasso and Group Lasso tuning parameters for regularized SCA based on BIC and Index of Sparseness.
 }
 \examples{
 \dontrun{

@@ -18,7 +18,7 @@ a standardized matrix
 Standardize the given data matrix per column, over the rows, with multiple imputation for missing data.
 }
 \note{
-Weighting a data matrix (i.e., \code{weight = TRUE}) is performed as follows. Each cell in the data is devided by the sqaure root of the number of variables. 
+Weighting a data matrix (i.e., \code{weight = TRUE}) is performed as follows. Each cell in the data is divided by the square root of the number of variables. 
 
 More details regarding data pre-processing, please see:
 
