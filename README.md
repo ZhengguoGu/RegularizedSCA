@@ -1,6 +1,6 @@
 # For the next update (i.e., v0.5.6) the following functions will be added:
-1. variable selection using index of sparseness.
-2. variable selection using stability selection
+1. improve the algorithm of the component-wise method
+2. variable selection combining index of sparseness and stability selection
 
 
 # current version:RegularizedSCA v0.5.5 - An R package for regularized simultaneous component based data integration
@@ -15,3 +15,4 @@ For the latest version of 'RegularizedSCA', please go to https://github.com/Zhen
 1. The function maxLGlasso() has been further improved. 
 2. A few bugs in\cv_sparseSCA.R(). The bugs were associated with plotting. 
 3. Add a variable selection function BIC_IS(), based on BIC and Index of Sparseness.
+ 
